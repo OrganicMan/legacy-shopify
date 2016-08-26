@@ -1,0 +1,62 @@
+<div  id="main-slider" class="owl-carousel owl-theme">
+	{% capture slide_img_1 %}owl_slide_1.jpg{% endcapture %}
+	{% capture slide_img_2 %}owl_slide_2.jpg{% endcapture %}
+	{% capture slide_img_3 %}owl_slide_3.jpg{% endcapture %}
+
+	{% capture slide_1_caption_1 %}slide_1_caption_1{% endcapture %}
+	{% capture slide_1_caption_2 %}slide_1_caption_2{% endcapture %}
+	{% capture slide_1_caption_3 %}slide_1_caption_3{% endcapture %}
+
+	{% capture slide_2_caption_1 %}slide_2_caption_1{% endcapture %}
+	{% capture slide_2_caption_2 %}slide_2_caption_2{% endcapture %}
+
+	{% capture slide_3_caption_1 %}slide_3_caption_1{% endcapture %}
+	{% capture slide_3_caption_2 %}slide_3_caption_2{% endcapture %}
+	{% assign theme_layout = settings.homepage_view %}
+
+    <!-- Slide 1 -->
+    <div class="item page slide1">
+      <a href="{{settings.slide_1_url}}">
+        <img class="slide-img" src="{{ slide_img_1 | asset_url }}" alt="slide1"/>
+        <div class="bx-caption start play">
+          <div class="container">
+            <div class="text-slide">
+              <h3 class="caption1">{{ settings[slide_1_caption_1] }}</h3>
+              <h3 class="caption2">{{ settings[slide_1_caption_2] }}</h3>
+              <h3 class="caption3">{{ settings[slide_1_caption_3] }}</h3>
+			</div>
+          </div>						
+        </div> 
+      </a>
+    </div>
+
+    <!-- Slide 2 -->
+    <div class="item page slide2">
+      <a href="{{settings.slide_2_url}}">
+        <img class="slide-img" src="{{ slide_img_2 | asset_url }}" alt="slide2"/>
+        <div class="bx-caption  start play">
+			<div class="container">
+				<div class="text-slide text-slide2">
+					<h3 class="caption1">{{ settings[slide_2_caption_1] }}</h3>
+					<h3 class="caption2">{{ settings[slide_2_caption_2] }}</h3>
+				</div>
+			</div>
+		</div>
+      </a>
+    </div>
+
+    <!-- Slide 3 -->
+    <div class="item page slide3">
+      <a href="{{settings.slide_3_url}}">
+        <img class="slide-img" src="{{ slide_img_3 | asset_url }}" alt="slide3"/>
+        <div class="bx-caption play start">
+			<div class="container">
+				<div class="text-slide text-slide2">
+					<h3 class="caption1">{{ settings[slide_3_caption_1] }}</h3>
+					<h3 class="caption2">{{ settings[slide_3_caption_2] }}</h3>
+				</div>
+			</div>						
+		</div>
+      </a>
+    </div>
+</div>

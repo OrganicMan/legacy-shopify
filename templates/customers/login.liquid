@@ -1,0 +1,98 @@
+<section class="page-section page-login">
+  <h2 class="hidden">page</h2>
+    <div class="container">
+      <div class="row">
+        <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+          <div class="form-box" id="forgot-password-box">
+            <div class="form-top">
+              <div class="row">
+              	<div class="col-xs-9">
+                  <h3>Reset Password</h3>
+                  <p class="text-muted">Enter your email below to reset your password.</p>
+                </div>
+                <div class="col-xs-3 text-right">
+                  <i class="fa fa-refresh fa-5x form-box-icon"></i>
+                </div>
+              </div>
+            </div>
+            <div class="form-bottom">
+              {% form 'recover_customer_password' %}
+              {% if form.errors %}
+              <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <i class="fa fa-fw fa-warning"></i>
+                {% for field in form.errors %}	
+                	{{form.errors.messages[field]}}
+                {% endfor %}
+              </div>
+              {% endif %}
+              {% if form.posted_successfully? %}
+              {% assign reset_success = true %}
+              {% endif %}
+              <div class="form-group">
+              	<label class="sr-only" for="email">Email</label>
+                <input id="email" type="email" name="email" placeholder="Email" class="form-control input-lg">
+              </div>
+              <button type="submit" class="btn btn-success btn-lg btn-block">Send Password Reset Email</button>
+              {% endform %}
+            </div>
+            <p class="text-center text-muted">
+              <button id="login-link" class="btn btn-link">Login</button>
+            </p>
+          </div>
+          <div class="form-box" id="login-box">
+            {% if reset_success %}
+            <div class="alert alert-info alert-dismissable">
+              <button type="button" class="close" data-dismiss="alert" aria-hidden="true">×</button>
+              <p>{{'customer.recover_password.success' | t }}</p>
+            </div>
+            {% endif %}
+            <div class="form-top">
+              <div class="row">
+              	<div class="col-xs-9">
+                  <h3>Account Login</h3>
+                  <p class="text-muted">Enter your email and password below to login to your account.</p>
+                </div>
+                <div class="col-xs-3 text-right">
+                  <i class="fa fa-user fa-5x form-box-icon"></i>
+                </div>
+              </div>
+            </div>
+            <div class="form-bottom">
+              {% form 'customer_login' %}
+              {% if form.errors %}
+              <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <i class="fa fa-fw fa-warning"></i>
+                {% for field in form.errors %}	
+                	{{form.errors.messages[field]}}
+                {% endfor %}
+              </div>
+              {% endif %}
+              <div class="form-group">
+              	<label class="sr-only" for="email">Email</label>
+                <input id="email" type="email" name="customer[email]" placeholder="Email" class="form-control input-lg">
+              </div>
+              <div class="form-group">
+              	<label class="sr-only" for="password">Password</label>
+                <input id="password" type="password" name="customer[password]" placeholder="Password" class="form-control input-lg">
+              </div>
+              <div class="checkbox">
+              	<label><input type="checkbox" checked="checked"> Remember Me</label>
+              </div>
+              <button type="submit" class="btn btn-success btn-lg btn-block">Login</button>
+              {% endform %}
+            </div>
+            <p class="text-center text-muted">
+              <button id="forgot-password-link" class="btn btn-link">Forgot Password</button>
+            </p>
+            <div class="text-center">
+              <hr/>
+              <p class="lead">New Customer?</p>
+              <a href="/account/register" class="btn btn-lg btn-primary">Create An Account</a>
+          	</div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>

@@ -1,0 +1,228 @@
+{% if cart.item_count > 0 %}
+  <!-- BREADCRUMBS -->
+	{%comment %}    
+	{% include 'breadcrumb'%}
+	{% endcomment %}
+    <!-- /BREADCRUMBS -->
+    <!-- PAGE SECTION WITH SIDEBAR -->
+    <section class="page-section no-padding-top with-sidebar">
+      <h2 class="hidden">sidebar</h2>
+        <div class="container"> 
+          <div class="row">
+            <form method="post" id="CartForm" action="#" action="/cart"> 
+            <div class="col-md-10 col-md-offset-1">
+              <div class="row">
+                <div class="col-xs-12 text-center">
+                  <h1>Cart</h1>
+                  <p class="lead hidden-xs">You have {{ cart.item_count }} item in your cart</p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-xs-12" id="shopping-cart-table">
+              
+                {% for item in cart.items %}
+                <div class="row" data-variant-price="{{item.price}}" data-id="{{item.id}}">
+                  <div class="col-xs-4 col-sm-3 col-md-2 text-center">
+                    <a class="product-image" title="{{ item.title }}" href="{{item.url}}">
+                      <img class="img-responsive img-rounded" alt="{{ item.title }}" src="{{ item.image |  img_url: 'medium'}}">
+                    </a>
+                    <a class="btn-remove btn-remove2" data-id="{{item.id}}" title="{{'cart.general.remove' | t }}" href="#">
+                      Remove
+                    </a>
+                  </div>
+                  <div class="col-xs-8 col-md-10">
+                    <div class="col-md-7">
+                <h4>
+                  <a href="{{item.url}}">
+                    {{ item.product.title }}
+                  </a>
+                </h4>
+                {% if item.product.variants.size > 1 %}
+                    <p class="text-muted">
+                        {% for option_title in item.product.options %}
+                        	{{ option_title }} : <strong>{{item.variant.options[forloop.index0] }}</strong>  | 
+                        {% endfor %}
+                    </p>
+                {% else %}
+                	<p class="text-muted">1 fl oz</p>
+                {% endif %}
+                {% assign recurringchecked = "false" %} 
+                {% for p in item.properties  %}   
+                	{% if p.first == 'shipping_interval_frequency' %}
+                		{% assign frequency = p.last %}
+                		{% assign recurringchecked = "true" %} 
+                	{% endif %}
+                	{% if p.first == 'shipping_interval_unit_type' %}
+                		{% if frequency == '1'%}
+                			{% if p.last == 'Days' %}
+								{% assign frequency_unit = 'Day' %}
+							{% elsif p.last == 'Months'%}
+								{% assign frequency_unit = 'Month' %}
+							{% elsif p.last == 'Weeks'%}
+								{% assign frequency_unit = 'Week' %}
+							{% endif %}
+						{% else %}
+							{% assign frequency_unit = p.last %}
+						{% endif %}
+					{% endif %}
+				{% endfor %}
+                {% if recurringchecked == "true" %}
+                <p> <small> <em>Auto-restock every {{frequency}} {{frequency_unit}}. No obligation, modify or cancel anytime. </em></small></p>
+                {% endif %}
+              </div>
+                    <div class="col-md-2">
+                <h5>{{ item.price | money }}</h5>
+              </div>
+                    <div class="col-md-1 hidden-sm hidden-xs">
+                <h5 class="text-muted">X</h5>
+              </div>
+                    <div class="col-md-2">
+                <div class="input-group input-group-sm product-quantity custom-qty">
+                  <input class="input-text form-control qty" title="{{'cart.label.quantity' | t }}" value="{{ item.quantity }}" name="updates[]" data-line="{{ forloop.index }}" >
+                  <div class="input-group-btn">
+                    <button class="btn btn-default btn-sm alo_qty alo_qty_dec">
+                      <i class="fa fa-sm fa-minus"></i>
+                    </button>
+                    <button class="btn btn-default btn-sm alo_qty alo_qty_inc">
+                      <i class="fa fa-sm fa-plus"></i>
+                    </button>
+                  </div>
+                </div>
+              </div>
+                  </div>
+                </div>
+                <hr />
+                {% endfor %}
+              
+                </div>
+              </div>
+              <div class="row">
+                <div class="col-xs-12 text-right">
+                  <p class="lead" class="a-subtotal" style="margin-bottom: 0;">
+                    {{'cart.general.subtotal' | t }} 
+                    <strong id="cart-total-price" data-price="{{ cart.total_price }}" class="price">
+                      {{ cart.total_price | money }}
+                    </strong>
+                  </p>
+                  <p class="text-muted">
+                    <small>
+                      <em>
+                        Plus shipping. Tax included in price.
+                      </em>
+                    </small>
+                  </p>
+                </div>
+              </div>
+              <hr />
+              <div class="row">
+                <div class="col-sm-6 hidden-xs">
+                  <a href="/collections/all-products" class="btn btn-default btn-close-cart" title="Continue Shopping" type="button">
+                    Continue Shopping
+                  </a>
+                </div>
+                <div class="col-sm-6 text-right">
+                  <button type="submit" id="checkout" class="btn btn-primary btn-lg btn-checkout" name="checkout" title="{{'cart.general.checkout' | t }}">
+                    {{'cart.general.checkout' | t }}
+                  </button>
+                </div>
+              </div>
+            </div>
+            </form>
+          </div>
+        </div>
+    </section>
+    <!-- /PAGE SECTION WITH SIDEBAR -->
+{% else %}
+  <div class="page-empty text-center">
+    <h1>Cart</h1>
+    <p class="lead">You have 0 items in your cart</p>
+    <hr>
+    <p>
+      <a href="/collections/all-products" class="btn btn-lg btn-default btn-close-cart" title="Continue Shopping" type="button">
+        Continue Shopping
+      </a>
+    </p>
+  </div>
+{% endif %}
+<script type="text/javascript">
+  $('.btn-remove2').on('click', function() {
+    var variant_id = $(this).attr('data-id');
+    Shopify.removeItem(variant_id, reload_page);
+  });
+  function reload_page() {
+  	location.reload()
+  };
+  
+  $('.btn-update').on('click', update_cart);
+  
+  function update_cart() {
+    Shopify.updateCartFromForm('CartForm', function(e){
+      reload_page()
+  	});
+  }
+  function get_total_price(){
+    var counter = 0;
+    $('#shopping-cart-table .row').each(function(){
+      var $this = $(this);
+      if(!$this.hasClass('hidden')){
+        var single_price = $this.attr('data-variant-price');
+        var qty = $this.find('.custom-qty input.qty').val();
+        counter = counter + (single_price*qty);
+      }
+    })
+    counter = Shopify.formatMoney(counter, moneyFormat);
+    $('#cart-total-price').html(counter);
+    $('#cart-grand-total-price').html(counter);
+  }
+  function get_single_item_price(selector, method){
+    var result = selector.parents('.custom-qty').find('input.qty');
+    var qty = result.val();
+    var variant_price = selector.parents('.row').attr('data-variant-price');
+    var total_price =  selector.parents('.row').find('.a-subtotal .price');
+    
+      switch(method){
+        case 'dec':
+          if (!isNaN(qty) && qty > 1){
+          qty--;
+          }
+          break;
+        case 'inc':
+          if (!isNaN(qty) && qty > 0){
+          qty++;
+          }
+          break;
+        case 'manual':
+          qty=qty;
+          break;
+      }
+      qty = parseInt(qty);
+      variant_price = parseInt(variant_price);
+      result.val(qty);
+      var formated_result = Shopify.formatMoney(qty*variant_price, moneyFormat);
+      total_price.html(formated_result);
+      get_total_price();
+    
+    //add a way to catch if the "+" or "-" is clicked again while this is happening..
+    window.setTimeout(update_cart(), 1000);
+  }
+  $('#shopping-cart-table .custom-qty .input-text.qty').on('change', function(){
+    get_single_item_price($(this),'manual');
+  })
+
+  $('.container .alo_qty_dec').on('click', function(event){
+    event.preventDefault();
+    get_single_item_price($(this), 'dec');
+  })
+  $('.container .alo_qty_inc').on('click', function(event){
+    event.preventDefault();
+    get_single_item_price($(this), 'inc');
+  })
+</script>
+<script>
+  // Hold on to current cart object to check against
+  // available inventory before updating cart in
+  // quantity-selectors.js
+  window.cartObject = {{ cart | json }};
+</script>
+{% include 'subscription-cart-footer' %} <br>

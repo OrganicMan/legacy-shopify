@@ -1,0 +1,178 @@
+<aside class="sidebar col-md-3 {% if view_type == 'left' %}col-md-pull-7{% endif %} hidden-xs hidden-sm">
+    {% if settings.sidebar_blog_menu != "" %}
+        <div class="widget-menu">
+          <div class="block block-anav">
+            <div class="block-title">
+              <strong><span>{{ linklists[settings.sidebar_blog_menu].title }}</span></strong>
+            </div>
+            <div id="menu-left">
+              <ul class="list-unstyled">
+                {% for link in linklists[settings.sidebar_blog_menu].links %}
+                  {% assign child_list_handle = link.title | handle %}
+                  {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+                    <li class="has-sub">
+                      {{ link.title | link_to: link.url }}
+                      {% comment %}
+                      <ul class="list-unstyled">
+                        {% for child_link in linklists[child_list_handle].links %}
+                          {% assign grand_child_list_handle = child_link.title | handle %}
+                          {% if linklists[grand_child_list_handle] and linklists[grand_child_list_handle].links.size > 0 %}
+                            <li>
+                              {{ child_link.title | link_to: child_link.url }}
+                              <ul>
+                                {% for grand_child_link in linklists[grand_child_list_handle].links %}
+                                  <li>
+                                    {{ grand_child_link.title | link_to: grand_child_link.url }}
+                                  </li>
+                                {% endfor %}
+                              </ul>
+                            </li>
+                          {% else %}
+                            <li>
+                              {{ child_link.title | link_to: child_link.url }}
+                            </li>
+                          {% endif %}
+                        {% endfor %}
+                      </ul>
+                      {% endcomment %}
+                    </li>
+                  {% else %}
+                    <li>
+                      {{ link.title | link_to: link.url }}
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+    {% endif %}
+  {% comment %}
+    <div class="block">
+        <div class ="block-title">
+            <strong>
+                <span>{{'layout.sidebar_blog.blog_archive' | t }}</span>
+            </strong>
+        </div>
+        <div class ="block-content toggle-content archive"> 
+            <ul class="nav-accordion">
+                {% capture month %}{{ 'now' | date: "%B" }}{% endcapture %}
+                {% for i in (1..3) %}
+                    {% assign counter = 0 %}
+                    {% case month %}
+                       {% when 'January' %}{% assign previous_month = 'December' %}
+                       {% when 'February' %}{% assign previous_month = 'January' %}
+                       {% when 'March' %}{% assign previous_month = 'February' %}
+                       {% when 'April' %}{% assign previous_month = 'March' %}
+                       {% when 'May' %}{% assign previous_month = 'April' %}
+                       {% when 'June' %}{% assign previous_month = 'May' %}
+                       {% when 'July' %}{% assign previous_month = 'June' %}
+                       {% when 'August' %}{% assign previous_month = 'July' %}
+                       {% when 'September' %}{% assign previous_month = 'August' %}
+                       {% when 'October' %}{% assign previous_month = 'September' %}
+                       {% when 'November' %}{% assign previous_month = 'October' %}
+                       {% when 'December' %}{% assign previous_month = 'November' %}
+                    {% endcase %}
+                    {% for article in blogs[blog.handle].articles limit: 48 %}
+                        {% capture date %}{{ article.created_at | date: "%B %Y" }}{% endcapture %}
+                        {% if date contains month %}
+                         {% assign counter = counter | plus: 1 %}
+                        {% endif %}
+                    {% endfor %}
+                    <li class="has-sub">
+                      <a>{% if i == 1 %}This Month{% else %}{{ month }}{% endif %} ({{counter}})</a>
+                      {% comment %}            
+                      <ul class="toggle-content">
+                        {% for article in blogs[blog.handle].articles limit: 48 %}
+                            {% capture date %}{{ article.created_at | date: "%B %Y" }}{% endcapture %}
+                            {% if date contains month %}
+                             <li>{{ article.title | truncate: 27 | link_to: article.url  }}</li>
+                             {% assign counter = counter | plus: 1 %}
+                            {% endif %}
+                        {% endfor %}
+                       </ul>
+                        <!-- THIS WILL DISPLAY LIST OF ALL ARTICLE PUBLISHED THIS MONTH-->
+                       {% endcomment %}
+                    </li>
+                   {% assign month = previous_month %}
+              {% endfor %}
+            </ul>
+        </div>
+    </div>
+  {% endcomment %}
+  
+    <div class="block">
+        <div class ="block-title">
+            <strong>
+                <span>{{'layout.sidebar_blog.blog_recent' | t }}</span>
+            </strong>
+        </div>
+        <div class ="block-content toggle-content">
+            <div class="" >
+                {% for article in blog.articles limit:3 %}
+                    <div class="media">
+                        <div class="media-body">
+                            <h4 class="media-heading"><a href="{{article.url}}">{{article.title}}</a></h4>
+                            <p>{{ article.content | strip_html | truncatewords: 19 }}</p>
+                            <p class="post-date"><i class="fa fa-clock-o"></i> {{ article.published_at | date: "%m %B %Y"}}</p>
+                        </div>
+                    </div>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+  {% comment %}  
+  <div class="block block_gallery">
+        <div class ="block-title">
+            <strong>
+                <span>{{'layout.sidebar_blog.recent_articles' | t }}</span>
+            </strong>
+        </div>
+        <div class ="block-content">
+            <ul>
+            {% for article in blog.articles limit:8 %}
+                <li>
+                    <a href="{{article.url}}">
+                        <img class="thumbnail" src="{{ article.image | img_url:'medium'}}" alt="{{ article.title }}" title="{{ article.title }}"/>
+                    </a>
+                </li>
+            {% endfor %}
+            </ul>
+        </div>
+    </div>
+  {% endcomment %}
+{% comment %}
+    <div class="widget widget-tag-cloud">
+        <h4 class="widget-title">{{ 'blogs.article.tags' | t }}</h4>
+        <ul class="list-unstyled">
+            {% for tag in blog.all_tags %}
+               <li>{{ tag | link_to_tag: tag }}</li>
+            {% endfor %}
+        </ul>
+    </div>
+  {% endcomment %}
+    {% if settings.subcribe_letter_form_enable %}
+        <div class="widget">
+            <h4 class="widget-title">{{ 'layout.sidebar_blog.newsletter_caption' | t }}</h4>
+
+            <form method="post" action="{{settings.newsletter_form_action}}">
+                <div class="form-group">
+                    <input type="email" placeholder="{{ 'layout.sidebar_blog.newsletter_placeholder' | t }}" class="form-control"
+                           name="EMAIL" title="{{ 'layout.sidebar_blog.newsletter_title' | t }}">
+                    <input type="submit" hidden="hidden"/>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+    {% if settings.social_twitter_widget_enable %}
+        <div class="widget">
+            <h4 class="widget-title">{{ 'layout.sidebar_blog.tweet_recent' | t }}</h4>
+            <div class="recent-tweets">
+                {{ settings.social_twitter_widget_code }}
+            </div>
+        </div>
+    {% endif %}
+
+
+</aside>

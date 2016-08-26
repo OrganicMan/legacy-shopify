@@ -1,0 +1,411 @@
+  <!-- BREADCRUMBS -->
+  {% comment %}
+  	{% include 'breadcrumb'%}
+  {% endcomment %}
+  <!-- /BREADCRUMBS -->
+
+  <!-- PAGE SECTION WITH SIDEBAR -->
+  <section class="page-section padding-top with-sidebar">
+    <h2 class="hidden">page</h2>
+    <!-- Popup product quick view -->
+    {% include 'product-quickview' %}
+    <!-- Popup product quick view --> 
+    <div class="row">
+      <div class="container"> 
+        <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-form" data-handle="{{product.handle}}" id="AddToCartForm" data-productid="{{product.id}}">
+        	<div class="product-view">
+          	 <div id="product-essential" class="product-essential">
+              <div class="row">
+                <div class="product-headline col-md-5 col-md-push-7">
+                  <div class="product-name">
+                    <h2>{{ product.title }}</h2>
+                  </div>
+                  <a id="review-badge" data-scroll data-scroll-to="reviews" href="#">
+                  	<small class="shopify-product-reviews-badge" data-id="{{ product.id }}"></small>
+                  </a>
+              	</div>
+              	<div class="product-images col-md-7 col-md-pull-5 pull-right">
+                  <div class="row">
+                  	<div class="col-md-2 hidden-xs hidden-sm">
+                      <div class="product-image-thumbnails" id="gal_01">
+                        {% for img in product.images %}
+                        <a class="thumbnail {% if forloop.first == true %} active {% endif %} " data-image="{{ img.src | img_url: '539x539'}}" data-zoom-image ="{{ img | img_url: '539x539'}}" href="#" title="{{ image.alt | escape }}" >
+                    		<img class="img-responsive" src="{{ img.src | img_url: '74x74'}}" alt="{{ image.alt | escape }}" />
+	                	</a>
+                  		{% endfor %}
+                  		</div>
+                  	</div>
+                  	<div class="col-md-10">
+                      
+                      {% for variant in product.variants %}
+                      	{% if variant.price < variant.compare_at_price %} 
+                      		{% assign is_sale = true %}
+                      	{% else %}
+                      		{% assign is_sale = false %}
+                      	{% endif %}
+                      {% endfor %}
+                      
+                      {% assign product_check = product.handle %}
+                      <div class="product-img-content">
+                        <div class="product-image product-image-zoom">
+                          <div class="product-image-gallery">
+                            {% assign product_check = product.handle %}
+                            {% for new_product in collections['new-products'].products %}
+                            	{% if new_product.handle == product_check %}
+                            		<span class="sticker top-left">
+                                      <span class="labelnew">
+                                        {{ 'products.product.is_new' | t }}
+                                      </span>
+                            		</span>
+                            		{% break %}
+                            	{% endif %}
+                            {% endfor %}
+                            
+                            {% if is_sale == true %} 
+                            	<span class="sticker top-right"><span class="labelsale">{{ 'products.product.is_sale' | t }}</span></span>
+                            {% endif %}
+                            
+                            {% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
+                            <img id ="image-main" data-zoom-image ="{{ featured_image | img_url:'539x539'}}" class="gallery-image img-rounded img-responsive hidden-sm hidden-xs" src="{{ featured_image.src | img_url:'539x539'}}" alt="{{ featured_image.alt | escape }}" title="{{product.title}}"  /> 
+                            <div id="product-main" class="owl-carousel owl-theme visible-xs visible-sm">
+                              {% for img in product.images %}
+                              <div class="item">
+                                <img class="owl-lazy img-rounded img-responsive" data-src="{{ img.src | img_url: '539x539'}}" alt="{{ image.alt | escape }}" title="{{product.title}}" />
+                              </div>
+                              {%endfor%}
+                            </div>                           
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="product-shop col-md-5 col-md-push-7">
+                  <div class="product-shop-content">
+                    <div class="product-type-data">
+                      <div class="price-box"> 
+                        <span class="regular-price">
+                          {% assign variant = product.selected_or_first_available_variant %}
+                          {% if is_sale == true %} 
+                          <span id="ComparePrice" class="price compare-price">
+                            <del>{{ variant.compare_at_price | money }}</del>
+                          </span>
+                          {% endif %}
+                          <span class="price {{product.id}}" id="price-preview">
+	                      	{{ variant.price | money }}
+                          </span>
+                        </span>
+                      </div>
+                      {% if product.available %}
+                        <small class="availability in-stock text-success"><i class="fa fa-fw fa-check"></i>{{ 'products.product.availability' | t }}: <span>{{ 'products.product.in_stock' | t }}</span></small>
+                      {% else %}
+                        <small class="availability out-of-stock text-danger"><i class="fa fa-fw fa-times"></i>{{ 'products.product.availability' | t }}: <span>{{ 'products.product.sold_out' | t }}</span></small>
+                      {% endif %}
+                    </div>
+                    <div class="short-description">
+                      {{ product.content | truncatewords: 40 | strip_html }}
+                      <a data-scroll data-scroll-to="description" href="javascript:;" class="text-muted">read more</a>
+                    </div>
+                    <div class="product-options-wrapper">
+                      {% if product.available %}
+                      	{% include 'subscription-product' %}
+                      {% endif %}
+                      <select name="id" id="productSelect" data-productid="{{product.id}}" style="display: none;">
+                        {% for variant in product.variants %}
+                          {% if variant.available %}
+                            <option data-sku="{{ variant.sku }}" value="{{ variant.id }}">{{ variant.title }} - {{ variant.price | money_with_currency }}</option>
+                          {% else %}
+                            <option disabled="disabled">
+                              {{ variant.title }} - {{ 'products.product.sold_out' | t }}
+                            </option>
+                          {% endif %}
+                        {% endfor %}
+                      </select>
+                    </div>
+                    <div class="product-options-bottom">
+                      <div class="well well-sm">
+                      <div class="row">
+                        <div class="col-sm-4">
+                          <div class="input-group product-quantity">
+                            <input type="number" id="Quantity" name="quantity" value="1" title="Quantity" class="Quantity form-control" /> 
+                            <div class="input-group-btn">
+                              <button type="button" class="btn btn-default" onclick="lessQuantity();"><i class="fa fa-sm fa-minus"></i></button>
+                              <button type="button" class="btn btn-default" onclick="moreQuantity();"><i class="fa fa-plus"></i></button>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="col-sm-8">
+                          <button type="submit" name="add" id="AddToCart" title="{{ 'products.product.add_to_cart' | t }}" class="btn btn-block btn-success">
+                            <i class="fa fa-fw fa-shopping-cart"></i>
+                            <span id="AddToCartText" class="view-cart">{{ 'products.product.add_to_cart' | t }}</span>
+                          </button>
+                        </div>
+                      </div>
+                      </div>
+                    </div>
+                    <div class="row fulfillment-benefits">
+                      <div class="col-sm-6">
+                        <p>
+                        {% if product.available %}
+                        <small class="text-success"><i class="fa fa-check"></i>&nbsp; {{ 'products.product.in_stock' | t }}, ships within 24 hours</small>
+                        {% else %}
+                        <small class="text-danger"><i class="fa fa-times"></i>&nbsp; {{ 'products.product.sold_out' | t }}, new inventory coming soon</small>
+                        {% endif %}
+                        </p>
+                        <p>
+                        <small><i class="fa fa-certificate"></i>&nbsp; 100% money back guarantee</small>
+                        </p>
+                      </div>
+                      <div class="col-sm-6">
+                        <p><small><i class="fa fa-truck"></i>&nbsp; $3.99 shipping USA/Canada</small>
+                        </p>
+                        <p><small><i class="fa fa-refresh"></i>&nbsp; Delivers in 5-7 business days</small>
+                        </p>
+                      </div>
+                    </div>
+                    {% if settings.social_sharing_products %}
+                    <div class="share_this">
+                      <p>Share {{product.title}}:</p>
+                      {% include 'social-connect' %}
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="row">
+            <div class="col-md-8">
+              <div class="product-wapper-tab clearfix">
+                <div class="tabs-wrapper content-tabs" id="description">
+                  {% assign ingredients = product.metafields.product.ingredients | split: ',' %}
+                  <ul class="nav nav-tabs">
+                    <li class="active">
+                      <a href="#description-tab" aria-controls="desctiption-tab" role="tab" data-toggle="tab">
+                        {{ 'products.product.description' | t }}
+                      </a>
+                    </li>
+                    {% if ingredients.size > 0 %}
+                    <li>
+                      <a href="#ingredients-tab" aria-controls="ingredients-tab" role="tab" data-toggle="tab">
+                        Ingredients
+                      </a>
+                    </li>
+                    {% endif %}
+                  </ul>
+                  <div class="tab-content">
+                    <div class="tab-pane fade in active" id="description-tab">
+                      {{ product.description }}
+                    </div>
+                    {% if ingredients.size > 0 %}
+                    <div class="tab-pane fade in" id="ingredients-tab">
+                      <ul>
+                        {% for ingredient in ingredients %}
+                        <li>{{ingredient}}</li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                    {% endif %}
+                  </div>
+                </div>
+              </div>
+              <hr />
+              <div id="reviews" class="product-review-section">
+                <div class ="block-title">
+                  <h3>
+                    <span class="title-top">{{ 'products.product.reviews' | t }}</span>
+                  </h3>
+              	</div>
+                <div id="shopify-product-reviews" data-id="{{product.id}}">{{ product.metafields.spr.reviews }}</div>
+              </div>
+              {% assign number_of_products = 5 %}
+        {% assign number_of_products_to_fetch = number_of_products | plus: 1 %}
+
+        {% if collection == null or collection.handle == 'frontpage' or collection.handle == 'all' %}
+          {% assign found_a_collection = false %}
+          {% for c in product.collections %}
+            {% if found_a_collection == false and c.handle != 'frontpage' and c.handle != 'all' and c.all_products_count > 1 %}
+              {% assign found_a_collection = true %}
+              {% assign collection = c %}
+            {% endif %}
+          {% endfor %}
+        {% endif %}
+
+        {% if collection and collection.products_count > 1 %}
+          <div class ="related_product upsell_product">
+            <div class="section-header section-header--large">
+              <div class ="block-title">
+                <h3>
+                  <span class="title-top">You may also like</span>
+                </h3>
+              </div>
+              <div id="featured-product2" class="owl-carousel owl-theme">
+                {% assign current_product = product %}
+                {% assign current_product_found = false %}
+                {% for product in collection.products limit: number_of_products_to_fetch %}
+                  {% if product.handle == current_product.handle %}
+                    {% assign current_product_found = true %}
+                  {% else %}
+                    {% unless current_product_found == false and forloop.last %}
+                      
+                      {% for variant in product_related.variants %}
+                        {% if variant.price < variant.compare_at_price %} 
+                          {% assign is_sale = true %}
+                        {% else %}
+                          {% assign is_sale = false %}
+                        {% endif %}
+                      {% endfor %}
+                      <div class="item" data-handle="{{product.handle}}" data-price="{{product.price}}" data-variant="{{product.variants[0].id}}">
+                        <div class="product-item">
+                          <div class="per-product">
+                            <div class="images-container">
+                              <div class="product-hover">
+                              {% assign product_check = product.handle %}
+                              {% for new_product in collections['new-products'].products %}
+                                {% if new_product.handle == product_check %}
+                                  <span class="sticker top-left"><span class="labelnew">{{ 'products.product.is_new' | t }}</span></span>
+                                  {% break %}
+                                {% endif %}
+                              {% endfor %}
+                              {% if is_sale == true %} 
+                                <span class="sticker top-right"><span class="labelsale">{{ 'products.product.is_sale' | t }}</span></span>
+                              {% endif %}
+                              <a href="#" class="overlay"></a>
+                              <a class="product-image" href="{{product.url}}">
+                                <img width="280" height="357" alt="{{product.title}}" src="{{product.images[0] | img_url:'280x357', format: 'pjpg'}}" class="img-responsive ProductPhotoImg" />
+                                <span class="product-img-back">
+                                  <img width="280" height="357" alt="{{product.title}}" src="{% if product.images[1] %} {{ product.images[1] | img_url:'280x357', format: 'pjpg' }} {% else %} {{ product.images[0] | img_url:'280x357', format: 'pjpg' }} {% endif %}" class="img-responsive" />
+                                </span>
+                              </a>
+                            </div>
+                            <div class="actions-no hover-box">
+                              <div class="actions">
+                                <button type="submit" name="add" title="{{ 'products.product.add_to_cart' | t }}" class="button btn-cart pull-left-none btn-quick-add-to-cart">
+                                  <span><i class="icon_cart_alt"></i><span>{{ 'products.product.add_to_cart' | t }}</span></span>
+                                </button>
+                                <ul class="add-to-links list-unstyled pull-left-none">
+                                  <li class="link-view pull-left-none"> 
+                                    <a class="btn-quickview" title="{{ 'products.general.quick_view' | t }}" data-target="#popup-product-view" data-toggle="modal" href="#"><i class="fa fa-search"></i>{{ 'products.general.quick_view' | t }}</a>
+                                  </li>
+                                </ul>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="products-textlink clearfix">
+                            <h2 class="product-name">
+                              <a title="{{product.title}}" href="{{product.url}}">{{product.title}}</a>
+                            </h2>
+                            <div class="price-box">
+                              <span class="regular-price">
+                                <span class="price">{{product.price | money }}</span>                                   
+                              </span>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {% endunless %}
+                  {% endif %}
+                {% endfor %}
+              </div>
+            </div>
+          </div>
+        {% endif %}
+            </div>
+            <div class="col-md-4 hidden-sm">
+              <div id="product-affix" class="product-affix affix-top">
+                <div class="thumbnail">
+                  <img data-zoom-image ="{{ featured_image | img_url:'539x539'}}" class="gallery-image img-rounded img-responsive" src="{{ featured_image.src | img_url:'539x539'}}" alt="{{ featured_image.alt | escape }}" title="{{product.title}}"  />
+                  <div class="caption">
+                    <h4>{{ product.title }}</h4>
+                    <p>
+                    <small>
+                      <span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+                    </small>
+                    </p>
+                    <div class="input-group product-quantity" style="margin-bottom: 10px;">
+                      
+                      <input type="number" id="Quantity" name="quantity" value="1" title="Quantity" class="Quantity form-control" /> 
+                      <span class="input-group-addon">
+                        x&nbsp;
+                        {% assign variant = product.selected_or_first_available_variant %}
+                          {% if is_sale == true %} 
+                          <span id="ComparePrice" class="price compare-price">
+                            <del>{{ variant.compare_at_price | money }}</del>
+                          </span>
+                          {% endif %}
+                          <span class="price {{product.id}}" id="price-preview">
+	                      	{{ variant.price | money }}
+                          </span>
+                      </span>
+                      <div class="input-group-btn">
+                        <button type="button" class="btn btn-default" onclick="lessQuantity();"><i class="fa fa-sm fa-minus"></i></button>
+                        <button type="button" class="btn btn-default" onclick="moreQuantity();"><i class="fa fa-plus"></i></button>
+                      </div>
+                    </div>
+                    <button type="submit" name="add" id="AddToCart" title="{{ 'products.product.add_to_cart' | t }}" class="btn btn-block btn-success">
+                            <i class="fa fa-fw fa-shopping-cart"></i>
+                            <span id="AddToCartText" class="view-cart">{{ 'products.product.add_to_cart' | t }}</span>
+                          </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        </form>
+      </div>
+    </div>
+  </section>
+  <script>
+    lessQuantity = function () {
+      var $result = $('.Quantity'),
+          qty = $result.val();
+      if (!isNaN(qty) && qty > 1) {
+      	$result.val(parseInt(qty)-1);
+      }
+      return false;
+    }
+    moreQuantity = function() {
+      var $result = $('.Quantity'),
+          qty = $result.val();
+      if (!isNaN(qty)) {
+      	$result.val(parseInt(qty)+1);
+      }
+      return false;
+    }
+    var selectCallback = function(variant, selector) {
+      timber.productPage({
+        money_format: "{{ shop.money_format }}",
+        variant: variant,
+        selector: selector,
+        translations: {
+          add_to_cart : "{{ 'products.product.add_to_cart' | t }}",
+          sold_out : "{{ 'products.product.sold_out' | t }}",
+          unavailable : "{{ 'products.product.unavailable' | t }}"
+        }
+      });
+    };
+
+    jQuery(function($) {
+      new Shopify.OptionSelectors('productSelect', {
+        product: {{ product | json }},
+        onVariantSelected: selectCallback,
+        enableHistoryState: true
+      });
+
+      // Add label if only one product option and it isn't 'Title'. Could be 'Size'.
+      {% if product.options.size == 1 and product.options.first != 'Title' %}
+        $('.selector-wrapper:eq(0)').prepend('<label for="productSelect-option-0">{{ product.options.first | escape }}</label>');
+      {% endif %}
+
+      // Hide selectors if we only have 1 variant and its title contains 'Default'.
+      {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
+                                             
+      $('.selector-wrapper').hide(); {% else %}
+      $('.selector-wrapper').show();
+      {% endif %}
+    });
+  </script>
+  {{ 'jquery.elevateZoom-3.0.8.min.js' | asset_url | script_tag }}
+
+  <!-- /PAGE SECTION WITH SIDEBAR -->

@@ -1,0 +1,125 @@
+<!-- BREADCRUMBS -->
+{% include 'breadcrumb'%}
+<!-- /BREADCRUMBS -->
+
+{% paginate search.results by 10 %}
+<!-- PAGE SECTION WITH SIDEBAR -->
+<section class="page-section">
+  <h2 class="hidden">page</h2>
+  <div class="container">
+    <div class="row">
+      <!-- content -->
+      <div class="title-page">
+          <h2>{{ 'general.search.title' | t }}</h2>
+          {% if search.performed %}
+            {% if search.results_count > 0 %}
+              <h4>{{ 'general.search.results_for_html' | t: count: search.results_count, terms: search.terms }}</h4>
+            {% else %}
+              <h4>{{ 'general.search.no_results_html' | t: count: search.results_count, terms: search.terms }}</h4>
+            {% endif %}
+
+          {% endif %}
+      </div>
+      {% if search.performed %}
+        {% comment %}
+          Find the number of products and pages in the search results
+        {% endcomment %}
+        {% assign product_count = 0 %}
+        {% for item in search.results %}
+          {% if item.object_type == 'product' %}
+            {% assign product_count = product_count | plus: 1 %}
+          {% endif %}
+        {% endfor %}
+        <section class="content col-sm-12">
+          <h2 class="hidden">content</h2>
+          <div class="row thumbnails products">
+            {% if product_count > 0 %}
+              <!-- Popup product quick view -->
+              {% include 'product-quickview' %}
+              <!-- ./Popup product quick view -->
+              {% for item in search.results %}
+                {% for variant in item.variants %}
+                  {% if variant.price < variant.compare_at_price %} 
+                    {% assign is_sale = true %}
+                    {% break %}
+                  {% else %}
+                    {% assign is_sale = false %}
+                    {% break %}
+                  {% endif %}
+                {% endfor %}
+                <div class="col-md-3 col-sm-6 col-xsp-6">
+                  <div class="item" data-handle="{{item.handle}}" data-variant="{{item.variants[0].id}}" itemscope itemtype="http://schema.org/Product">
+                    <div class="product-item">
+                      <div class="per-product">
+                        <div class="images-container">
+                          <div class="product-hover">
+                            {% assign product_check = item.handle %}
+                            {% for new_product in collections['new-products'].products %}
+                              {% if new_product.handle == product_check %}
+                                <span class="sticker top-left"><span class="labelnew">{{ 'products.product.is_new' | t }}</span></span>
+                                {% break %}
+                              {% endif %}
+                            {% endfor %}
+                            {% if is_sale == true %} 
+                              <span class="sticker top-right"><span class="labelsale">{{ 'products.product.is_sale' | t }}</span></span>
+                            {% endif %}
+                            <a class="overlay" href="#"></a>
+                            <a href="{{ item.url | within: item.collections.last }}" class="product-image">
+                              <img width="280" height="357" class="img-responsive" src="{{ item.images[0] | img_url:'large' }}" alt="{{ product.title }}">
+                              <span class="product-img-back">
+                                <img width="280" height="357" class="img-responsive" src="{% if item.images[1] %} {{ item.images[1] | img_url:'large' }} {% else %} {{ item.images[0] | img_url:'large' }} {% endif %}" alt="{{ item.title }}">
+                              </span>
+                            </a>
+                          </div>
+                          <div class="actions-no hover-box">
+                            <div class="actions">
+                              <button type="submit" name="add" title="{{ 'products.product.add_to_cart' | t }}" class="button btn-cart pull-left-none btn-quick-add-to-cart">
+                                <span><i class="icon_cart_alt"></i><span>{{ 'products.product.add_to_cart' | t }}</span></span>
+                              </button>
+                              <ul class="add-to-links pull-left-none">
+                                <li class="link-view pull-left-none"> 
+                                  <a href="#" class="btn-quickview" title="{{ 'products.general.quick_view' | t }}" data-toggle="modal" data-target="#popup-product-view"><i class="fa fa-search"></i>{{ 'products.general.quick_view' | t }}</a>
+                                </li>
+                                {% if settings.wishlist_compare_enable %}
+                                  <li class="pull-left-none">
+                                    <a href="wishlist.html" title="{{ 'products.product.add_to_wish_list' | t }}" class="link-wishlist"><i class="fa fa-heart-o"></i>{{ 'products.product.add_to_wish_list' | t }}
+                                    </a>
+                                  </li>
+                                {% endif %}
+                              </ul>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="products-textlink clearfix">
+                          <h2 itemprop="name" class="product-name">
+                            <a href="{{ item.url | within: item.collections.last }}" title="Name Product">{{ item.title }}</a>
+                          </h2>
+                          <div class="price-box">
+                            <span class="regular-price">
+                              {% if is_sale == true %} 
+                                <span class="price compare-price">{{ item.compare_at_price | money }}</span>&nbsp;&nbsp;&nbsp;
+                              {% endif %}
+                              <span itemprop="price" class="price">{{ item.price | money }}</span>
+                            </span>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              {% endfor %}
+            {% endif %}
+          </div>
+          <!-- Pagination -->
+          {% include 'pagination' %}
+          <!-- /Pagination -->
+        </section>
+        <!-- /content -->
+      {% endif %}
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+</section>
+{% endpaginate %}
+<!-- /PAGE SECTION WITH SIDEBAR -->

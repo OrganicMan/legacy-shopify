@@ -1,0 +1,62 @@
+{% if template contains 'product' %} <!-- Product -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org/",
+  "@type": "Product",
+  "name": "{{product.title}}",
+  "url": "{{ shop.url }}{{ product.url }}",
+  "image": "{{ product.featured_image.src | img_url: 'grande' }}",
+  "description": "Shop for {{product.title}} at {{shop.domain}}. {{shop.description}}",
+  "audience": {
+  	"audienceType" : "men with any length beard"
+  },
+  "brand": {
+    "@type": "Thing",
+    "name": "{{shop.name}}"
+  },
+  "offers": {
+    "@type": "Offer",
+    "priceCurrency": "{{shop.currency}}",
+    {% if variant.price < variant.compare_at_price %} 
+    "lowPrice": "{{variant.compare_at_price | money_without_currency }}",
+    "highPrice": "{{variant.price | money_without_currency }}",
+    {% else %}
+    "price": "{{variant.price | money_without_currency }}",
+    {% endif %}
+    "itemCondition": "http://schema.org/NewCondition",
+    "availability": "http://schema.org/{% if product.available %}InStock{% else %}OutOfStock{% endif %}"
+  }
+}
+</script>
+
+{% else %} <!-- Anything else -->
+
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "WebSite",
+  "url": "{{shop.url}}",
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": "{{shop.url}}/search?q={search_term_string}",
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "http://schema.org",
+  "@type": "Organization",
+  "name": "{{shop.name}}",
+  "email": "{{shop.email}}",
+  "url": "{{shop.url}}",
+  "logo": "https:{{ 'obs-sticker.png' | file_url }}",
+  "sameAs" : [
+    "http://www.facebook.com/organicbeardsupply",
+    "http://www.instagram.com/organicbeardsupply",
+    "http://twitter.com/organicbeardsup"
+  ]
+}
+</script>
+{% endif %}

@@ -1,0 +1,45 @@
+<div class="block-title block-vertical">
+	<strong>
+		<span class="fa fa-bars"></span>
+		<span class="verticalmenu-subtitle">vertical menu</span>
+	</strong>
+</div>
+<!-- Navigation -->
+<nav class="navigation">
+	<ul class="sf-menu nav">
+		{% for link in linklists.main-menu.links %}
+          {% assign child_list_handle = link.title | handle %}
+          {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+            <li>
+              {{ link.title | link_to: link.url }}
+              <ul>
+                  {% for child_link in linklists[child_list_handle].links %}
+                    {% assign grand_child_list_handle = child_link.title | handle %}
+                    {% if linklists[grand_child_list_handle] and linklists[grand_child_list_handle].links.size > 0 %}
+                    <li>
+                      {{ child_link.title | link_to: child_link.url }}
+                      <ul>
+                        {% for grand_child_link in linklists[grand_child_list_handle].links %}
+                        <li>
+                          {{ grand_child_link.title | link_to: grand_child_link.url }}
+                        </li>
+                        {% endfor %}
+                      </ul>
+                    </li>
+                    {% else %}
+                    <li>
+                      {{ child_link.title | link_to: child_link.url }}
+                    </li>
+                    {% endif %}
+                  {% endfor %}  
+              </ul>
+            </li>
+          {% else %}
+            <li class="{% if link.handle == 'home' %}active{% endif %}">
+              {{ link.title | link_to: link.url }}
+            </li>
+          {% endif %}
+        {% endfor %}
+	</ul>
+</nav>
+<!-- /Navigation -->

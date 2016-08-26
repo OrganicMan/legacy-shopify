@@ -1,0 +1,185 @@
+<div class="modal fade" tabindex="-1" role="dialog" id="modal_compare_products">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">{{ "products.general.compare_product_title"  | t }}</h4>
+      </div>
+{% comment %}      <div class="modal-body">{% endcomment %}
+          <div class="compare-products-box">
+            <div class="compare_variants_box">
+              <div class="compare_variants_table">
+                <div class="compare_product_top row_p" ></div>
+                <div class="row_p row_description row_description_box1">Description</div>
+                <div class="row_p">Color</div>
+                <div class="row_p">Size</div>
+              </div>
+            </div>
+            <div class="compare_products_list">
+                <div class="compare_products_list_table">
+                    <div class="compare_item">
+                      <div class="compare_product_top text-center row_p" >
+                        <div class="text-center">
+                            <span class="compare_remove_item">Remove <i class="fa fa-times-circle red"></i></span>
+                        </div>
+                        
+                        <img src="" class="compare_item_img" >
+                        <div class="compare_item_title">Product name</div>
+                        <div class="compare_item_price">
+                            <del class="compareprice"></del>
+                            <span class="sellprice"></span>
+                        </div>
+                        <button class="compare_addto_card">ADD TO CART</button>
+                      </div>
+                      <div class="row_p row_description text-center">Quisque velit nisi, pretium ut lacinia in, elementum id enim.</div>
+                      <div class="row_p row_color text-center">Red</div>
+                      <div class="row_p row_size text-center">XXXXL</div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+{% comment %}
+      </div>{% endcomment %}
+{% comment %}      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div>{% endcomment %}
+      <div class="modal-footer">
+      <button type="button" class="btn btn-theme" data-dismiss="modal">{{ 'general.password_page.close' | t }}</button>
+    </div>
+    </div><!-- /.modal-content -->
+    
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
+
+
+<style type="text/css">
+#modal_compare_products .modal-footer {
+  border-top: 0;
+}
+  #modal_compare_products .modal-dialog {
+    width: 100%;
+    padding: 0!important;
+      padding-top: 0px!important; 
+      padding-bottom: 0px!important;  
+  }
+  #modal_compare_products .modal-body {
+    
+  }
+</style>
+
+
+<!-- Basic Stype  -->
+<style type="text/css">
+
+
+  #modal_compare_products .compare_item {
+    width: 383px;
+    float: left;
+
+  }
+    #modal_compare_products .compare-products-box {
+        display: inline-block;
+
+    }
+    #modal_compare_products .compare_variants_box {
+        float: left;
+
+        overflow: hidden;
+        width: 200px!important;  /* width of right variants */
+
+    }
+
+    #modal_compare_products .compare-products-box {
+
+    } 
+
+    #modal_compare_products .compare_products_list {
+ 
+        float: left;
+
+        overflow-x: auto; 
+    }
+
+/*    #modal_compare_products .compare-products-box,
+    #modal_compare_products .compare_products_list  {
+        display: table;
+    }*/
+    #modal_compare_products .row_p {
+
+        width: 100%!important;
+        height: 30px;
+        padding: 5px;
+        overflow: hidden;
+        vertical-align: middle;
+        border-bottom: 1px solid #ccc;
+    }
+    #modal_compare_products .compare_product_top {
+      height: 380px!important;
+    }
+
+    #modal_compare_products .row_description {
+      height: 250px!important;
+      overflow-y: auto; 
+      vertical-align: middle;
+      text-align: left;
+    }
+
+    #modal_compare_products .row_description_box1 {
+      text-align: left;
+    }
+
+    #modal_compare_products .compare_products_list_table{
+    }
+
+</style>
+
+<!-- Nice style & responsive-->
+<style type="text/css">
+    .red {
+        color : red;
+    
+    }
+
+    .compare_remove_item:hover .fa{
+        font-weight: bold;
+    }
+    .compare_remove_item:hover {
+        text-decoration: underline;
+        color: red;
+        cursor: pointer;
+        transition: 0.5s;
+    }
+    .compare_item_img {
+        max-height: 270px;
+    }
+    #modal_compare_products .close span{
+    /*visibility: hidden;*/
+      font-size: 35px;
+
+    }
+    .compare_variants_table .row_p {
+      text-transform: uppercase;
+      padding-left: 15px!important;
+      font-weight: bold;
+    }
+
+    .compare_item_title {
+      font-size: 20px;
+    }
+    .sellprice {
+      padding-left: 10px
+    }
+
+  @media (min-width: 420px) and (max-width: 630px) {
+    #modal_compare_products .compare_item {
+        width: 200px;
+        float: left;
+
+    }
+    #modal_compare_products .row_description {
+      height: 150px!important;
+    }
+  }
+</style>
+{{ 'modal-compare.js' | asset_url | script_tag }}

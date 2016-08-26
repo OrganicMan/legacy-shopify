@@ -1,0 +1,196 @@
+<link href="{{'magicaccordion.css' | asset_url}}" property="stylesheet" rel="stylesheet" type="text/css" media="all">
+<link rel="stylesheet" property="stylesheet" href="https://code.jquery.com/ui/1.11.1/themes/smoothness/jquery-ui.css">
+
+
+<aside class="sidebar col-sm-4 col-md-3 {{view_value}}">
+  {% if settings.sidebar_collection_menu != "" %}
+    <div class="widget-menu">
+      <div class="block block-anav">
+        <div class="block-title">
+          <strong><span>{{ linklists[settings.sidebar_collection_menu].title }}</span></strong>
+        </div>
+        <div id="menu-left">
+          <ul class="nav-accordion">
+            {% for link in linklists[settings.sidebar_collection_menu].links %}
+              {% assign child_list_handle = link.title | handle %}
+              {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+                <li class="has-sub">
+                  {{ link.title | link_to: link.url }}
+                  <ul class="toggle-content">
+                    {% for child_link in linklists[child_list_handle].links %}
+                      {% assign grand_child_list_handle = child_link.title | handle %}
+                      {% if linklists[grand_child_list_handle] and linklists[grand_child_list_handle].links.size > 0 %}
+                        <li>
+                          {{ child_link.title | link_to: child_link.url }}
+                          <ul>
+                            {% for grand_child_link in linklists[grand_child_list_handle].links %}
+                              <li>
+                                {{ grand_child_link.title | link_to: grand_child_link.url }}
+                              </li>
+                            {% endfor %}
+                          </ul>
+                        </li>
+                      {% else %}
+                        <li>
+                          {{ child_link.title | link_to: child_link.url }}
+                        </li>
+                      {% endif %}
+                    {% endfor %}
+                  </ul>
+                </li>
+              {% else %}
+                <li>
+                  {{ link.title | link_to: link.url }}
+                </li>
+              {% endif %}
+            {% endfor %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  {% endif %}
+  <div class="block block-layered-nav">
+    <div class="block-title">
+      <strong><span>{{ 'layout.sidebar.shop_by' | t }}</span></strong>
+    </div>
+    <div class="block-content toggle-content">
+      <dl id="narrow-by-list">
+        <dt class="odd">{{ 'layout.sidebar.shop_by_vendor' | t }}</dt>
+        <dd class="odd">
+          <ol>
+            {% for product_vendor in shop.vendors %}
+{% comment %}              {% assign vendorName = product_vendor | title %}
+              {% assign vendorCount = 0 %}
+              {% assign productList = ',' %}
+              {% for collection in collections %}
+                {% for product in collection.products %}
+                  {% capture compareProduct %},{{product.handle}},{% endcapture %}
+                  {% if productList contains compareProduct %}{% else %}
+                    {% assign compareVendor = product.vendor %}
+                    {% if compareVendor == vendorName %}
+                      {% assign vendorCount = vendorCount | plus: 1 %}
+                    {% endif %}
+                    {% capture tempList %}{{productList}}{{product.handle}},{% endcapture %}
+                    {% assign productList = tempList %}
+                  {% endif %}
+                {% endfor %}
+              {% endfor %}{% endcomment %}
+              <li>
+                {{ product_vendor | link_to_vendor }}
+              {% comment %}  
+            I NEED TO CUT THIS PRODUCT VENDOR COUNT DUE TO [MEMORY EXCEED LIMIT ERROR] IF YOUR STORE HAVE TOO MUCH PRODUCTS
+              <span class="count">({{vendorCount}})</span>{% endcomment %}
+              </li>
+            {% endfor %}
+          </ol>
+        </dd>
+        {% if settings.sidebar_filter_price_enable %}
+         <dt class="even">{{ settings.sidebar_filter_price__title }}</dt>
+         <dd class="even">
+          <ol>
+          {% for i in (1..5) %}
+            {% capture this_collection %}sidebar_collection_{{i}}_price{% endcapture %}
+            {% if settings[this_collection] != "" %}
+              {% assign collection_filter = collections[settings[this_collection]] %}
+              <li>
+                <a href="{{ collection_filter.url }}" class="currency-only">{{ collection_filter.title }}</a>
+                <span class="count">({{ collection_filter.all_products_count }})</span>
+              </li>
+            {% endif %}
+          {% endfor %}
+          </ol>
+         </dd>
+         {% endif %}
+         {% if settings.sidebar_filter_custom_1_enable %}
+         <dt class="even">{{ settings.sidebar_filter_custom_1_title }}</dt>
+         <dd class="even">
+          <ol>
+          {% for i in (1..5) %}
+            {% capture this_collection %}sidebar_collection_{{i}}_custom_1{% endcapture %}
+            {% if settings[this_collection] != "" %}
+              {% assign collection_filter = collections[settings[this_collection]] %}
+              <li>
+                <a href="{{ collection_filter.url }}">{{ collection_filter.title }}</a>
+                <span class="count">({{ collection_filter.all_products_count }})</span>
+              </li>
+            {% endif %}
+          {% endfor %}
+          </ol>
+         </dd>
+         {% endif %}
+         {% if settings.sidebar_filter_custom_2_enable %}
+         <dt class="even">{{ settings.sidebar_filter_custom_2_title }}</dt>
+         <dd class="even">
+          <ol>
+          {% for i in (1..5) %}
+            {% capture this_collection %}sidebar_collection_{{i}}_custom_2{% endcapture %}
+            {% if settings[this_collection] != "" %}
+              {% assign collection_filter = collections[settings[this_collection]] %}
+              <li>
+                <a href="{{ collection_filter.url }}">{{ collection_filter.title }}</a>
+                <span class="count">({{ collection_filter.all_products_count }})</span>
+              </li>
+            {% endif %}
+          {% endfor %}
+          </ol>
+         </dd>
+         {% endif %}
+      </dl>
+    </div>
+  </div>
+  {% if template contains 'collection' %}
+    {% unless template contains 'list-collections' %}
+      <div class="widget widget-tag-cloud block">
+        <div class="block-title">
+          <strong><span>{{ 'layout.sidebar.tags' | t }}</span></strong>
+        </div>
+        <ul>
+          {% assign typeList = ',' %}
+          {% for product in collection.products %}
+            {% for tag in product.tags %}
+                {% capture compareType %},{{tag}},{% endcapture %}
+                  {% if typeList contains compareType %}{% else %}  
+                  <li>
+                     {{ tag | link_to_tag: tag }}
+                  </li>
+                  {% capture tempList %}{{typeList}}{{tag}},{% endcapture %}
+                  {% assign typeList = tempList %}
+                {% endif %}
+            {% endfor %}
+          {% endfor %}
+        </ul>
+      </div>
+    {% endunless %}
+  {% endif %}
+  {% if settings.static_left1_enable %}
+    <div class="block-static-img">
+      <a href="{% if settings.static_left1_url != blank %}{{ settings.static_left1_url }}{% else %}#{% endif %}" target="_blank"><img src="{{'static_left1.jpg' | asset_url }}" onError="style.display = 'none';" alt="images"> </a>      
+    </div>
+  {% endif %}
+  {% if settings.static_left2_enable %}
+    <div class="block-static-img">
+      <a href="{% if settings.static_left2_url != blank %}{{ settings.static_left2_url }}{% else %}#{% endif %}" target="_blank"><img src="{{'static_left2.jpg' | asset_url }}" onError="style.display = 'none';"alt="images"> </a>        
+    </div>
+  {% endif %}
+</aside>
+{{ 'jquery-ui-1.11.1.min.js' | asset_url | script_tag }}
+<script type="text/javascript">
+jQuery(document).ready(function($) {
+  
+  $(".nav-accordion").magicaccordion({
+      accordion:true,
+      speed: 400,
+      closedSign: 'collapse',
+      openedSign: 'expand',
+      easing: 'easeInOutQuad'
+  });
+  
+  // var money_sign = Shopify.formatMoney( 0 , moneyFormat).replace(/\d+([,.]\d+)?/g, "");
+  // $('.sidebar .currency-only').each(function(){
+  //   var this_html = $(this).html();
+  //   $(this).html(this_html+ " " + money_sign);
+  // })
+  // UNCOMMENT THIS IF YOU WANT YOUR PRICE FILTER HAVE MONEY SIGN
+});
+
+</script>

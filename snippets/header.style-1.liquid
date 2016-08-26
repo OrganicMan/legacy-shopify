@@ -1,0 +1,48 @@
+<header class="header">
+  <div class="header-content">
+    <div class="container">
+      <div class="row">
+        <div class="content-seach col-md-4 col-sm-4 col-xs-12">
+          <div class="header-search">
+            <form action="/search" method="get" role="search" id="search_mini_form">
+              <div class="form-search clearfix">
+                <label>{{'general.search.title' | t }}</label>
+                <button class="button" title="{{'general.search.submit' | t }}" type="submit"><span><span><i aria-hidden="true" data-icon="U" class="fs1"></i></span></span></button>
+                <input maxlength="128" type="search" name="q" id="SiteNavSearch" placeholder="{{ 'general.search.placeholder' | t }}" aria-label="{{ 'general.search.placeholder' | t }}" class="input-text required-entry" autocomplete="off">
+              </div>
+            </form>
+          </div>
+        </div>
+        <div class="content-logo col-md-4 col-sm-4 col-xs-12">
+          <div class="header-logo">
+            <h1 class="logo" itemscope itemtype="http://schema.org/Organization">
+              {% if settings.logo_1_enable %}
+                <a href="/" itemprop="url"><img itemprop="logo" src="{{ 'logo-1.png' | asset_url }}" alt="{{ shop.name }}" class="img-responsive"></a>
+              {% else %}
+                <a href="/" itemprop="url">{{shop.name | upcase }}</a>
+              {% endif %}
+            </h1>
+          </div>
+        </div>
+        <div class="content-cart menu-mobile col-md-4 col-sm-4 col-xs-12">
+          <!-- Mobile menu toggle button-->
+          <a href="#" class="menu-toggle btn"><i class="fa fa-bars"></i></a>
+          <!-- /Mobile menu toggle button-->
+          <div class="miniCartWrap pull-right">
+            {% include 'mini-cart' %}
+          </div>
+          <!-- ./miniCartWrap-->
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="header header-sticky">
+    <div class="container">
+      <div class="header-wrapper clearfix">
+        <!-- Navigation -->
+        {% include 'mega-menu' %}
+        <!-- /Navigation -->
+      </div>
+    </div>
+  </div>
+</header>

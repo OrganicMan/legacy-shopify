@@ -1,0 +1,169 @@
+{% include 'init-block-banner' %}
+<div class="container">
+	<div class="row">
+		{% include 'sidebar-category' %}
+		<section class="content col-sm-8 col-md-9">
+			<h2 class="hidden">slide</h2>
+			{% if settings.slideshow_enable %}
+				<!-- Slider -->
+				<div class="home-slide2 fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s">
+					<!-- BANNER 1 -->
+					<div class="row">
+						<div class="slide-left col-lg-8 col-md-8 col-sm-8 col-xs-12">
+							{% include 'owl-slide-main' %}
+						</div>
+						<div class="slide-right col-lg-4 col-md-4 col-sm-4 col-xs-12">
+							<div class="banner-inner-content">
+								<a href="{{banner_1_url}}"><img src="{{ banner_1_image }}" width="280" height="374" alt="{{ settings.banner_1_des_1 }}" class="img-responsive"> </a>
+								<div class="box-text box-text-possion">
+									<h4>{{ settings.banner_1_des_1 }}</h4>
+									{% assign banner1_title = banner_1_collection.title | split: ' ' %}
+									{% for word in banner1_title %}
+										<h3>{{ word }}</h3>
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+					<!-- /BANNER 1 -->
+					
+				</div>
+			{% endif %}
+			{% if settings.block_banner_enable %}
+				<div class="banner-home2">
+					<div class="row">
+						<!-- BANNER 2-->
+						<div class="banner-inner-big col-lg-4 col-md-4 col-sm-4 col-xs-12 fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s">
+							<div class="banner-inner-content">
+								<div class="column-normal column-1-4">
+									<a href="{{banner_2_url}}"><img src="{{ banner_2_image }}" alt="{{ settings.banner_2_des_1 }}" class="img-responsive-normal"> </a>
+									<div class="box-text box-text-possion">
+										<h4>{{ settings.banner_2_des_1 }}</h4>
+										{% assign banner2_title = banner_2_collection.title | split: ' ' %}
+										{% for word in banner2_title %}
+											<h3>{{ word }}</h3>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- /BANNER 2 -->
+
+						<!-- BANNER 3-->
+						<div class="banner-inner-mall text-right col-lg-4 col-md-4 col-sm-4 col-xs-12 fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s">
+							<div class="banner-inner-content">
+								<div class="column column-1-1">
+									<div class="box-text">
+										<h4>{{ settings.banner_3_des_1 }}</h4>
+										<h3>{{ banner_3_collection.title }}</h3>
+										<p>{{ settings.banner_3_des_2 }}</p>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="banner-inner-mall col-lg-4 col-md-4 col-sm-4 col-xs-12 fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s">
+							<div class="banner-inner-content">
+								<div class="column al-style-2 column-1-2">
+									<a href="{{banner_3_url}}"> <img src="{{ banner_3_image }}" alt="{{ settings.banner_3_des_1 }}" class="img-responsive-normal"> </a>
+								</div>
+							</div>
+						</div>
+						<!-- /BANNER 3 -->
+					</div>
+				</div>
+			{% endif %}
+			<!-- FEATURED PRODUCTS -->
+			{% if settings.featured_products_enable %}
+				{% include 'product-featured' %}
+			{% endif %}
+			<!-- /FEATURED PRODUCTS -->
+			{% if settings.page_blog_enable %}
+				<!-- PAGE Blog -->
+				<div class="page-section blog" id="blog-page">
+					<div class="container-full">
+						<div class="blog-content">
+							<div class="block-title">
+								<h3 class="section-title">
+									<span>{{'blogs.article.latest_blog' | t }}</span>
+									<span class="hr"></span>
+								</h3>
+							</div>
+							<div class="blog-home2">
+								{% assign choosen_blog = settings.blog_choosen %}
+								{% assign number_to_show = settings.blog_number_allow %}
+								{% if number_to_show == blank %}
+								{% assign number_to_show = 5 %}
+								{% endif %}
+								{% assign i = 0 %}
+								<div class="row blog-left">
+									{% for article in blogs[choosen_blog].articles limit: 2 %}
+										<div class="col-md-6 col-sm-6 col-xsp-6 item-blog {% cycle 'fadeInLeft', 'fadeInRight' %} alo-animate" data-wow-duration="1s" data-wow-delay="0.4s">
+											<div class="item">
+												<div class="postcontent">
+													<div class="blog-image al-style-2 image-container">
+														<a href="{{ article.url }}">
+															<img width="198" height="198" alt="{{ article.title }}" src="{{ article.image | img_url:'large' }}" class="img-responsive">
+														</a>
+												
+													</div>
+													<div class="blog_short_text">
+														<div class="blog_text">
+															<div class="post-date">
+															   <span>{{ article.published_at | date: '%b %d %Y' }}</span>
+															</div>
+															<a href="{{ article.url }}"><span class="title">{{ article.title | truncate: 24 }}</span></a>
+															<a href="{{ article.url }}" class="read-more-blog">{{'blogs.article.read_more' | t }}<i class="fa fa-angle-double-right"></i></a>
+														</div>
+													</div>
+												</div>
+											</div>
+										</div>
+										{% assign i = i | plus: 1 %}
+									{% endfor %}
+								</div>
+
+								<div class="row blog-right">
+									{% for article in blogs[choosen_blog].articles limit: 2 %}
+											<div class="col-md-6 col-sm-6 col-xsp-6 item-blog {% cycle 'fadeInLeft', 'fadeInRight' %} alo-animate" data-wow-duration="1s" data-wow-delay="0.4s">
+												<div class="item">
+													<div class="postcontent">
+														<div class="blog-image al-style-2 image-container">
+															<a href="{{ blogs[choosen_blog].articles[i].url }}">
+																<img  width="198" height="198" alt="imgBlog" src="{{ blogs[choosen_blog].articles[i].image | img_url:'large' }}" class="img-responsive">
+															</a>
+														</div>
+														<div class="blog_short_text">
+															<div class="blog_text">
+																<div class="post-date">
+																   <span>{{ blogs[choosen_blog].articles[i].published_at | date: '%b %d %Y' }}</span>
+																</div>
+																<a href="{{ blogs[choosen_blog].articles[i].url }}"><span class="title">{{ blogs[choosen_blog].articles[i].title | truncate: 24 }}</span></a>
+																<a href="{{ blogs[choosen_blog].articles[i].url }}" class="read-more-blog">{{'blogs.article.read_more' | t }}<i class="fa fa-angle-double-right"></i></a>
+															</div>
+														</div>
+													</div>
+												</div>
+											</div>
+										{% assign i = i | plus: 1 %}
+									{% endfor %}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				<!-- /PAGE Blog -->
+			{% endif %}
+		</section>
+	</div>
+</div>
+<!-- PAGE Brand -->
+{% if settings.page_brands_enable %}
+	{% include 'page-brands' %}
+{% endif %}
+<!-- /PAGE Brand -->
+
+<!-- Supports -->
+{% if settings.support_desk_enable %}
+	{% include 'support-desk' %}
+{% endif %}
+<!-- /Supports -->	

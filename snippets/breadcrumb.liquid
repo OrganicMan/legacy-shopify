@@ -1,0 +1,53 @@
+<section class="page-section breadcrumbs">
+  <h2 class="hidden">breadcrumb</h2>
+    <div class="container">
+        <ul class="breadcrumb">
+            <li><a title="{{ 'general.breadcrumbs.home_link_title' | t }}" href="/">{{ 'general.breadcrumbs.home' | t }}</a></li>
+            {% if template contains 'product' or template contains 'collection' %}
+	            {% if collection.title %}
+	            	<li><a href="/collections">Collections</a></li>
+	            	{% if product.title %} 
+	            		<li><a href="{{collection.url}}">{{ collection.title }}</a></li>
+	            		<li class="active">{{ product.title }}</li>
+	            	{% else %}
+	            		<li class="active">{{ collection.title }}</li>
+	            	{% endif %}
+	            {% else %}
+	            	{% if product.title %} 
+	            		<li><a href="/products">Products</a></li>
+	            		<li class="active">{{ product.title }}</li>
+	            	{% else %}
+	            		<li class="active">Products</li>
+	            	{% endif %}
+	            {% endif %}
+	        {% elsif template contains 'blog' or template contains 'article' %}
+	        	{% if article.title %}
+	            	<li>Blogs </li>
+	            	{% if article.title %}
+	            		<li><a href="{{blog.url}}">{{ blog.title }}</a></li>
+	            		<li class="active">{{ article.title }}</li>
+	            	{% else %}
+	            		<li class="active">{{ blog.title }}</li>
+	            	{% endif %}
+	            {% else %}
+	            	<li>Blogs</li>
+	            	<li class="active">{{ blog.title }}</li>
+	            {% endif %}
+	        {% elsif template contains 'cart' %}
+	            <li class="active">Cart</li>
+	        {% elsif template contains 'search' %}
+	            <li class="active">Search</li>
+	        {% elsif template contains 'account' %}
+	        	<li class="active">My Account</li>
+           	{% elsif template contains 'addresses' %}
+           		<li><a href="/account">My Account</a></li>
+	        	<li class="active">My Addresses</li>
+	        {% elsif template contains 'order' %}
+           		<li><a href="/account">My Account</a></li>
+	        	<li class="active">My Order</li>
+	        {% elsif template contains 'page' %}
+	        	<li class="active">{{page.title}}</li>
+           	{% endif %}
+        </ul>
+    </div>
+</section>

@@ -1,0 +1,126 @@
+<section class="page-section featured-products">
+  <h2 class="hidden">featuresproduct</h2>
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-10 col-sm-offset-1">
+        <div class="col-xs-12 text-center headline">
+          <h2 class="text-center">Browse Beard Oil</h2>
+          <p>OBS beard oil is made with USDA Organic carrier oils.</p>
+        </div>
+        {% for i in (1..4) %}
+        {% capture this_collection %}home_featured_products_{{i}}{% endcapture %}
+        {% capture this_limit %}home_featured_products_limit_{{i}}{% endcapture %}
+		{% assign limit = settings[this_limit] %}
+		{% if limit == "" %}
+        	{% assign limit = 10 %}
+		{% endif %}
+		{% assign collection = collections[settings[this_collection]] %}
+		{% if settings[this_collection] != "" %}
+		<div role="tabpanel" class="tab-pane {% cycle 'active','','','' %}" id="tab_{{collection.id}}">
+          <div id="crs_{{collection.handle}}" class="owl-carousel owl-theme">
+            {% for fproduct in collection.products limit: limit %}
+            {% for variant in fproduct.variants %}
+            {% if variant.price < variant.compare_at_price %} 
+            	{% assign is_sale = true %}
+            	{% break %}
+            {% else %}
+            	{% assign is_sale = false %}
+            	{% break %}
+            {% endif %}
+            {% endfor %}
+            <div class="item" data-handle="{{fproduct.handle}}" data-price="{{fproduct.price}}" data-variant="{{fproduct.variants[0].id}}">
+              <div class="product-item">
+                <div class="per-product">
+                  <div class="images-container img-rounded">
+                    <div class="product-hover">
+                      {% assign product_check = fproduct.handle %}
+                      {% for new_product in collections['new-products'].products %}
+                      {% if new_product.handle == product_check %}
+                      <span class="sticker top-left"><span class="labelnew">{{'products.product.is_new' | t }}</span></span>
+                      {% break %}
+                      {% endif %}
+                      {% endfor %}
+                      {% if is_sale == true %} 
+                      <span class="sticker top-right"><span class="labelsale">{{'products.product.is_sale' | t }}</span></span>
+                      {% endif %}
+                      <a title="{{fproduct.title}}" href="{{fproduct.url}}" class="overlay"></a>
+                      <img alt="{{fproduct.title}}" data-src="{{ fproduct.images[0] | img_url: '373x373', format: 'pjpg' }}" class="owl-lazy img-responsive" />
+                      <span class="product-img-back">
+                        <img alt="{{fproduct.title}}" data-src="{% if fproduct.images[1] %} {{ fproduct.images[1] | img_url: '373x373', format: 'pjpg' }} {% else %} {{ fproduct.images[0] | img_url: '373x373', format: 'pjpg' }} {% endif %}" class="owl-lazy img-responsive" />
+                      </span>
+                    </div>
+                    <div class="actions-no hover-box">
+                      <div class="actions">
+                        <button class="button btn-cart pull-left-none btn-quick-add-to-cart" title="{{'products.product.add_to_cart' | t }}"  type="submit" name="add">
+                          <span><i class="icon_cart_alt"></i><span>{{'products.product.add_to_cart' | t }}</span></span>
+                        </button>
+                        <ul class="add-to-links pull-left-none list-unstyled">
+                          <li class="link-view pull-left-none"> 
+                            <a title="{{fproduct.title}}" href="{{fproduct.url}}"><i title="{{ 'products.general.quick_view' | t }}" class="fa fa-search"></i>{{ 'products.general.quick_view' | t }}</a>
+                          </li>
+                          {% if settings.wishlist_compare_enable %}
+                          <li class="pull-left-none">
+                            <a class="link-wishlist" title="{{ 'products.general.add_to_wish_list' | t }}" href="wishlist.html">
+                              <i class="fa fa-heart-o"></i>{{ 'products.general.add_to_wish_list' | t }}
+                            </a>
+                          </li>
+                          {% endif %}
+                        </ul>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="products-textlink clearfix">
+                    <h2 class="product-name">
+                      <a title="{{fproduct.title}}" href="{{fproduct.url}}">{{fproduct.title}}</a>
+                    </h2>
+                    <div class="price-box">
+                      <span class="regular-price">
+                        {% if is_sale == true %} 
+                        <span class="price compare-price">{{ fproduct.compare_at_price | money }}</span>&nbsp;&nbsp;&nbsp;
+                        {% endif %}
+                        <span class="price">{{fproduct.price | money }}</span>                                   
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {% endfor %}
+          </div>
+        </div>
+        <script type="text/javascript">
+          $(document).ready(function(){
+            var MyCollection = $('#crs_{{collection.handle}}');
+			if (MyCollection.length) {
+              MyCollection.owlCarousel({
+                autoplay: false,
+                loop: true,
+                margin: 25,
+                dots: false,
+                lazyLoad : true,
+                nav: true,
+                navText: [
+                  "<i class='fa fa-angle-left'></i>",
+                  "<i class='fa fa-angle-right'></i>"
+                ],
+                responsive: {
+                  0: {items: 1},
+                  479: {items: 2},
+                  768: {items: 3},
+                  991: {items: 4},
+                  1024: {items: 4}
+                }
+              });
+            }
+          })
+        </script>
+        {% endif %}
+        {% endfor %}
+        <div class="col-sm-4 col-sm-offset-4 text-center cta">
+          <p>We care about quality.</p>
+          <a href="/products" class="btn btn-primary btn-lg btn-block">Shop Now</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>

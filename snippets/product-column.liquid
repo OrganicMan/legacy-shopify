@@ -1,0 +1,82 @@
+ <!-- PAGE PRODUCT -->
+<section class="page-section" id="colum-product">
+	<div class="container">
+		<div class="colum-product-inner row">
+			{% for i in (1..3) %}
+				{% capture this_collection %}product_column_collection_{{i}}{% endcapture %}
+				{% if settings[this_collection] != "" %}
+					{% assign my_collection = collections[settings[this_collection]] %}
+					<div class="col-lg-4 col-md-4 col-sm-4 col-xs-12 fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s">
+						<div class="block">
+							<div class="block-title">
+								<strong><span><a href="{{my_collection.url}}">{{my_collection.title}}</a></span></strong>
+							</div>
+							<div class="colum-product-content">
+								<ul>
+									{% if settings.products_column_limit == "" %}
+										{% assign limit = 2 %}
+									{% else %}
+										{% assign limit = settings.products_column_limit %}
+									{% endif %}
+									{% for product in my_collection.products limit: limit %}
+
+										{% for variant in product.variants %}
+
+							              {% if variant.price < variant.compare_at_price %} 
+							                {% assign is_sale = true %}
+							                {% break %}
+							              {% else %}
+							                {% assign is_sale = false %}
+							                {% break %}
+							              {% endif %}
+							            {% endfor %}
+							            <div class="item" data-handle = "{{product.handle}}">
+											<div class="per-product clearfix">
+												<div class="images-container col-lg-4 col-md-4 col-sm-4 col-xs-4">
+													<div class="product-hover">
+														<a href="{{product.url}}" class="overlay"></a>
+														<a class="product-image" href="{{product.url}}">
+															<img width="115" height="147" alt="{{product.featured_image.alt}}" src="{{product.featured_image| img_url: 'large' }}" class="img-responsive" />
+														</a>
+														<div class="product-hover-box">
+															<div class="link-view"> 
+																<a class="link-quickview btn-quickview" data-target="#popup-product-view" title="{{ 'products.general.quick_view' | t }}" data-toggle="modal" href="#"><i class="icon-magnifier icons"></i>{{ 'products.general.quick_view' | t }}</a>
+															</div>
+														</div>
+													</div> 
+												</div>
+												<div class="products-textlink col-lg-8 col-md-8 col-sm-8 col-xs-8 product-featured-custom clearfix">
+													<h2 class="product-name">
+														<a title="{{product.title}}" href="{{product.url}}">{{product.title}}</a>
+													</h2>
+
+													<div class="ratings">
+														<span class="shopify-product-reviews-badge" data-id="{{ product.id }}"></span>
+													</div>
+													<div class="price-box">
+														<span class="regular-price">
+															{% if is_sale == true %} 
+									                            <span class="price compare-price">{{ product.compare_at_price | money }}</span>&nbsp;&nbsp;&nbsp;
+									                         {% endif %}
+															<span class="price">{{product.price | money }}</span>                                   
+														</span>
+													</div>
+													<div class="actions">
+														<button type="submit" id="QuickAddToCart" title="{{'products.product.add_to_cart' | t }}" class="button btn-cart">
+		                                                    <span> <span class="view-cart">{{'products.product.add_to_cart' | t }}</span> </span>
+		                                                </button>
+													</div>
+												</div>
+											</div>
+										</div>
+									{% endfor %}
+								</ul>
+							</div>
+						</div>
+					</div>
+				{% endif %}
+			{% endfor %}
+		</div>
+	</div>
+</section>
+<!-- /PAGE PRODUCT -->

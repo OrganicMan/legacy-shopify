@@ -1,0 +1,13 @@
+{% if paginate.pages > 1 %}
+  <!-- Pagination -->
+  <div class="pagination-wrapper">
+    <ul class="pagination">
+      <li class="{% if paginate.current_page == 1 %} disabled {% endif %}"><a  href="{{ paginate.previous.url }}">«</a></li>
+      {% for part in paginate.parts %}
+          <li class="{% if paginate.current_page == part.title %} active {% endif %}"><a  href="{{part.url}}">{{part.title}}</a></li>
+      {% endfor %}
+      <li class="{% if paginate.current_page == paginate.pages %} disabled {% endif %}" ><a href="{{ paginate.next.url }}">»</a></li>
+    </ul>
+  </div>
+  <!-- /Pagination -->
+{% endif %}

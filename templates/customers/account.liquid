@@ -1,0 +1,83 @@
+<section class="page-section without-sidebar padding-top">
+  <div class="container">
+    <div class="row">
+      <aside class="sidebar col-sm-4 col-md-3">
+        <div class="widget-menu">
+          <div class="block block-anav">
+            <div class="block-title">
+              <strong><span>Account Info</span></strong>
+            </div>
+            {% if customer.default_address != nil %}
+            <address>
+              <strong>{{customer.name}}</strong><br>
+              {{ customer.default_address.address1 }}{% if customer.default_address.address2 != "" %}<br />
+              {{ customer.default_address.address2 }}{% endif %}<br>
+              {% if customer.default_address.city != "" %}{{ customer.default_address.city }}{% endif %}, {% if customer.default_address.province != "" %}{{ customer.default_address.province }}{% endif %} {% if customer.default_address.zip != "" %}{{ customer.default_address.zip }}{% endif %}<br>
+              {% if customer.default_address.country != "" %} {{ customer.default_address.country }} {% endif %}<br />
+              {% if customer.default_address.phone != "" %}<abbr title="Phone">P:</abbr> {{ customer.default_address.phone }}{% endif %}
+            </address>
+            {% endif %}
+            <ul>
+              <li>
+                <a href="/account">View Orders ({{ customer.orders.size }})</a>
+              </li>
+              <li>
+                <a href="/account/addresses">View Addresses ({{ customer.addresses_count }})</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+      <section class="content col-sm-8 col-md-9"> 
+        <div class="block block-anav">
+          <div class="block-title">
+            <strong><span>{{ 'customer.orders.title' | t }}</span></strong>
+          </div>
+          {% paginate customer.orders by 20 %}
+            <div class="row shop-sorting">
+              {% if customer.orders.size != 0 %}
+                <table class="data-table cart-table" id="shopping-cart-table">
+                  <thead class="hidden-phone">
+                    <tr  class="first last">
+                      <th rowspan="1">
+                        <span class="nobr">{{ 'customer.orders.order_number' | t }}</span>
+                      </th>
+                      <th rowspan="1">
+                        <span class="nobr">{{ 'customer.orders.date' | t }}</span>
+                      </th>
+                      <th rowspan="1">
+                        <span class="nobr">{{ 'customer.orders.payment_status' | t }}</span>
+                      </th>
+                      <th rowspan="1">
+                        <span class="nobr">{{ 'customer.orders.fulfillment_status' | t }}</span>
+                      </th>
+                      <th rowspan="1">
+                        <span class="nobr">{{ 'customer.orders.total' | t }}</span>
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {% for order in customer.orders %}
+                      <tr class="first odd">
+                        <td class="a-center first" data-label="{{ 'customer.orders.order_number' | t }}">{{ order.name | link_to: order.customer_url }}</td>
+                        <td data-label="{{ 'customer.orders.date' | t }}">{{ order.created_at | date: format: 'month_day_year' }}</td>
+                        <td data-label="{{ 'customer.orders.payment_status' | t }}">{{ order.financial_status_label }}</td>
+                        <td data-label="{{ 'customer.orders.fulfillment_status' | t }}">{{ order.fulfillment_status_label }}</td>
+                        <td data-label="{{ 'customer.orders.total' | t }}">{{ order.total_price | money }}</td>
+                      </tr>
+                    {% endfor %}
+                  </tbody>
+                </table>
+              {% else %}
+                <div class="col-sm-12">
+                <p>{{ 'customer.orders.none' | t }}</p>
+                </div>
+              {% endif %}
+              {% include 'pagination' %}
+            </div>
+          {% endpaginate %}
+        </div>
+      </section>
+    </div>
+  </div>
+</section>

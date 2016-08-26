@@ -1,0 +1,197 @@
+<section class="page-section without-sidebar padding-top">
+  <h2 class="hidden">page</h2>
+    <div class="container">
+      <div class="row">
+        <aside class="sidebar col-sm-4 col-md-3">
+        <div class="widget-menu">
+          <div class="block block-anav">
+            <div class="block-title">
+              <strong><span>Account Info</span></strong>
+            </div>
+            {% if customer.default_address != nil %}
+            <address>
+              <strong>{{customer.name}}</strong><br>
+              {{ customer.default_address.address1 }}{% if customer.default_address.address2 != "" %}<br />
+              {{ customer.default_address.address2 }}{% endif %}<br>
+              {% if customer.default_address.city != "" %}{{ customer.default_address.city }}{% endif %}, {% if customer.default_address.province != "" %}{{ customer.default_address.province }}{% endif %} {% if customer.default_address.zip != "" %}{{ customer.default_address.zip }}{% endif %}<br>
+              {% if customer.default_address.country != "" %} {{ customer.default_address.country }} {% endif %}<br />
+              {% if customer.default_address.phone != "" %}<abbr title="Phone">P:</abbr> {{ customer.default_address.phone }}{% endif %}
+            </address>
+            {% endif %}
+            <ul>
+              <li>
+                <a href="/account">View Orders ({{ customer.orders.size }})</a>
+              </li>
+              <li>
+                <a href="/account/addresses">View Addresses ({{ customer.addresses_count }})</a>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </aside>
+        <div class="page-faq-content col-sm-8 col-md-9">
+          <div class="title-page">
+            <h2>{{ 'customer.order.title' | t: name: order.name }}</h2>
+            <h4>{{ 'customer.order.date' | t: date: order.created_at | date: "%B %d, %Y %I:%M%p" }}</h4>
+          </div>
+          <div class="faq-wrapper">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingOne">
+                  <h4 class="panel-title">
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                   <span class="count">{{ 'customer.order.title' | t: name: order.name }}</span><span>{{ 'customer.order.date' | t: date: order.created_at | date: "%B %d, %Y %I:%M%p" }}</span>
+                  </a>
+                  </h4>
+                </div>
+                <div id="collapseOne" class="panel-collapse collapse in" role="tabpanel" aria-labelledby="headingOne">
+                  <div class="panel-body">
+                    {% if order.cancelled %}
+                      <div class="note">
+                        {% assign cancelled_at = order.cancelled_at | date: "%B %d, %Y %I:%M%p" %}
+                        <p>{{ 'customer.order.cancelled' | t: date: cancelled_at }}</p>
+                        <p>{{ 'customer.order.cancelled_reason' | t: reason: order.cancel_reason }}</p>
+                      </div>
+                    {% endif %}
+                    <table class="data-table cart-table">
+                      <thead class="hidden-phone">
+                        <th>{{ 'customer.order.product' | t }}</th>
+                        <th>{{ 'customer.order.sku' | t }}</th>
+                        <th>{{ 'customer.order.price' | t }}</th>
+                        <th>{{ 'customer.order.quantity' | t }}</th>
+                        <th>{{ 'customer.order.total' | t }}</th>
+                      </thead>
+                      <tbody>
+                        {% for line_item in order.line_items %}
+                          <tr id="{{ line_item.id }}" class="{% cycle 'odd','even' %}" >
+                            <td data-label="{{ 'customer.order.product' | t }}">
+                              {{ line_item.title | link_to: line_item.product.url }}
+                              {% if line_item.fulfillment %}
+                                <div class="note">
+                                  {% assign created_at = line_item.fulfillment.created_at | date: format: 'month_day_year' %}
+                                  {{ 'customer.order.fulfilled_at' | t: date: created_at }}
+                                  {% if line_item.fulfillment.tracking_number %}
+                                    <a href="{{ line_item.fulfillment.tracking_url }}">{{ line_item.fulfillment.tracking_company }} #{{ line_item.fulfillment.tracking_number}}</a>
+                                  {% endif %}
+                                </div>
+                              {% endif %}
+                            </td>
+                            <td data-label="{{ 'customer.order.sku' | t }}" > {{ line_item.sku }}</td>
+                            <td data-label="{{ 'customer.order.price' | t }}" >
+                             {{ line_item.price | money }}
+                            </td>
+                            <td data-label="{{ 'customer.order.quantity' | t }}">{{ line_item.quantity }}</td>
+                            <td data-label="{{ 'customer.order.total' | t }}" class="a-left">
+                              {{ line_item.quantity | times: line_item.price | money }} 
+                            </td>
+                          </tr>
+                        {% endfor %}
+                        <tr>
+                          <td class="a-right first" colspan="4">{{ 'customer.order.subtotal' | t }}</td>
+                          <td data-label="{{ 'customer.order.subtotal' | t }}">{{ order.subtotal_price | money }}</td>
+                        </tr>
+                        {% for discount in order.discounts %}
+                          <tr>
+                            <td colspan="4" class="small--hide">{{ discount.code }} {{ 'customer.order.discount' | t }}</td>
+                            <td data-label="{{ 'customer.order.discount' | t }}">{{ discount.savings | money }}</td>
+                          </tr>
+                        {% endfor %}
+                        {% for shipping_method in order.shipping_methods %}
+                          <tr>
+                            <td colspan="4" class="small--hide">{{ 'customer.order.shipping' | t }} ({{ shipping_method.title }})</td>
+                            <td data-label="{{ 'customer.order.shipping' | t }} ({{ shipping_method.title }})">{{ shipping_method.price | money }}</td>
+                          </tr>
+                        {% endfor %}
+                        {% for tax_line in order.tax_lines %}
+                          <tr>
+                            <td colspan="4">{{ 'customer.order.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)</td>
+                            <td data-label="{{ 'customer.order.tax' | t }} ({{ tax_line.title }} {{ tax_line.rate | times: 100 }}%)">{{ tax_line.price | money }}</td>
+                          </tr>
+                        {% endfor %}
+                        <tr class="last">
+                          <td colspan="4">
+                            <strong>{{ 'customer.order.total' | t }}</strong>
+                          </td>
+                          <td data-label="{{ 'customer.order.total' | t }}" class="a-left a-subtotal">
+                            <strong>
+                            <span class="cart-price">
+                              <span class="price">{{ order.total_price | money }} {{ order.currency }}</span>
+                            </span>
+                            </strong>
+                          </strong></td>
+                        </tr>
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingTwo">
+                  <h4 class="panel-title">
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                     <span class="count"></span>
+                     <span>{{ 'customer.order.billing_address' | t }}</span>
+                  </a>
+                  </h4>
+                </div>
+                <div id="collapseTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+                  <div class="panel-body">
+                    <h3>{{ 'customer.order.billing_address' | t }}</h3>
+
+                    <p><strong>{{ 'customer.order.payment_status' | t }}:</strong> {{ order.financial_status_label }}</p>
+
+                    <p>{{ order.billing_address.name }}</p>
+                    <p>
+                      {% if order.billing_address.company != '' %}
+                        {{ order.billing_address.company }}<br>
+                      {% endif %}
+                      {{ order.billing_address.street }}<br>
+                      {{ order.billing_address.city }}<br>
+                      {% if order.billing_address.province != '' %}
+                        {{ order.billing_address.province }}<br>
+                      {% endif %}
+                      {{ order.billing_address.zip | upcase }}<br>
+                      {{ order.billing_address.country }}<br>
+                      {{ order.billing_address.phone }}
+                    </p>
+                  </div>
+                </div>
+              </div>
+              <div class="panel panel-default">
+                <div class="panel-heading" role="tab" id="headingThree">
+                  <h4 class="panel-title">
+                  <a role="button" data-toggle="collapse" data-parent="#accordion" href="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                    <span class="count"></span>
+                    <span>{{ 'customer.order.shipping_address' | t }}</span>
+                  </a>
+                  </h4>
+                </div>
+                <div id="collapseThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+                  <div class="panel-body">
+                     <h3>{{ 'customer.order.shipping_address' | t }}</h3>
+                    <p><strong>{{ 'customer.order.fulfillment_status' | t }}:</strong> {{ order.fulfillment_status_label }}</p>
+
+                    <p>{{ order.shipping_address.name }}</p>
+                    <p>
+                      {% if order.shipping_address.company != '' %}
+                        {{ order.shipping_address.company }}<br>
+                      {% endif %}
+                      {{ order.shipping_address.street }}<br>
+                      {{ order.shipping_address.city }}<br>
+                      {% if order.shipping_address.province != '' %}
+                        {{ order.shipping_address.province }}<br>
+                      {% endif %}
+                      {{ order.shipping_address.zip | upcase }}<br>
+                      {{ order.shipping_address.country }}<br>
+                      {{ order.shipping_address.phone }}
+                    </p>
+
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</section>

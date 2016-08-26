@@ -1,0 +1,49 @@
+<!-- HEADER -->
+<header class="header">
+	<div class="header-content">
+		<div class="container">
+			<div class="row">
+				<div class="content-seach col-md-4 col-sm-4 col-xs-12">
+					<div class="header-search">
+						<form action="/search" method="get" id="search_mini_form">
+							<div class="form-search clearfix">
+								<label for="search">{{'general.search.title' | t }}</label>
+								<button class="button" title="{{'general.search.submit' | t }}" type="submit"><span><span><i aria-hidden="true" data-icon="U" class="fs1"></i></span></span></button>
+								<input type="search" placeholder="{{ 'general.search.placeholder' | t }}" maxlength="128" class="input-text required-entry" value="" name="q" id="search" autocomplete="off">
+							</div>
+						</form>
+					</div>
+				</div>
+				<div class="content-logo col-md-4 col-sm-4 col-xs-12">
+					<div class="header-logo">
+						<h1 class="logo" itemscope itemtype="http://schema.org/Organization">
+							{% if settings.logo_1_enable %}
+			                	<a href="/" itemprop="url"><img itemprop="logo" src="{{ 'logo-1.png' | asset_url }}" alt="{{ shop.name }}" class="img-responsive"></a>
+			                {% else %}
+			                	<a href="/" itemprop="url">{{shop.name | upcase }}</a>
+			                {% endif %}
+						</h1>
+					</div>
+				</div>
+				<div class="content-cart menu-mobile col-md-4 col-sm-4 col-xs-12">
+					<!-- Mobile menu toggle button-->
+					<a href="#" class="menu-toggle btn"><i class="fa fa-bars"></i></a>
+					<!-- /Mobile menu toggle button-->
+					<div class="miniCartWrap pull-right">
+						{% include 'mini-cart' %}
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<div class="header header-sticky home5">
+		<div class="container">
+			<div class="header-wrapper clearfix">
+				<!-- Navigation -->
+	          	{% include 'mega-menu' %}
+	          	<!-- /Navigation -->
+			</div>
+		</div>
+    </div>
+</header>
+<!-- /HEADER -->

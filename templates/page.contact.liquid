@@ -1,0 +1,91 @@
+{% assign view_type = settings.sidebar_page_view %}
+{% assign view_value  = '' %}
+{% if view_type == 'right' %}
+  {% assign view_value  = 'pull-right' %}
+{% endif %}
+
+<!-- BREADCRUMBS -->
+{% include 'breadcrumb'%}
+<!-- /BREADCRUMBS -->
+
+<!-- PAGE SECTION WITH SIDEBAR -->
+<section class="page-section  with-sidebar no-padding-top">
+  <h2 class="hidden">page</h2>
+  <div class="container">
+    <div class="row">
+      {% unless view_type == 'none' %}
+      <!-- sidebar -->
+       {% include 'sidebar-single-page' %}
+      <!-- /sidebar -->
+      {% endunless %}
+       <section class="content {% if view_type != 'none' %} col-sm-8 col-md-9 {% else %} col-sm-12 {% endif %}">
+        <div class="page-faq-content">
+          <div class="title-page">
+            <h2>{{ page.title }}</h2>
+            <h4>{{'general.meta.last_update' | t }} {{ page.published_at | date: "%B %d, %Y" }}</h4>
+          </div>
+          <div class="faq-wrapper">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+              {{ page.content }}
+            </div>
+          </div>
+        </div>
+        <!-- Leave a message -->
+        <div class="contact-form">
+          <h4 class="block-title">{{ 'contact.form.leave_message' | t }}</h4>
+          {% form 'contact' %}
+            {% if form.posted_successfully? %}
+              <p class="form-success">
+                {{ 'contact.form.post_success' | t }}
+              </p>
+            {% endif %}
+            {{ form.errors | default_errors }}
+            <div class="col-md-4 no-padding-left text-left">
+              <div class="af-outer af-required">
+                <div class="form-group af-inner">
+                    <input
+                        type="text" id="ContactFormName" name="contact[name]" placeholder="{{ 'contact.form.name' | t }}" value="{% if form[name] %}{{ form[name] }}{% elsif customer %}{{ customer.name }}{% endif %}" size="30"
+                        data-toggle="tooltip" title="Name is required"
+                        class="form-control placeholder"/>
+                </div>
+              </div>
+              <div class="af-outer af-required">
+                <div class="form-group af-inner">
+                  <input type="email" id="ContactFormEmail" name="contact[email]" placeholder="{{ 'contact.form.email' | t }}" autocorrect="off" autocapitalize="off" value="{% if form.email %}{{ form.email }}{% elsif customer %}{{ customer.email }}{% endif %}" data-toggle="tooltip" title="Email is required"
+                        class="form-control placeholder"/>
+                </div>
+              </div>
+              <div class="af-outer af-required">
+                <div class="form-group af-inner">
+                  <input type="tel" id="ContactFormPhone" name="contact[phone]" placeholder="{{ 'contact.form.phone' | t }}" pattern="[0-9\-]*" value="{% if form[phone] %}{{ form[phone] }}{% elsif customer %}{{ customer.phone }}{% endif %}" data-toggle="tooltip" title="Phone number is required"
+                        class="form-control placeholder"/>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-8 text-left">
+                <div class="form-group af-inner">
+                    <textarea
+                        id="ContactFormMessage" name="contact[body]" placeholder="{{ 'contact.form.message' | t }}" rows="5" cols="50"
+                        data-toggle="tooltip" title="Message is required"
+                        class="form-control placeholder">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                </div>
+            </div>  
+            <div class="col-md-12 no-padding-left text-left">
+                <div class="af-outer af-required">
+                    <div class="form-group af-inner">
+                        <input type="submit" name="submit" class="form-button form-button-submit btn btn-theme" id="submit_btn" value="{{ 'contact.form.send' | t }}" />
+                    </div>
+                </div>
+            </div>
+          {% endform %}
+          <br>
+          <br>
+          <br>
+        </div>
+        <!-- /Leave a message -->
+      </section>
+      
+    </div>
+  </div>
+</section>
+<!-- /PAGE SECTION WITH SIDEBAR -->

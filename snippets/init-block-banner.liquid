@@ -1,0 +1,52 @@
+{% for i in (1..6) %}
+	{% capture banner_collection_tmp %}banner_{{i}}_collection{% endcapture %}
+	{% assign banner_collection = collections[settings[banner_collection_tmp]] %}
+	{% capture banner_page_enable_tmp %}banner_{{i}}_page_enable{% endcapture %}
+	{% assign banner_page_enable = settings[banner_page_enable_tmp] %}
+
+	{% if settings[banner_page_enable] %}
+		{% capture banner_page_url %}banner_{{i}}_page{% endcapture %}
+		{% assign banner_url = settings[banner_page_url] %}
+	{% else %}
+		{% capture banner_custom_url %}banner_{{i}}_url{% endcapture %}
+		{% if  settings[banner_custom_url] != "" %}
+			{% assign banner_url = settings[banner_custom_url] %}
+		{% else %}
+			{% assign banner_url = banner_collection.url %}
+		{% endif %}
+	{% endif %}
+
+	{% capture banner_image_enable %}banner_{{i}}_custom_image{% endcapture %}
+	{% if settings[banner_image_enable] %}
+		{% capture banner_image_tmp %}banner_{{i}}_image.jpg{% endcapture %}
+		{% capture banner_image %}{{ banner_image_tmp | asset_url }}{% endcapture %}
+	{% else %}
+		{% capture banner_image %}{{ banner_collection.image | img_url: '1024x1024' }}{% endcapture %}
+	{% endif %}
+	{% case i %}
+		{% when 1 %}
+			{% assign banner_1_collection =  banner_collection %}
+			{% assign banner_1_image =  banner_image %}
+			{% assign banner_1_url =  banner_url %}
+		{% when 2 %}
+			{% assign banner_2_collection =  banner_collection %}
+			{% assign banner_2_image =  banner_image %}
+			{% assign banner_2_url =  banner_url %}
+		{% when 3 %}
+			{% assign banner_3_collection =  banner_collection %}
+			{% assign banner_3_image =  banner_image %}
+			{% assign banner_3_url =  banner_url %}
+		{% when 4 %}
+			{% assign banner_4_collection =  banner_collection %}
+			{% assign banner_4_image =  banner_image %}
+			{% assign banner_4_url =  banner_url %}
+		{% when 5 %}
+			{% assign banner_5_collection =  banner_collection %}
+			{% assign banner_5_image =  banner_image %}
+			{% assign banner_5_url =  banner_url %}
+		{% when 6 %}
+			{% assign banner_6_collection =  banner_collection %}
+			{% assign banner_6_image =  banner_image %}
+			{% assign banner_6_url =  banner_url %}
+	{% endcase %}
+{% endfor %}

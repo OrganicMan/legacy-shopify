@@ -1,0 +1,54 @@
+<!-- BREADCRUMBS -->
+{% comment %}
+{% include 'breadcrumb'%}
+{% endcomment %}
+<!-- /BREADCRUMBS -->
+{% assign view_type = settings.sidebar_blog_view %}
+{% assign view_value  = '' %}
+{% if view_type == 'right' %}
+  {% assign view_value  = view_type %}
+{% endif %}
+
+<section class="page-section padding-top with-sidebar">
+  <h2 class="hidden">page</h2>
+  <div class="container">
+    <!-- PAGE SECTION WITH SIDEBAR -->
+    <div class="row">
+      {% paginate blog.articles by 3 %}
+      <!-- content -->
+      <section id="content" class="content col-sm-10 col-sm-offset-1 {% if view_type == 'none' %}col-md-10 col-md-offset-1{% elsif view_type == 'right' %}col-md-7 col-md-offset-1{% else %}col-md-7 col-md-push-3{% endif %}">
+        <h2 class="hidden">content</h2>
+        {% for article in blog.articles %}
+        <article class="thumbnail">
+          <a href="{{article.url}}">
+            <img class="img-responsive" src="{{article.image| img_url:'1024x1024'}}" alt="{{article.title}}"/>
+          </a>
+          <div class="caption">
+            <p class="text-muted"><small>Written by {{article.author}} on {{ article.published_at | date: "%B %d, %y"}}</small></p>
+            <h3><a href="{{article.url}}">{{article.title}}</a></h3>
+            <p>{{article.content | strip_html | truncatewords: 30 }}</p>
+            <p>
+              <a href="{{article.url}}" class="text-muted" role="button">read more...</a>
+            </p>
+          </div>
+        </article>
+        {% endfor %}
+        <!-- Pagination -->
+        {% include 'pagination' %}
+        <!-- /Pagination -->
+      </section>
+      <!-- /content -->
+      {% unless view_type == 'none' %}
+      <!-- sidebar -->
+      {% include 'sidebar-blog' %}
+      <!-- /sidebar -->
+      {% endunless %}
+      
+      {% endpaginate %}
+
+    </div>
+    <!-- /row -->
+  </div>
+  <!-- /container -->
+</section>
+<!-- /section -->

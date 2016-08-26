@@ -1,0 +1,88 @@
+<!-- Tyler 6/28/2016
+ redirect "/collections" and "/pages"
+ to homepage or "/collections/all-products"
+-->
+{% if template == 'list-collections' %}
+<script>window.location.href = '/collections/all-products';</script>
+{% endif %}
+
+<!-- Tyler 6/28/2016
+ Comment out page since it's a redirect. Nothing needs to be loaded
+-->
+
+{% comment %}
+<!-- BREADCRUMBS -->
+{% include 'breadcrumb'%}
+<!-- /BREADCRUMBS -->
+
+{% assign view_type = settings.sidebar_collection_view %}
+{% assign view_value  = '' %}
+{% if view_type == 'right' %}
+  {% assign view_value  = 'pull-right' %}
+{% endif %}
+{% paginate collections by 12 %}
+<!-- PAGE SECTION WITH SIDEBAR -->
+<section class="page-section with-sidebar no-padding-top">
+  <h2 class="hidden">page</h2>
+  <div class="container">
+    <div class="row">
+      {% comment %}<div class="text-center container">
+       <h2>{{ collection.title | upcase }}</h2>
+      </div>{% endcomment %}
+      {% unless view_type == 'none' %}
+      <!-- sidebar -->
+      {% include 'sidebar-category' %}
+      <!-- /sidebar -->
+      {% endunless %}
+      <!-- content -->
+      <section class="content {% if view_type != 'none' %} col-sm-8 col-md-9 {% else %} col-sm-12 {% endif %}">
+        <h2 class="hidden">content</h2>
+        <div class="row thumbnails collection-row">
+          {% for collection in collections %}
+            {% if collection.image and collection.description != "" %}
+              <div class="collection-thumbnail{% if view_type != 'none' %} col-lg-4 col-md-4 col-sm-6 col-xs-6 col-xsp-12 {% else %} col-md-3 col-sm-4 col-xsp-6 {% endif %} ">
+                <div class="item" data-handle="{{collection.handle}}" data-price="{{collection.price}}" data-variant="{{collection.variants[0].id}}">
+                  <div class="product-item">
+                    <div class="per-product">
+                      <div class="images-container">
+                        <div class="product-hover">
+                          <a class="overlay" href="#"></a>
+                          
+                            <img width="280" height="357" class="img-responsive" src="{{ collection.image | img_url:'large' }}" alt="{{ collection.title }}">
+                         
+                        </div>
+                        <div class="collection-action hover-box">
+                          <div class="actions">
+                            <div class="collection-description">
+                              <p class="text-left">{{ collection.description | strip_html | truncate: 200 }}</p>
+                            </div>
+                            <div class="collection-button">
+                            <button class="button" onclick="location.href='{{ collection.url}}';"><span>{{'collections.general.browse_collection' | t }}</span></button>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="products-textlink clearfix">
+                        <h2 class="product-name">
+                          <a href="{{ collection.url}}" title="{{ collection.title }}">{{ collection.title }} (<span class="text-danger">{{ collection.products_count }}</span>)</a>
+                        </h2>
+                        <br>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          {% endfor %}
+        </div>
+        <!-- Pagination -->
+        {% include 'pagination' %}
+        <!-- /Pagination -->
+      </section>
+      <!-- /content -->
+    </div>
+  </div>
+</section>
+{% endpaginate %}
+<!-- /PAGE SECTION WITH SIDEBAR -->
+{% endcomment %}

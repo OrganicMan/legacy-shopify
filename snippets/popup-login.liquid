@@ -1,0 +1,44 @@
+<div class="modal fade popup-login" id="popup-login" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title">{{'customer.login.title' | t }}</h4>
+          </div>
+          {% form 'customer_login' %}
+            <div class="modal-body">
+              <input type="hidden" value="customer_login" name="form_type">
+              <input type="hidden" name="utf8" value="✓">
+              {{ form.errors | default_errors }}
+                <div class="row">
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="CustomerEmail">{{'customer.login.email' | t }}</label>
+                      <input id="CustomerEmail" name="customer[email]" type="email" class="form-control"/>
+                    </div>
+                  </div>
+                  <div class="col-sm-6">
+                    <div class="form-group">
+                      <label for="CustomerPassword">{{'customer.login.password' | t }}</label>
+                      <input id="CustomerPassword" type="password" name="customer[password]" class="form-control"/>
+                    </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col-sm-12">
+                    <div class="form-group">
+                      <div class="remember-text">
+                        <input type="checkbox" class="checkbox" id="checkbox"><span>{{'customer.login.remember' | t }}</span>
+                      </div>
+                      <a href="/account/login" class="forgot">{{'customer.login.forgot_password' | t }}</a>
+                    </div>
+                  </div>
+              </div>
+            </div>
+            <div class="modal-footer">
+                <button type="submit" class="button" ><span>{{'customer.login.title' | t }}</span></button>
+            </div>
+          {% endform %}
+      </div>
+  </div>
+</div>

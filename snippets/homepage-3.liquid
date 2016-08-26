@@ -1,0 +1,151 @@
+<!-- Give ability to enable/disable in admin -->
+<div class="jumbotron">
+  <div class="wrapper">
+    <h1>Florida's Favorite Beard Care Products</h1>
+    <p>Enjoy a strong, soft beard without the discomforts of dry, itchy skin.</p>
+    <a href="/products" class="btn btn-lg btn-success">Shop Now</a>
+    <a href="/freesample" class="btn btn-lg btn-primary">Free Sample</a>
+    <p>
+      <small>Sample Citrus, Camper, and Spice free with S&amp;H.</small>
+    </p>
+  </div>
+</div>
+
+{% comment %}
+<div id="main"> <!-- Give ability to enable/disable in admin -->
+    <!-- SLIDER -->
+    <section class="page-section no-padding">
+    	<h2 class="hidden">slider</h2>
+        <div class="container full-width">
+	        {% if settings.slideshow_enable %}
+				<div id="main">
+				    <!-- SLIDER -->
+				    <section class="page-section no-padding">
+				    	<h2 class="hidden">slider</h2>
+				        <div class="container full-width">
+							{% include 'owl-slide-main' %}
+					    </div>
+				    </section>
+				    <!-- /SLIDER -->
+				</div>
+			{% endif %}
+			<!-- /OWL SLIDE SHOW -->
+        </div>
+    </section>
+    <!-- /SLIDER -->
+</div>
+{%endcomment%}
+
+<!-- ABOUT US -->
+{% if settings.about_us_enabled %}
+	{% include 'about-us' %}
+{% endif %}
+<!-- ABOUT US -->
+
+<!-- FEATURED PRODUCTS -->
+{% if settings.featured_products_enable %}
+	{% include 'product-featured' %}
+{% endif %}
+<!-- /FEATURED PRODUCTS -->
+
+<!-- HOW IT WORKS -->
+{% if settings.how_it_works_enabled %}
+	{% include 'how-it-works' %}
+{% endif %}
+<!-- HOW IT WORKS -->
+
+{% if settings.block_banner_enable %}
+	{% include 'init-block-banner' %}
+	<!-- BLOCK BANNER -->
+	<section id="block-banner">
+		<h2 class="hidden">banner</h2>
+		<div class="container">
+			<div class="row">
+				<div class="pa-lines container-nor banner-home4">
+					<div class="banner1 banner-inner">
+						<div class="banner1-1">
+							<div class="banner-inner-left col-lg-3 col-md-3 col-sm-3 col-xs-12 fadeInUp alo-animate" >
+								<div class="banner-inner-content">
+									<div class="column-normal column-1-2">
+										<a href="{{banner_1_url}}"><img src="{{ banner_1_image }}" alt="{{settings.banner_1_des_1}}" class="img-responsive-normal"> </a>
+										<div class="box-text box-text-possion">
+											{% assign banner1_title = banner_1_collection.title | split: ' ' %}
+											<h4>{{ settings.banner_1_des_1 }}</h4>
+											{% for word in banner1_title %}
+												<h3>{{ word }}</h3>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="banner-inner-centter col-lg-6 col-md-6 col-sm-6 col-xs-12 text-right fadeInUp alo-animate" >
+								<div class="banner-inner-content">
+									<div class="column column-1-2">
+										<a href="{{banner_2_url}}"><img src="{{ banner_2_image }}" alt="{{settings.banner_2_des_1}}" class="img-responsive-normal"> </a>
+										<div class="box-text box-text-possion">
+											<h4>{{ banner_2_collection.title }}</h4>
+											<h3>{{ settings.banner_2_des_1 }}</h3>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="banner-inner-right col-lg-3 col-md-3 col-sm-3 col-xs-12 size1of3-last fadeInUp alo-animate">
+								<div class="banner-inner-content">
+									<div class="column column-1-3">
+										<a href="{{banner_3_url}}">
+											<img src="{{ banner_3_image }}" alt="{{settings.banner_3_des_1}}" class="img-responsive-normal">
+										</a>
+										<div class="box-text box-text-possion">
+											{% assign banner3_title = banner_3_collection.title | split: ' ' %}
+											<h4>{{ settings.banner_3_des_1 }}</h4>
+											{% for word in banner3_title %}
+												<h3>{{ word }}</h3>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- /BLOCK BANNER -->
+{% endif %}
+
+
+
+
+
+<!-- PAGE Testimonials -->
+{% if settings.testimonials_enable %}
+	{% include 'testimonials' %}
+{% endif %}
+<!-- /PAGE Testimonials -->
+
+<!-- PAGE Brand -->
+{% if settings.page_brands_enable %}
+	{% include 'page-brands' %}
+{% endif %}
+<!-- /PAGE Brand -->
+
+
+<!-- PAGE Blog -->
+{% if settings.page_blog_enable %}
+	{% include 'page-blog' %}
+{% endif %}
+<!-- /PAGE Blog -->
+
+
+<!-- Supports -->
+{%comment%}
+{% if settings.support_desk_enable %}
+	{% include 'support-desk' %}
+{% endif %}
+{%endcomment%}
+<!-- /Supports -->	
+
+<!-- Instagram -->
+{% include 'instagram-feed' %}
+<!-- /Instagram -->

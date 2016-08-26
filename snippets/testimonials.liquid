@@ -1,0 +1,30 @@
+<section class="page-section block-testimonials fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s" id="testimonials">
+	<h2 class="hidden">testimonials</h2>
+    <div class="container">
+		<div class="testimonials-content">
+			<div id="testimonials-slider" class="owl-carousel owl-theme">
+				{% for i in (1..4) %}
+					{% capture testimonial %}testimonial_{{ i }}_enable{% endcapture %}
+					{% capture testimonial_thumb %}testimonial_{{ i }}_thumb.jpg{% endcapture %}
+					{% capture testimonial_content %}testimonial_{{ i }}_content{% endcapture %}
+					{% capture testimonial_author %}testimonial_{{ i }}_author{% endcapture %}
+					{% capture testimonial_des %}testimonial_{{ i }}_description{% endcapture %}
+					{% if settings[testimonial] %}
+						<div class="item">
+							<div class="customer">
+								<img width="70" height="70" title="images" alt="images" src="{{ testimonial_thumb | asset_url }}" class="avatar" />
+							</div>
+							<div class="testimonial_text">
+								<span class="sub-text">
+									{{ settings[testimonial_content] }} 
+								</span>
+								<p class="title-name">{{ settings[testimonial_author] }} </p>
+								<p class="name">{{ settings[testimonial_des] }} </p>
+							</div>
+						</div>
+					{% endif %}
+				{% endfor %}
+			</div>
+		</div>
+    </div>
+</section>

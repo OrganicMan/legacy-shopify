@@ -1,0 +1,128 @@
+{% include 'init-block-banner' %}
+{% if settings.slideshow_enable %}
+	<div id="main">
+		<!-- SLIDER -->
+		<section class="page-section no-padding margin-alide">
+			<h2 class="hidden">slide</h2>
+		    <div class="container">
+				<div class="row">
+					<!-- Slider -->
+					<div class="home-slide6">
+						<div class="slide-left padding-right10 col-lg-8 col-md-8 col-sm-8 col-xs-12 fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s" >
+							{% include 'owl-slide-main' %}
+						</div>
+						<div class="padding-left10 banner-home6 col-lg-4 col-md-4 col-sm-4 col-xs-12 fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s">
+							<div class="banner-inner-content margin-bottom20">
+								<div class="column column-1-1">
+									<a href="{{banner_1_url}}"><img src="{{ banner_1_image }}" alt="Banner 1" class="img-responsive"> </a>
+									<div class="box-text box-text-possion">
+										<h4>{{ settings.banner_1_des_1 }}</h4>
+										{% assign banner1_title = banner_1_collection.title | split: ' ' %}
+										{% for word in banner1_title %}
+											<h3>{{ word }}</h3>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+							<div class="banner-inner-content ">
+								<div class="column column-1-2">
+									<a href="{{banner_2_url}}"><img src="{{banner_2_image }}" alt="Banner" class="img-responsive"> </a>
+									<div class="box-text box-text-possion">
+										<h4>{{ banner_2_collection.title }}</h4>
+										<h3>{{ settings.banner_2_des_1 }}</h3>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+		    </div>
+		</section>
+		<!-- /SLIDER -->
+	</div>
+{% endif %}
+<!-- Supports -->
+{% if settings.support_desk_enable %}
+	{% include 'support-desk' %}
+{% endif %}
+<!-- /Supports -->	
+{% if settings.block_banner_enable %}
+	<!-- PAGE BANNER -->
+	<section id="block-banner">
+		<h2 class="hidden">banner</h2>
+		<div class="container">
+			<div class="row">
+				<div class="pa-lines container-nor banner-home6">
+					<div class="banner1 banner-inner">
+						<div class="banner1-1">
+							<div class="banner-inner-left col-xs-12 col-sm-8 col-md-8 no-right-gutter padding-right10 fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s">
+								<div class="row">
+									<div class="col-xs-12 col-sm-12 col-md-12 margin-bottom20">
+										<div class="banner-inner-content banner3">
+											<div class="column-normal column-1-1">
+												<a href="{{banner_3_url}}"><img src="{{ banner_3_image }}" alt="Banner" class="img-responsive"> </a>
+												<div class="box-text box-text-possion box-text-possion-left">
+													<h2>{{banner_3_collection.title}}</h2>
+													<h4>{{ settings.banner_3_des_1 }}</h4>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-xs-12 col-sm-6 col-md-6 padding-right10">
+										<div class="banner-inner-content banner4">
+											<div class="column-normal column-1-1">
+												<a href="{{banner_4_url}}"><img src="{{ banner_4_image }}" alt="Banner" class="img-responsive"> </a>
+												<div class="box-text box-text-possion">
+													<h4>{{ banner_4_collection.title}}</h4>
+													<h3>{{ settings.banner_4_des_1 }}</h3>
+													<h3>
+														<strong>{{ settings.banner_4_des_2 }}</strong> 
+														{{ settings.banner_4_des_3 }}
+													</h3>
+												</div>
+											</div>
+										</div>
+									</div>
+									<div class="col-xs-12 col-sm-6 col-md-6 padding-left10">
+										<div class="banner-inner-content text-center banner5">
+											<div class="column-normal column-1-1">
+												<a href="{{banner_5_url}}"><img src="{{ banner_5_image }}" alt="Banner" class="img-responsive"> </a>
+												<div class="box-text box-text-possion">
+													<h4>{{ settings.banner_5_des_1 }}</h4>
+													<h3>{{ banner_5_collection.title}}</h3>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="banner-inner-centter col-xs-12 col-sm-4 col-md-4 no-left-gutter padding-left10 fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s">
+								<div class="banner-inner-content banner6">
+									<div class="column column-1-2">
+										<a href="{{banner_6_url}}"><img src="{{ banner_6_image }}" alt="Banner" class="img-responsive"> </a>
+										<div class="box-text box-text-possion">
+											<h3>{{ banner_6_collection.title}}</h3>
+											<h4>{{ settings.banner_6_des_1 }}</h4>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+{% endif %}
+<!-- PAGE Brand -->
+{% if settings.page_brands_enable %}
+	{% include 'page-brands' %}
+{% endif %}
+<!-- /PAGE Brand -->
+<!-- PAGE Blog -->
+{% if settings.page_blog_enable %}
+	{% include 'page-blog' %}
+{% endif %}
+<!-- /PAGE Blog -->

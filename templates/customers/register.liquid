@@ -1,0 +1,102 @@
+<section class="page-section page-login">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+        <div class="form-box">
+          <div class="form-top">
+            <div class="row">
+              <div class="col-xs-9">
+                <h3>Create Account</h3>
+                <p class="text-muted">Create an account to checkout quicker, track orders, and access purchase history.</p>
+              </div>
+              <div class="col-xs-3 text-right">
+                <i class="fa fa-user-plus fa-5x form-box-icon"></i>
+              </div>
+            </div>
+          </div>
+          <div class="form-bottom">
+            {% form 'create_customer' %}
+            {% if form.errors %}
+              <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <i class="fa fa-fw fa-warning"></i>
+                {% for field in form.errors %}	
+                	{{form.errors.messages[field]}}
+                {% endfor %}
+              </div>
+            {% endif %}
+            <div class="form-group">
+              <label class="sr-only" for="firstName">{{ 'customer.register.first_name' | t }}</label>
+              <input id="firstName" type="text" name="customer[first_name]" placeholder="{{ 'customer.register.first_name' | t }}" class="form-control input-lg" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} autocapitalize="words">
+            </div>
+            <div class="form-group">
+              <label class="sr-only" for="lastName">{{ 'customer.register.last_name' | t }}</label>
+              <input id="lastName" type="text" name="customer[last_name]" placeholder="{{ 'customer.register.last_name' | t }}" class="form-control input-lg" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} autocapitalize="words">
+            </div>
+            <div class="form-group">
+              <label class="sr-only" for="email">{{ 'customer.register.email' | t }}</label>
+              <input id="email" type="text" name="customer[email]" placeholder="{{ 'customer.register.email' | t }}" class="form-control input-lg" {% if form.email %}value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off">
+            </div>
+            <div class="form-group">
+              <label class="sr-only" for="password">{{ 'customer.register.password' | t }}</label>
+              <input id="password" type="password" name="customer[password]" placeholder="{{ 'customer.register.password' | t }}" class="form-control input-lg" >
+            </div>
+            <button type="submit" value="Create Account" title="Create Account" name="signup" class="btn btn-success btn-lg btn-block">Create Account</button>
+            {% endform %}
+          </div>
+        </div>
+        <div class="text-center">
+          <hr/>
+          <p class="lead">Already have an account?</p>
+          <a href="/account/login" class="btn btn-lg btn-primary">Login</a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+{% comment %}
+<section class="page-section page-login">
+<div class="login-left col-lg-6 col-md-6 col-sm-6 col-xs-12">
+  <div class="signup-day">
+    <div class="block-title">
+      <h2>{{ 'customer.register.welcome' | t }}</h2>
+    </div>
+    <ul>
+      <li><input type="checkbox" class="checkbox" id="checkbox2" checked="checked"><span>{{ 'customer.register.welcome_1' | t }}</span></li>
+      <li><input type="checkbox" class="checkbox" id="checkbox3" checked="checked"><span>{{ 'customer.register.welcome_2' | t }}</span></li>
+      <li><input type="checkbox" class="checkbox" id="checkbox4" checked="checked"><span>{{ 'customer.register.welcome_3' | t }}</span></li>
+    </ul>
+  </div>
+</div>
+<div class="login-right col-lg-6 col-md-6 col-sm-6 col-xs-12">
+  <div class="block-title">
+    <h2>{{ 'customer.register.title' | t }}</h2>
+  </div>
+  <div class="block-content">
+    <p>{{ 'customer.register.sub_title' | t }}</p>
+    <div class="form-creat-content">
+      {% form 'create_customer' %}
+        {{ form.errors | default_errors }}
+        <div class="form-group">
+          <label for="FirstName">{{ 'customer.register.first_name' | t }}</label>
+          <input class="form-control" type="text" name="customer[first_name]" id="FirstName" placeholder="{{ 'customer.register.first_name' | t }}" {% if form.first_name %}value="{{ form.first_name }}"{% endif %} autocapitalize="words" autofocus>
+
+          <label for="LastName">{{ 'customer.register.last_name' | t }}</label>
+          <input class="form-control" type="text" name="customer[last_name]" id="LastName" placeholder="{{ 'customer.register.last_name' | t }}" {% if form.last_name %}value="{{ form.last_name }}"{% endif %} autocapitalize="words">
+
+          <label for="Email">{{ 'customer.register.email' | t }}<em>*</em></label>
+          <input class="form-control" type="email" name="customer[email]" id="Email" placeholder="{{ 'customer.register.email' | t }}" {% if form.email %} value="{{ form.email }}"{% endif %} autocorrect="off" autocapitalize="off">
+          <label for="CreatePassword">{{ 'customer.register.password' | t }}</label>
+          <input type="password" name="customer[password]" id="CreatePassword" class="form-control" placeholder="{{ 'customer.register.password' | t }}">
+        </div>
+        <div class="form-group">
+          <button id="signup" value="{{ 'customer.register.submit' | t }}" name="signup" title="{{ 'customer.register.submit' | t }}" class="button" type="submit"><span><span>{{ 'customer.register.submit' | t }}</span></span></button>
+        </div>
+      {% endform %}
+    </div>
+  </div>
+</div>
+</section>
+{%endcomment%}

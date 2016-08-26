@@ -1,0 +1,86 @@
+{{ 'magicaccordion.css' | asset_url | stylesheet_tag }}
+
+<aside class="sidebar col-sm-4 col-md-3 {{view_value}}">
+    {% if settings.sidebar_page_menu != "" %}
+        <div class="widget-menu">
+          <div class="block block-anav">
+            <div class="block-title">
+              <strong><span>{{ linklists[settings.sidebar_page_menu].title }}</span></strong>
+            </div>
+            <div id="menu-left">
+              <ul class="nav-accordion">
+                {% for link in linklists[settings.sidebar_page_menu].links %}
+                  {% assign child_list_handle = link.title | handle %}
+                  {% if linklists[child_list_handle] and linklists[child_list_handle].links.size > 0 %}
+                    <li class="has-sub">
+                      {{ link.title | link_to: link.url }}
+                      <ul class="toggle-content">
+                        {% for child_link in linklists[child_list_handle].links %}
+                          {% assign grand_child_list_handle = child_link.title | handle %}
+                          {% if linklists[grand_child_list_handle] and linklists[grand_child_list_handle].links.size > 0 %}
+                            <li>
+                              {{ child_link.title | link_to: child_link.url }}
+                              <ul>
+                                {% for grand_child_link in linklists[grand_child_list_handle].links %}
+                                  <li>
+                                    {{ grand_child_link.title | link_to: grand_child_link.url }}
+                                  </li>
+                                {% endfor %}
+                              </ul>
+                            </li>
+                          {% else %}
+                            <li>
+                              {{ child_link.title | link_to: child_link.url }}
+                            </li>
+                          {% endif %}
+                        {% endfor %}
+                      </ul>
+                    </li>
+                  {% else %}
+                    <li>
+                      {{ link.title | link_to: link.url }}
+                    </li>
+                  {% endif %}
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+    {% endif %}
+
+    {% if settings.subcribe_letter_form_enable %}
+        <div class="widget">
+            <h4 class="widget-title">{{ 'layout.sidebar_blog.newsletter_caption' | t }}</h4>
+
+            <form method="post" action="{{settings.newsletter_form_action}}">
+                <div class="form-group">
+                    <input type="email" placeholder="{{ 'layout.sidebar_blog.newsletter_placeholder' | t }}" class="form-control"
+                           name="EMAIL" title="{{ 'layout.sidebar_blog.newsletter_title' | t }}">
+                    <input type="submit" hidden="hidden"/>
+                </div>
+            </form>
+        </div>
+    {% endif %}
+
+    {% if settings.social_twitter_widget_enable %}
+        <div class="widget">
+            <h4 class="widget-title">{{ 'layout.sidebar_blog.tweet_recent' | t }}</h4>
+            <div class="recent-tweets">
+                {{ settings.social_twitter_widget_code }}
+            </div>
+        </div>
+    {% endif %}
+
+</aside>
+
+<script type="text/javascript">
+    jQuery(document).ready(function($) {
+      $(".nav-accordion").magicaccordion({
+          accordion:true,
+          speed: 400,
+          closedSign: 'collapse',
+          openedSign: 'expand',
+          easing: 'easeInOutQuad'
+      });
+    });
+</script>

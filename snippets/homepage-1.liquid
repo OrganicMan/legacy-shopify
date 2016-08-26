@@ -1,0 +1,148 @@
+{% if settings.slideshow_enable %}
+	<div id="main">
+	    <!-- SLIDER -->
+	    <section class="page-section no-padding">
+	    	<h2 class="hidden">slider</h2>
+	        <div class="container full-width">
+				{% include 'owl-slide-main' %}
+		    </div>
+	    </section>
+	    <!-- /SLIDER -->
+	</div>
+{% endif %}
+<!-- /OWL SLIDE SHOW -->
+<!-- BLOCK BANNER -->
+{% if settings.block_banner_enable %}
+	{% include 'init-block-banner' %}
+	<!-- PAGE BANNER -->
+	<section id="block-banner">
+		<h2 class="hidden">banner</h2>
+		<div class="container">
+			<div class="row">
+				<div class="pa-lines container ">
+					<div class="banner1 banner-inner size1of9">
+						<div class="banner1-1">
+							<!-- BANNER 1-->
+							<div class="banner-inner-mall size1of3 text-right fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s">
+								<div class="banner-inner-content">
+									<div class="column column-1-1">
+										<div class="box-text">
+											<h4>{{ settings.banner_1_des_1 }}</h4>
+											<h3>{{ banner_1_collection.title }}</h3>
+											<p>{{ settings.banner_1_des_2 }}</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="banner-inner-mall size1of3 fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s">
+								<div class="banner-inner-content">
+									<div class="column al-style-2 column-1-2">
+										<a href="{{banner_1_url }}"><img width="280" height="280" src="{{ banner_1_image }}" alt="{{ banner_1_image }}" class="img-responsive-normal"> </a>
+									</div>
+								</div>
+							</div>
+							<!-- /BANNER 1-->
+
+							<!-- BANNER 2-->
+							<div class="banner-inner-big size1of3 no-margin fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s">
+								<div class="banner-inner-content border">
+									<div class="column-normal column-1-3">
+										<div class="box-text">
+											<h4>{{ settings.banner_2_text_1 }}</h4>
+											<a href="{{banner_2_url}}"><h3>{{ settings.banner_2_text_2 }}</h3></a>
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /BANNER 2-->
+						</div>
+						<div class="banner1-2">
+							<!-- BANNER 3-->
+							<div class="banner-inner-big size1of3 fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s">
+								<div class="banner-inner-content">
+									<div class="column-normal column-1-4">
+										<a href="{{banner_3_url}}"><img width="280" height="280" src="{{banner_3_image}}" alt="Banner 3" class="img-responsive-normal"> </a>
+										<div class="box-text box-text-possion">
+											<h4>{{ settings.banner_3_des_1 }}</h4>
+											{% assign banner3_title = banner_3_collection.title | split: ' ' %}
+											{% for word in banner3_title %}
+												<h3>{{ word }}</h3>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>
+							<!-- /BANNER 3-->
+
+							<!-- BANNER 4-->
+							<div class="banner-inner-mall size1of3 text-right fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s">
+								<div class="banner-inner-content">
+									<div class="column column-1-5">
+										<div class="box-text">
+											<h4>{{ settings.banner_4_des_1 }}</h4>
+											<h3>{{ banner_4_collection.title }}</h3>
+											<p>{{ settings.banner_4_des_2 }}</p>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div class="banner-inner-mall size1of3 no-margin fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s">
+								<div class="banner-inner-content">
+									<div class="column al-style-2 column-1-6">
+										<a href="{{banner_4_url}}"> <img width="280" height="280" src="{{banner_4_image}}" alt="Banner 4" class="img-responsive-normal"> </a>
+									</div>
+								</div>
+							</div>
+							<!-- /BANNER 4-->
+						</div>
+					</div>
+
+					<!-- BANNER 5-->
+					<div class="banner2 banner-inner size1of3 fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s">
+						<div class="banner-inner-content">
+							<a href="{{banner_5_url}}"><img width="280" height="580" src="{{banner_5_image}}" alt="Banner 5" class="img-responsive-normal"> </a>
+							<div class="box-text box-text-possion">
+								<h4>{{ settings.banner_5_des_1 }}</h4>
+								{% assign banner5_title = banner_5_collection.title | split: ' ' %}
+								{% for word in banner5_title %}
+									<h3>{{ word }}</h3>
+								{% endfor %}
+							</div>
+						</div>
+					</div>
+					<!-- /BANNER 5-->
+				</div>
+			</div>
+		</div>
+	</section>
+{% endif %}
+<!-- /BLOCK BANNER -->
+<!-- FEATURED PRODUCTS -->
+{% if settings.featured_products_enable %}
+	{% include 'product-featured' %}
+{% endif %}
+<!-- /FEATURED PRODUCTS -->
+
+<!-- PAGE Testimonials -->
+{% if settings.testimonials_enable %}
+	{% include 'testimonials' %}
+{% endif %}
+<!-- /PAGE Testimonials -->
+
+<!-- PAGE Blog -->
+{% if settings.page_blog_enable %}
+	{% include 'page-blog' %}
+{% endif %}
+<!-- /PAGE Blog -->
+
+<!-- PAGE Brand -->
+{% if settings.page_brands_enable %}
+	{% include 'page-brands' %}
+{% endif %}
+<!-- /PAGE Brand -->
+
+<!-- Supports -->
+{% if settings.support_desk_enable %}
+	{% include 'support-desk' %}
+{% endif %}
+<!-- /Supports -->	

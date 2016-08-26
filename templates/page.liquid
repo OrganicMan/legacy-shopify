@@ -1,0 +1,37 @@
+{% assign view_type = settings.sidebar_page_view %}
+{% assign view_value  = '' %}
+{% if view_type == 'right' %}
+  {% assign view_value  = 'pull-right' %}
+{% endif %}
+
+<!-- BREADCRUMBS -->
+{% include 'breadcrumb'%}
+<!-- /BREADCRUMBS -->
+
+<!-- PAGE SECTION WITH SIDEBAR -->
+<section class="page-section  with-sidebar no-padding-top">
+  <h2 class="hidden">page</h2>
+  <div class="container">
+    <div class="row">
+      {% unless view_type == 'none' %}
+      <!-- sidebar -->
+       {% include 'sidebar-single-page' %}
+      <!-- /sidebar -->
+      {% endunless %}
+       <section class="content {% if view_type != 'none' %} col-sm-8 col-md-9 {% else %} col-sm-12 {% endif %}">
+        <div class="page-faq-content">
+          <div class="title-page">
+            <h2>{{ page.title }}</h2>
+            <h4>{{'general.meta.last_update' | t }} {{ page.published_at | date: "%B %d, %Y" }}</h4>
+          </div>
+          <div class="faq-wrapper">
+            <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+              {{ page.content }}
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </div>
+</section>
+<!-- /PAGE SECTION WITH SIDEBAR -->

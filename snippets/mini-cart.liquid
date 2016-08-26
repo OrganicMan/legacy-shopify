@@ -1,0 +1,57 @@
+<a class="mini-maincart" href="/checkout">
+  <div class="cartSummary">
+    <div class="crat-icon">
+      <span class="icon_cart_alt"></span>
+      <span class="zero">{{ cart.item_count }} </span>
+      <p class="mt-cart-title">{{ 'cart.general.title' | t }}</p>
+    </div>
+	{% comment %}
+    <div class="cart-header">
+      <p class="cart-tolatl">
+        <span><span class="price">{{ cart.total_price | money }}</span></span>
+      </p>
+    </div> 
+    {% endcomment %}
+  </div>
+  {% comment %}
+  <div class="mini-contentCart">
+    <div class="block-content">
+      <p class="block-subtitle">{{ 'cart.general.recent_cart' | t }}</p>
+      <ol class="mini-products-list clearfix" id="cart-sidebar">
+        {% if cart.item_count == 0 %}
+          <p>{{ 'cart.general.empty' | t }}</p>
+          <p>{{ 'cart.general.continue_browsing_html' | t }}</p>
+        {% else %}
+          {% for item in cart.items %}
+            <li class="item clearfix" data-id="{{ item.id }}">
+              <div class="cart-content-top">
+                <a class="product-image" title="{{ item.product.title }}" href="{{ item.url }}">
+                  <img width="60" height="77" alt="{{ item.product.title }}" src="{{ item |  img_url: 'medium'}}">
+                </a>
+                <div class="product-details">
+                <p class="product-name">
+                  <a href="{{ item.url }}">{{ item.product.title }}</a>
+                </p>
+                <strong>{{ item.quantity }}</strong> x <span class="price">{{ item.price | money }}</span>                                
+                </div>
+              </div>
+              <div class="cart-content-bottom">
+                <div class="clearfix">
+                  <a class="btn-remove btn-remove2" title="{{ 'cart.general.remove' | t }}" href="#"><i class="icon-close icons"></i></a>
+                </div>
+              </div>
+            </li>
+          {% endfor %}
+        {% endif %}
+      </ol>
+      <p class="subtotal">
+        <span class="label">{{ 'cart.general.subtotal' | t }}</span> <span class="price">{{ cart.total_price | money }}</span>
+      </p>
+      <div class="actions">
+        <a class="view-cart" href="/cart">{{ 'cart.general.view_cart' | t }} </a>
+        <a  class="checkout btn-call-checkout" href="/checkout">{{ 'cart.general.checkout' | t }} </a>
+      </div>
+    </div>
+  </div>
+  {% endcomment %}
+</a>

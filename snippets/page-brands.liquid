@@ -1,0 +1,19 @@
+<section class="page-section latest-blog no-padding-bottom fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s" id="brand">
+	<h2 class="hidden">Brand</h2>
+    <div class="container">
+        <div class="partners-carousel">
+            <div class="owl-carousel" id="partners">
+            	{% for i in (1..10) %}
+            		{% capture brand_name %}brand_{{i}}_name{% endcapture %}
+            		{% capture brand_img %}brand_{{i}}_icon.jpg{% endcapture %}
+            		{% capture brand_url %}brand_{{i}}_url{% endcapture %}
+            		{% if settings[brand_name] != "" %}
+            			<div>
+            				<a target="_blank" href="{% if settings[brand_url] != '' %} {{ settings[brand_url] }} {% else %} {{ '#'}} {% endif %}"><img width="69" height="72.3" title="{{ settings[brand_name] }}" src="{{brand_img|asset_url}} " alt="{{ settings[brand_name] }}"/></a>
+            			</div>
+            		{% endif %}
+            	{% endfor %}
+            </div>
+        </div>
+    </div>
+</section>

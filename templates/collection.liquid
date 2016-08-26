@@ -1,0 +1,148 @@
+
+<!-- BREADCRUMBS -->
+{% include 'breadcrumb'%}
+<!-- /BREADCRUMBS -->
+
+
+{% assign view_type = settings.sidebar_collection_view %}
+{% assign view_value  = '' %}
+{% if view_type == 'right' %}
+  {% assign view_value  = 'pull-right' %}
+{% endif %}
+{% assign number_limit = settings.product_pagination_limit %}
+{% if number_limit == blank %}
+  {% assign number_limit = 12 %}
+{% endif %}
+{% paginate collection.products by number_limit %}
+<!-- PAGE SECTION WITH SIDEBAR -->
+<section class="page-section with-sidebar no-padding-top">
+  <h2 class="hidden">page</h2>
+  <div class="container">
+    <div class="row">
+      {% comment %}<div class="text-center container">
+       <h2>{{ collection.title | upcase }}</h2>
+      </div>{% endcomment %}
+      {% unless view_type == 'none' %}
+      <!-- sidebar -->
+      {% include 'sidebar-category' %}
+      <!-- /sidebar -->
+      {% endunless %}
+      <!-- content -->
+      <section class="content {% if view_type != 'none' %} col-sm-8 col-md-9 {% else %} col-sm-12 {% endif %}">
+        <h2 class="hidden">content</h2>
+        {% if paginate.current_page == 1 %}
+          {% if settings.collection_publish_date_enable %}
+            <div class="post-header" style="margin: 0;">
+              <div class="post-meta">{{ collection.published_at | date: "%B %d, %Y" }} </div>
+              <h2 class="post-title">{{ collection.title }}</h2>                    
+            </div>
+          {% else %}
+            <h3 style="margin:0px 0px 25px">{{ collection.title | upcase }}</h3>
+          {% endif %}
+          {% if settings.collection_description_enable %}
+            <div class="post-body">
+              <p>{{ collection.description }}</p>
+            </div>
+          {% endif %}
+        {% endif %}
+        <div class="row shop-sorting">
+          <div class="col-sm-12">
+           {% include 'collection-sorting' %}
+            <div class ="list-grid">
+              <ul>
+                <li  class ="grid current"><a class="switch_view" title="{{'layout.view.grid' | t }}" data-view="grid" href ="#"><span>{{'layout.view.grid' | t }}</span></a></li>
+                <li  class ="list"><a class="switch_view" title="{{'layout.view.list' | t }}" data-view="list"  href ="#"><span>{{'layout.view.list' | t }}</span></a></li>
+              </ul>
+            </div>
+
+          </div>
+        </div>
+        <div class="row thumbnails products">
+          <!-- Popup product quick view -->
+          {% include 'product-quickview' %}
+          <!-- ./Popup product quick view -->
+          {% for product in collection.products %}
+            {% for variant in product.variants %}
+              {% if variant.price < variant.compare_at_price %} 
+                {% assign is_sale = true %}
+                {% break %}
+              {% else %}
+                {% assign is_sale = false %}
+                {% break %}
+              {% endif %}
+            {% endfor %}
+            <div class="product-thumbnail {% if view_type != 'none' %} col-lg-4 col-md-4 col-sm-6 col-xs-6 col-xsp-12 {% else %} col-md-3 col-sm-4 col-xsp-6 {% endif %} ">
+              
+              <div class="item" data-handle="{{product.handle}}" data-price="{{product.price}}" data-variant="{{product.variants[0].id}}">
+                <div class="product-item">
+                  <div class="per-product">
+                    <div class="images-container">
+                      <div class="product-hover">
+                        {% assign product_check = product.handle %}
+                        {% for new_product in collections['new-products'].products %}
+                          {% if new_product.handle == product_check %}
+                            <span class="sticker top-left"><span class="labelnew">{{'products.product.is_new' | t }}</span></span>
+                            {% break %}
+                          {% endif %}
+                        {% endfor %}
+                        {% if is_sale == true %} 
+                          <span class="sticker top-right"><span class="labelsale">{{'products.product.is_sale' | t }}</span></span>
+                        {% endif %}
+                        <a class="overlay" href="#"></a>
+                        <a href="#" class="product-image">
+                          <img width="280" height="357" class="img-responsive" src="{{ product.images[0] | img_url:'large' }}" alt="{{ product.title }}">
+                          <span class="product-img-back">
+                            <img width="280" height="357" class="img-responsive" src="{% if product.images[1] %} {{ product.images[1] | img_url:'large' }} {% else %} {{ product.images[0] | img_url:'large' }} {% endif %}" alt="{{ product.title }}">
+                          </span>
+                        </a>
+                      </div>
+                      <div class="actions-no hover-box"> 
+                        <div class="actions">
+                          <button type="submit" name="add" title="{{ 'products.product.add_to_cart' | t }}" class="button btn-cart pull-left-none btn-quick-add-to-cart">
+                            <span><i class="icon_cart_alt"></i><span>{{ 'products.product.add_to_cart' | t }}</span></span>
+                          </button>
+                          <ul class="add-to-links pull-left-none">
+                            {%comment %}
+                            <li class="link-view pull-left-none"> 
+                              <a href="#" class="btn-quickview" data-toggle="modal" title="{{ 'products.general.quick_view' | t }}" data-target="#popup-product-view"><i class="fa fa-search"></i>{{ 'products.general.quick_view' | t }}</a>
+                            </li>
+                            {% endcomment %}
+                            {% if settings.wishlist_compare_enable %}
+                              <li class="pull-left-none">
+                                <a href="wishlist.html" title="{{'products.product.add_to_wish_list' | t }}" class="link-wishlist"><i class="fa fa-heart-o"></i>{{'products.product.add_to_wish_list' | t }}
+                                </a>
+                              </li>
+                            {% endif %}
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="products-textlink clearfix">
+                      <h2 class="product-name">
+                        <a href="{{ product.url}}" title="{{ product.title }}">{{ product.title }}</a>
+                      </h2>
+                      <div class="price-box">
+                        <span class="regular-price">
+                          {% if is_sale == true %} 
+                            <span class="price compare-price">{{ product.compare_at_price | money }}</span>&nbsp;&nbsp;&nbsp;
+                          {% endif %}
+                          <span class="price">{{ product.price | money }}</span>
+                        </span>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+        <!-- Pagination -->
+        {% include 'pagination' %}
+        <!-- /Pagination -->
+      </section>
+      <!-- /content -->
+    </div>
+  </div>
+</section>
+{% endpaginate %}
+<!-- /PAGE SECTION WITH SIDEBAR -->

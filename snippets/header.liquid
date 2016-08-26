@@ -1,0 +1,26 @@
+{% assign theme_layout = settings.homepage_view %}
+{% case theme_layout %}
+  {% when 'option1' %}
+    <link href="{{ 'slide.css' | asset_url }}" property='stylesheet' rel="stylesheet" type="text/css" media="none" onload="if(media!='all')media='all'">
+    {% include 'header.style-1' %}
+  {% when 'option2' %}
+    <link href="{{ 'slide2.css' | asset_url }}" property='stylesheet' rel="stylesheet" type="text/css" media="none" onload="if(media!='all')media='all'">
+    {% include 'header.style-1' %}
+  {% when 'option3' %}
+	{% if settings.slideshow_enable %}
+    	<link href="{{ 'slide3.css' | asset_url }}" property='stylesheet' rel="stylesheet" type="text/css"  media="none" onload="if(media!='all')media='all'">
+	{%endif%}
+    {% include 'header.style-2' %}
+  {% when 'option4' %}
+    <link href="{{ 'slide4.css' | asset_url }}" property='stylesheet' rel="stylesheet" type="text/css" media="none" onload="if(media!='all')media='all'">
+    {% include 'header.style-1' %}
+  {% when 'option5' %}
+    <link href="{{ 'slide5.css' | asset_url }}" property='stylesheet' rel="stylesheet" type="text/css" media="none" onload="if(media!='all')media='all'">
+    {% include 'header.style-3' %}
+  {% when 'option6' %}
+    <link href="{{ 'slide6.css' | asset_url }}" property='stylesheet' rel="stylesheet" type="text/css" media="none" onload="if(media!='all')media='all'">
+    {% include 'header.style-3' %}
+  {% else %}
+     <h1>HOMEPAGE VIEW SETTING ERROR</h1>
+{% endcase %}
+

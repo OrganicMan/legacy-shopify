@@ -1,0 +1,40 @@
+<section class="page-section blog fadeInUp alo-animate" data-wow-duration="1s" data-wow-delay="0.4s" id="blog-page">
+	<h2 class="hidden">blog</h2>
+    <div class="container">
+		<div class="blog-content">
+			<div class="block-title">
+				<h3 class="section-title">
+					<span>{{'blogs.article.latest_blog' | t }}</span>
+					<span class="hr"></span>
+				</h3>
+			</div>
+			<div id="slide-blog" class="owl-carousel owl-theme">
+				{% assign choosen_blog = settings.blog_choosen %}
+				{% assign number_to_show = settings.blog_number_allow %}
+				{% if number_to_show == blank %}
+				{% assign number_to_show = 5 %}
+				{% endif %}
+				{% for article in blogs[choosen_blog].articles limit: number_to_show %}
+					<div class="item">
+						<div class="postcontent">
+							<div class="blog-image al-style-2 image-container">
+								<a href="{{ article.url }}">
+									<img alt="imgBlog" width="280" height="280" src="{{ article.image | img_url:'large' }}" class="img-responsive">
+								</a>
+							</div>
+							<div class="blog_short_text">
+								<div class="blog_text">
+									<div class="post-date">
+									   <span>{{ article.published_at | date: '%b %d %Y' }}</span>
+									</div>
+									<a href="#"><span class="title">{{ article.title | truncate: 30 }}</span></a>
+									<a href="{{ article.url }}" class="read-more-blog">{{'blogs.article.read_more' | t }}<i class="fa fa-angle-double-right"></i></a>
+								</div>
+							</div>
+						</div>
+					</div>
+				{% endfor %}
+			</div>
+		</div>
+    </div>
+</section>

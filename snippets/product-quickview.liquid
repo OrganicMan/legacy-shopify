@@ -1,0 +1,140 @@
+<div class="modal fade popup-product-view" id="popup-product-view" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="container">
+            <div class="modal-content">
+                <div class="extended_product_page" id="extended_product_page">
+                    <div class="modal-header">
+                        <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+                        <h2 class="modal-title">Product Name</h2>
+                    </div>
+                    <div class="modal-body">
+                        <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-form" id="QuickAddToCartForm">
+                            <div class="no-display">
+                            </div>
+                            <div class="row product-single blocks">
+                                <div class="col-lg-5 col-md-4 col-sm-5 col-xsp-6">
+                                    <div class="block">
+                                        <div class="owl-carousel product-img-carousel">
+                                            {% comment %}Product images{% endcomment %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="product-shop col-md-7 col-sm-7 col-xs-12">
+                                    <div class="product-shop-content">
+                                        <div class="product-name">
+                                            <h2>Product Name</h2>
+                                        </div>
+                                        <div id="product-review">
+                                            {% comment %}NOT AVAILABLE{% endcomment %}
+                                        </div>
+                                        <br/>
+                                        <div class="product-type-data">
+                                            <div class="price-box"> 
+                                                <span class="regular-price" > 
+                                                    {% comment %}Product Price{% endcomment %}
+                                                </span>
+                                            </div>
+                                            <p class="availability in-stock">{{ 'products.product.availability' | t }}: <span>{% comment %}Stock availability {% endcomment %}</span></p>
+                                        </div>
+                                        <div class="short-description">
+                                            {% comment %}short-description{% endcomment %}
+                                        </div>
+                                        <div class="product-options-wrapper">
+                                            {% comment %} product variants {% endcomment %}
+                                        </div>
+                                        <div class="product-options-bottom">
+                                            <div class="product-qty"> 
+                                              <label for="QuickQuantity">{{ 'products.product.quantity' | t }}:</label>
+                                              <div class="custom-qty">
+                                                <button  type="button" class="reduced items" onclick="var result = document.getElementById('QuickQuantity');   var qty = result.value;  if (!isNaN(qty) && qty > 1)result.value--; return false;"> <i class="fa fa-minus-square-o"></i> </button> 
+                                                <input type="number" id="QuickQuantity" name="quantity" value="1" title="Quantity" class="input-text qty" /> 
+                                                <button  type="button" class="increase items" onclick="var result = document.getElementById('QuickQuantity');   var qty = result.value;  if (!isNaN(qty)) result.value++;return false;"> <i class="fa fa-plus-square-o"></i> </button>
+                                              </div>
+                                            </div>
+                                            <div class="add-to-cart"> 
+                                                <button type="submit" id="QuickAddToCart" title="{{ 'products.product.add_to_cart' | t }}" class="button btn-cart">
+                                                    <span> <span class="view-cart">{{ 'products.product.add_to_cart' | t }}</span> </span>
+                                                </button>
+                                            </div>
+                                            <ul class="add-to-links">
+                                                {% if settings.wishlist_compare_enable %}
+                                                    <li> 
+                                                        <a href="wishlist.html"   title="{{ 'products.product.add_to_wish_list' | t }}" class="link-wishlist"> <i class="icon-heart icons"></i> {{ 'products.product.add_to_wish_list' | t }} </a>
+                                                    </li>
+                                                {% endif %}
+                                                <li>
+                                                    <a href="#" class="link-compare addto-compare" title="{{ 'products.product.add_to_compare' | t }}"> <i class="icon-bar-chart icons"></i> {{ 'products.product.add_to_compare' | t }} </a>
+                                                </li>
+                                                <li>
+                                                    <a href="#" class="link-compare" title="{{ 'products.product.email_to_friend' | t }}"><i class="fa fa-envelope-o"></i> {{ 'products.product.email_to_friend' | t }}</a>
+                                                </li>
+                                            </ul>
+                                            
+                                        </div>
+                                        {% if settings.social_sharing_products %}
+                                            <div class="share_this">
+                                                <h2>{{ 'products.general.share_title' | t }}</h2>
+                                                {% include 'social-connect' %}
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-theme" data-dismiss="modal">{{'general.password_page.close' | t }}</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<script type="text/javascript">
+  $('#QuickAddToCart').on('click', function(){
+    if($('#popup-product-view .variant_select').length > 0){
+      var pass_gates = [];
+      $('#popup-product-view .variant_select').each(function(event){
+      if($(this).val() == ""){
+        pass_gates.push(false);
+        $( this ).css( "border-color", "red" );
+      }else{
+        pass_gates.push(true);
+        $( this ).css( "border-color", "rgb(169, 169, 169)" );
+      }
+      })
+      if($.inArray(false,pass_gates) == -1 ){
+        //Continue add to cart
+      }else{
+        event.preventDefault();
+      }
+    }else{
+      var variant_id = $('.variant_field').val();
+      $('#popup-product-view #product_id').attr('value', variant_id);      
+    }
+  })
+  // VALIDATE BEFORE ADD TO CART
+  $(document).on('change', '#popup-product-view .variant_select', function(){
+    var variant_title = '';
+    var counter = 0;
+    $('#popup-product-view .variant_select').each(function(){
+      if($(this).val() != ""){
+        $(this).css( "border-color", "rgb(169, 169, 169)" );
+        variant_title += $(this).val();
+        if(counter < $('#popup-product-view .variant_select').length - 1 ){
+          variant_title += " / ";
+        }
+      }
+      counter++;
+    })
+    var variant = $('.variant_field[variant-title="'+variant_title+'"]');
+    var variant_id = variant.val();
+    var variant_price = variant.attr('variant-price');
+    variant_price = Shopify.formatMoney(variant_price, moneyFormat);
+    var variant_compare_price = variant.attr('compare-at-price');
+    variant_compare_price = Shopify.formatMoney(variant_price, moneyFormat);
+    $('#popup-product-view #product_id').attr('value', variant_id);
+    $('#popup-product-view .price').html(variant_price);
+    $('#popup-product-view .price.compare-price').html(variant_compare_price);
+  })
+</script>

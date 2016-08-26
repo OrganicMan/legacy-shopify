@@ -1,0 +1,21 @@
+{% if settings.subcribe_letter_popup_enable %}
+  {% include 'subcribe-letter' %}
+{% endif %}
+<!-- Popup subcribe letter  -->
+{% assign theme_layout = settings.homepage_view %}
+{% case theme_layout %}
+  {% when 'option1' %}
+     {% include 'homepage-1' %}
+  {% when 'option2' %}
+     {% include 'homepage-2' %}
+  {% when 'option3' %}
+  	{% include 'homepage-3' %}
+  {% when 'option4' %}
+  	{% include 'homepage-4' %}
+  {% when 'option5' %}
+  	{% include 'homepage-5' %}
+  {% when 'option6' %}
+  	{% include 'homepage-6' %}
+  {% else %}
+     <h1>HOMEPAGE VIEW SETTING ERROR</h1>
+{% endcase %}

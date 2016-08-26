@@ -1,0 +1,105 @@
+{% include 'init-block-banner' %}
+<!-- Supports -->
+{% if settings.support_desk_enable %}
+	{% include 'support-desk' %}
+{% endif %}
+<!-- /Supports -->	
+{% if settings.slideshow_enable %}
+	<div id="main">
+	<!-- SLIDER -->
+		<section class="page-section no-padding">
+			<h2 class="hidden">vertical menu</h2>
+			<div class="container">
+			<div class="row">
+				<div class="col-lg-3 col-md-3 col-sm-3 col-xs-12 padding-vertical7 fadeInUp alo-animate">
+					<div class="vertical-menu">
+						{% include 'vertical-menu' %}
+					</div>
+				</div>
+				<div class="col-lg-9 col-md-9 col-sm-9 col-xs-12">
+					<!-- Slider -->
+					<div class="home-slide2 ">
+						<div class="row">
+							<div class="slide-left col-lg-8 col-md-8 col-sm-8 col-xs-12 fadeInUp alo-animate">
+								{% include 'owl-slide-main' %}
+							</div>
+							<div class="banner-inner-right slide-right col-lg-4 col-md-4 col-sm-4 col-xs-12 size1of3-last ">
+								<div class="banner-inner-content fadeInUp alo-animate">
+									<div class="column column-1-3">
+										<a href="{{banner_1_url}}">
+											<img src="{{ banner_1_image }}" alt="Banner 1" class="img-responsive">
+										</a>
+										<div class="box-text box-text-possion">
+											<h4>{{ settings.banner_1_des_1 }}</h4>
+											{% assign banner1_title = banner_1_collection.title | split: ' ' %}
+											{% for word in banner1_title %}
+												<h3>{{ word }}</h3>
+											{% endfor %}
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</section>
+	</div>
+	<!-- /SLIDER -->
+{% endif %}
+
+<!-- PAGE BANNER -->
+<section id="block-banner">
+	<h2 class="hidden">banner</h2>
+	<div class="container">
+		<div class="row">
+			<div class="pa-lines container-nor banner-home5">
+				<div class="banner1 banner-inner">
+					<div class="banner1-1">
+						<div class="banner-inner-left padding7 col-lg-3 col-md-3 col-sm-3 col-xs-12 fadeInLeft alo-animate">
+							<div class="banner-inner-content">
+								<div class="column-normal column-1-2">
+									<a href="{{banner_2_url}}"><img src="{{banner_2_image }}" alt="Banner 3" class="img-responsive"> </a>
+									<div class="box-text box-text-possion">
+										<h4>{{ settings.banner_2_des_1 }}</h4>
+										{% assign banner2_title = banner_2_collection.title | split: ' ' %}
+										{% for word in banner2_title %}
+											<h3>{{ word }}</h3>
+										{% endfor %}
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="banner-inner-centter padding12 col-lg-9 col-md-9 col-sm-9 col-xs-12 text-right fadeInRight alo-animate">
+							<div class="banner-inner-content">
+								<div class="column column-1-2">
+									<a href="{{banner_3_url}}"><img src="{{ banner_3_image }}" alt="Banner" class="img-responsive"> </a>
+									<div class="box-text box-text-possion">
+										<h4>{{banner_3_collection.title}}</h4>
+										<h3>{{ settings.banner_3_des_1 }}</h3>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</section>
+<!-- FEATURED PRODUCTS -->
+{% if settings.featured_products_enable %}
+	{% include 'product-featured' %}
+{% endif %}
+<!-- /FEATURED PRODUCTS -->
+<!-- PAGE Blog -->
+{% if settings.page_blog_enable %}
+	{% include 'page-blog' %}
+{% endif %}
+<!-- /PAGE Blog -->
+{% include 'product-column' %}
+<!-- PAGE Brand -->
+{% if settings.page_brands_enable %}
+	{% include 'page-brands' %}
+{% endif %}
+<!-- /PAGE Brand -->

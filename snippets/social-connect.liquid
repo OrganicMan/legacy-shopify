@@ -1,0 +1,35 @@
+{% if template contains 'article' or template contains 'blog' %}
+  {% capture permalinkURL %}{{ shop.url }}{{ article.url }}{% endcapture %}
+  {% capture shareTitle %}{{ article.title | url_param_escape }}{% endcapture %}
+{% elsif template contains 'product' %}
+  {% capture permalinkURL %}{{ shop.url }}{{ product.url }}{% endcapture %}
+  {% capture shareTitle %}{{ product.title | url_param_escape }}{% endcapture %}
+{% elsif template == 'password' %}
+  {% capture permalinkURL %}{{ shop.url }}{% endcapture %}
+  {% capture shareTitle %}{% unless shop.description == blank %}{{ shop.description | url_param_escape }}{% else %}{{ shop.name | url_param_escape }}{% endunless %}{% endcapture %}
+{% else %}
+	{% capture permalinkURL %}{{ shop.url }}{% endcapture %}
+  {% capture shareTitle %}{% unless shop.description == blank %}{{ shop.description | url_param_escape }}{% else %}{{ shop.name | url_param_escape }}{% endunless %}{% endcapture %}
+{% endif %}
+
+<ul id="ul-social-connect" class="list-inline">
+  {% if settings.share_twitter %}
+  <li class="li-twitter"><a data-toggle="tooltip" data-placement="top" title="Share {{product.title}} to Twitter" title="Twitter" href="//twitter.com/share?text={{ shareTitle }}&amp;url={{ permalinkURL }}" target="_blank" class="btn btn-social btn-twitter"><i class="fa fa-twitter"><span class="hidden">twitter</span></i></a></li>
+  {% endif %}
+  {% if settings.share_facebook %}
+  <li class="li-facebook"><a data-toggle="tooltip" data-placement="top" title="Share {{product.title}} to Facebook" title="Facebook" href="//www.facebook.com/sharer.php?u={{ permalinkURL }}" target="_blank" class="btn btn-social btn-facebook"><i class="fa fa-facebook"><span class="hidden">facebook</span></i></a></li>
+  {% endif %}
+  {% if settings.share_pinterest %}
+  <li class="li-pinterest"><a data-toggle="tooltip" data-placement="top" title="Share {{product.title}} to Pinterest" title="Pinterest" href="//pinterest.com/pin/create/button/?url={{ permalinkURL }}&amp;media=http:{% if template contains 'product' %}{{ product | img_url: '1024x1024' }}{% else %}{{ article | img_url: '1024x1024' }}{% endif %}&amp;description={{ shareTitle }}" target="_blank" class="btn btn-social btn-pinterest"><i class="fa fa-pinterest"><span class="hidden">pinterest</span></i></a></li>
+  {% endif %}
+  {% if settings.share_google %}
+  <li class="li-google"><a data-toggle="tooltip" data-placement="top" title="Share {{product.title}} to Google+" title="Google+" href="//plus.google.com/share?url={{ permalinkURL }}" target="_blank" class="btn btn-social btn-google-plus"><i class="fa fa-google-plus"><span class="hidden">google_plus</span></i></a></li>
+  {% endif %}
+  {% if settings.share_fancy %}
+  <li class="li-fancy"><a data-toggle="tooltip" data-placement="top" title="Share {{product.title}} to Fancy" title="Fancy" href="//fancy.com/fancyit?ItemURL={{ permalinkURL }}&amp;Title={{ shareTitle }}&amp;Category=Other&amp;ImageURL={% if template contains 'product' %}{{ product | img_url: '1024x1024' }}{% else %}{{ article | img_url: '1024x1024' }}{% endif %}" target="_blank" class="btn btn-social btn-fancy"><i class="fa fa-fancy"><span class="hidden">fancy</span></i></a></li>
+  {% endif %}
+</ul>
+
+<script type="text/javascript">
+	var shop_url = "{{shop.secure_url }}";
+</script>

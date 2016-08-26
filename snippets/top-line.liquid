@@ -1,0 +1,68 @@
+<div class="top-line">
+  <div class="container">
+    <div class="row">
+      <div class="top-left col-md-5 col-sm-5 col-xs-5">
+        <p class="welcome-msg">{{ settings.homepage_message }}</p>
+      </div>
+      <div class="top-right col-md-7 col-sm-7 col-xs-7">
+        <div class="header-setting">
+          <div class="settting-switcher">
+            {% assign has_link = false %}
+            {% for i in (1..10) %}
+              {% capture link_text %}top_link_{{i}}{% endcapture %}
+              {% capture link_url %}top_link_{{i}}_url{% endcapture %}
+              {% if settings[link_text] != "" and settings[link_url] != "" %}
+                {% assign has_link = true %}
+              {% endif %}
+            {% endfor %}
+            {% if has_link == true %}
+              <div class="dropdown-toggle">
+                <div class="text-setting">{{'layout.navigation.links' | t }}</div>
+              </div>
+              <div class="dropdown-switcher">
+                <div class="top-links-alo">
+                  <div class="header-top-link">
+                    <ul class="links">
+                      {% for i in (1..10) %}
+                        {% capture link_text %}top_link_{{i}}{% endcapture %}
+                        {% capture link_url %}top_link_{{i}}_url{% endcapture %}
+                        {% if settings[link_text] != "" and settings[link_url] != "" %}
+                          <li><a {% if settings[link_url] contains 'http' %}target="_blank" {% endif %} title="{{settings[link_text]}}" href="{{settings[link_url]}}">{{settings[link_text]}}</a></li>
+                        {% endif %}
+                      {% endfor %}
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            {% endif %}
+          </div>
+          <ul class="top-links list-unstyled">
+            {% if customer %}
+              <li class="login">
+                <a href="/account">{{ 'layout.customer.account' | t }}</a>
+              </li>
+              <li>
+                <span class="or">{{ 'layout.customer.or' | t }}</span>
+              </li>
+              <li class="login">
+                <a href="/account/logout">{{ 'layout.customer.log_out' | t }}</a>
+              </li>
+            {% else %}
+              <li class="login">
+                <a href="/account/login">{{ 'layout.customer.log_in' | t }}</a>
+              </li>
+            {% endif %}
+            {% unless customer %}
+              <li>
+                <span class="or">{{ 'layout.customer.or' | t }}</span>
+              </li>
+              <li class="first">
+                <a title="Register" href="/account/register">{{ 'layout.customer.create_account' | t }}  </a>
+              </li>
+            {% endunless %}
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

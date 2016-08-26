@@ -1,0 +1,74 @@
+<section class="page-section page-login">
+  <div class="container">
+    <div class="row">
+      <div class="col-sm-8 col-sm-offset-2 col-md-6 col-md-offset-3">
+        <div class="form-box">
+          <div class="form-top">
+            <div class="row">
+              <div class="col-xs-9">
+                <h3>Confirm Password</h3>
+                <p class="text-muted">To activate your account, confirm your password.</p>
+              </div>
+              <div class="col-xs-3 text-right">
+                <i class="fa fa-user-plus fa-5x form-box-icon"></i>
+              </div>
+            </div>
+          </div>
+          {% form 'activate_customer_password' %}
+          <div class="form-bottom">
+            {% if form.errors %}
+              <div class="alert alert-warning alert-dismissable">
+                <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <i class="fa fa-fw fa-warning"></i>
+                {% for field in form.errors %}	
+                	{{form.errors.messages[field]}}
+                {% endfor %}
+              </div>
+            {% endif %}
+            <div class="form-group">
+              <label class="sr-only" for="password">{{ 'customer.activate_account.password' | t }}</label>
+              <input id="password" type="password" name="customer[password]" placeholder="{{ 'customer.activate_account.password' | t }}" class="form-control input-lg" >
+            </div>
+            <div class="form-group">
+              <label class="sr-only" for="passwordConfirmation">{{ 'customer.activate_account.password_confirm' | t }}</label>
+              <input id="passwordConfirmation" type="password" name="customer[password_confirmation]" placeholder="{{ 'customer.activate_account.password_confirm' | t }}" class="form-control input-lg" >
+            </div>
+            <button type="submit" class="btn btn-success btn-lg btn-block">Confirm Password</button>
+          </div>
+          <p class="text-center text-muted">
+            <button type="submit" name="decline" class="btn btn-link">Decline Account Invite</button>
+          </p>
+          {% endform %}
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<div class="grid">
+
+  <div class="grid__item medium-up--one-half medium-up--push-one-quarter">
+    <div class="content-block text-center">
+      <h1>{{ 'customer.activate_account.title' | t }}</h1>
+      <p>{{ 'customer.activate_account.subtext' | t }}</p>
+
+      <div class="form-vertical">
+        {% form 'activate_customer_password' %}
+
+          {{ form.errors | default_errors }}
+
+          <label for="CustomerPassword" class="label--hidden">{{ 'customer.activate_account.password' | t }}</label>
+          <input type="password" value="" name="customer[password]" id="CustomerPassword" placeholder="{{ 'customer.activate_account.password' | t }}">
+
+          <label for="CustomerPasswordConfirmation" class="label--hidden">{{ 'customer.activate_account.password_confirm' | t }}</label>
+          <input type="password" value="" name="customer[password_confirmation]" id="CustomerPasswordConfirmation" placeholder="{{ 'customer.activate_account.password_confirm' | t }}">
+
+          <input type="submit" class="btn" value="{{ 'customer.activate_account.submit' | t }}">
+          <input type="submit" class="text-link link-accent-color" name="decline" value="{{ 'customer.activate_account.cancel' | t }}">
+        {% endform %}
+      </div>
+    </div>
+  </div>
+</div>

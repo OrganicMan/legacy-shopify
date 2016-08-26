@@ -1,0 +1,129 @@
+<!doctype html>
+<!--[if lt IE 7]><html class="no-js lt-ie9 lt-ie8 lt-ie7" lang="en"> <![endif]-->
+<!--[if IE 7]><html class="no-js lt-ie9 lt-ie8" lang="en"> <![endif]-->
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en"> <![endif]-->
+<!--[if IE 9]> <html class="ie9 supports-no-js" lang="{{ shop.locale }}"> <![endif]-->
+<!--[if (gt IE 9)|!(IE)]><!--> <html class="supports-no-js" lang="{{ shop.locale }}"> <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta name="theme-color" content="{{ settings.color_header_bg }}">
+
+  {% if settings.favicon_enable %}
+    <link rel="shortcut icon" href="{{ 'favicon.png' | asset_url }}" type="image/png" />
+  {% endif %}
+
+  <!-- Title and description ================================================== -->
+  <title>
+  {{ page_title }}{% if current_tags %}{% assign meta_tags = current_tags | join: ', ' %} &ndash; {{ 'general.meta.tags' | t: tags: meta_tags }}{% endif %}{% if current_page != 1 %} &ndash; {{ 'general.meta.page' | t: page: current_page }}{% endif %}{% unless page_title contains shop.name %} &ndash; {{ shop.name }}{% endunless %}
+  </title>
+
+  <!-- Social Meta Tags ================================================== -->
+  {% include 'social-meta-tags' %}
+  
+  <!-- Structured Data Meta Tags ================================================== -->
+  {% include 'structured-data-meta-tags' %}
+
+  {% if page_description %}
+    <meta name="description" content="{{ page_description | escape }}">
+  {% endif %}
+  
+  <!-- Helpers ================================================== -->
+  <link rel="canonical" href="{{ canonical_url }}">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  
+  <!--[if lt IE 9]>
+  {{ 'jquery-1.11.1.min.js' | asset_url | script_tag }}
+  <![endif]-->
+  <!--[if gte IE 9]><!-->
+  {{ 'jquery-2.1.4.min.js' | asset_url | script_tag }}
+  {{ 'jquery.cookie.js' | asset_url | script_tag }}
+  <!--<![endif]-->
+ 
+  <!-- CSS ================================================== -->
+  <link rel="stylesheet" href="{{ 'combined.min.css' | asset_url }}" media="none" onload="if(media!='all')media='screen,print'">
+  <link rel="stylesheet" href="{{ 'theme.css' | asset_url }}" media="screen,print">
+  <noscript><link rel="stylesheet" href="{{ 'combined.min.css' | asset_url }}"></noscript>
+  <noscript><link rel="stylesheet" href="{{ 'theme.css' | asset_url }}"></noscript>
+
+  {% comment %}
+    If you store has customer accounts disabled, you can remove the following JS file
+  {% endcomment %}
+  {% if template contains 'customers' %}
+    {{ 'shopify_common.js' | shopify_asset_url | script_tag }}
+  {% endif %}
+
+  {% comment %}Redirect to https protocol{% endcomment %}
+{% comment %}<script type="text/javascript">if (window.location.protocol != "https:")window.location.href = "https:" + window.location.href.substring(window.location.protocol.length);</script>{% endcomment %}
+  {{ content_for_header }}
+  <meta name="google-site-verification" content="68-6Q6HLjcPeaTus_80qwQSSXWhq7RBGw0l2ydw_dEM" />
+  <script src="https://cdn.optimizely.com/js/3327010095.js" async></script>
+</head>
+<body id="{{template}}" class="wide" style="opacity: 0;">
+  <!-- Wrap all content -->
+  {% assign theme_layout = settings.homepage_view %}
+  <div class="wrapper {% if theme_layout == 'option3' or  theme_layout == 'option2' %} homepage2 {% endif %}">
+
+    <!-- Alert & loader  -->
+    {%comment%}
+    <div class="loading-bg" style="display: none; text-align:center">
+      <img width="20" height="20" src="{{'ajax-loader.gif' | asset_url}}" alt="Loading..." class="loading-img" >
+    </div>
+    {%endcomment%}
+    <div id="milano-alert" class="milano-alert-block">
+        <span>ALERTS</span>
+    </div>
+    <!-- ./Alert & loader  -->
+
+    <!-- Login popup  -->
+    {% comment %}
+    {% include 'popup-login' %}
+    {% endcomment %}
+    
+    <!-- Only disabled top line with option 3  -->
+    {% include 'top-line' %}
+
+    {% include 'header' %}
+    <!-- Page header content  -->
+
+    <div class="content-area">
+      {{ content_for_layout }}
+    </div>
+
+    {% include 'footer' %}
+    <!-- Page footer content  -->
+    
+    <!-- Modal Compare  -->
+    {%comment%}
+    <div id="to-top" data-scroll data-scroll-to="" class="to-top"><i class="fa fa-angle-up"></i></div>
+    <style type="text/css">
+      #header2 .header-content {
+          {% if template contains 'index' and theme_layout == 'option3' %}
+            position: absolute;
+          {% else %}
+            position: static;
+            background: {% if settings.use_custom_color_enable %} {{settings.color_nav_header_bg_opt3}} {% else %} #fff {% endif %} none repeat scroll 0 0;
+          {% endif %}
+        }
+    </style>
+    {%endcomment%}
+  </div>
+  <!-- /Wrap all content -->
+  <!-- Shopify APIs -->
+  {{ 'option_selection.js' | shopify_asset_url | script_tag }}
+  {{ 'api.jquery.js' | shopify_asset_url | script_tag }}
+  {{ 'timber.js' | asset_url | script_tag }}
+  
+  <!-- Common Js -->
+  {{ 'combined.min.js' | asset_url | script_tag }}
+  <!-- Theme's JSs -->
+  {{ 'theme.js' | asset_url | script_tag }}
+  <script src='//load.sumome.com/' data-sumo-site-id='6c86e8a6b50ee3198b375a7ae3c243658f590f24f5852bda74461478fe684159' data-shopify async></script>
+  <script type="text/javscript" async>moneyFormat = {{ shop.money_format | json }};new WOW().init();</script>
+  {% include 'subscription-theme-footer' %}
+  <!-- BEEKETINGSCRIPT CODE START -->
+  {% include 'bk-tracking' %}
+  <!-- BEEKETINGSCRIPT CODE END -->
+</body>
+</html>

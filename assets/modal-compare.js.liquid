@@ -1,0 +1,298 @@
+ $(function(){
+      // $.removeCookie('compare_product');
+      // del compare product item
+      $(document).on('click', '.compare_remove_item', function(){
+        var this_item = $(this).closest('.compare_item');
+        var this_variant = this_item.attr('data-variant');
+        var compare_product = $.cookie('compare_product');
+        if(compare_product){
+          compare_product = JSON.parse(compare_product);
+
+          $.each(compare_product, function(i, v){
+            if(this_variant == v['variant']){
+
+              // del in array
+              compare_product.splice(i,1);
+
+              // replace - update cookie
+              compare_product = JSON.stringify(compare_product);
+              $.cookie('compare_product', compare_product);
+
+              // del item on form
+              this_item.remove();
+
+              return false;
+            }
+          });
+        }
+      });
+
+      // Compare add to cart:
+      $(document).on('click', '.compare_addto_card', function(){
+        var this_item = $(this).closest('.compare_item');
+        var variant_id = this_item.attr('data-variant');
+        console.log('variant_id: '+variant_id);
+        var qty = 1;
+        Shopify.addItem(variant_id, qty, function(x){
+            window.setTimeout(update_mini_cart, 1000);
+            this_item.find('.compare_addto_card').attr('disabled', '1');
+        });
+      });
+
+
+  // ADD TO COMPARE LIST:
+  $(document).on('click', '.addto-compare', function(){
+
+    loading_show();
+    // get product object:
+    var handle =  $(this).parents('form').attr('data-handle');
+    // GET VARIAN:
+    var url = window.location.href;
+    var variant = url.split('?variant=')[1];
+
+    var item = {
+                  'handle' : handle,
+                  'variant' : variant
+                }        
+  if($.cookie('compare_product')){
+      var compare_product = $.cookie('compare_product');
+      compare_product = jQuery.parseJSON(compare_product);
+      //compare_product = JSON.parse(compare_product
+     var added = false;
+     $.each(compare_product, function(i, v){
+        if(v.handle == handle && v.variant == variant){
+          added = true;
+        }
+     });
+     if(!added){
+        compare_product.push(item);
+     }
+
+    }else{
+      // first case:
+      var compare_product = [item];
+    }
+
+    var compare_product = JSON.stringify(compare_product);
+
+    $.cookie('compare_product', compare_product);
+    load_compare_product(compare_product);
+
+  });
+
+
+  function add_variant_products(compare_product){
+    var list_variant = [];
+    var list_products = [];
+    var h1 = '';
+    var h2 = '';
+
+      $.each(compare_product, function(i, item){
+        jQuery.getJSON('/products/'+item['handle']+'.js', function(product) {
+          list_products.push(product);
+
+          $('.compare_variants_table').html(
+              '<div class="compare_product_top row_p" ></div>'+
+              '<div class="row_p row_description row_description_box1">{{"products.product.description" | t }}</div>'+
+              '<div class="row_p row_price">{{ "cart.label.price" | t }}</div>'
+          );
+          
+          $.each(product.options, function(i, v){
+            if(jQuery.inArray( v.name, list_variant ) < 0){
+              if(v.name != 'Title'){
+                list_variant.push(v.name);
+                h1 += '<div class="row_p variant_option">'+v.name+'</div>';
+              }
+            }
+          });
+
+          $('.compare_variants_table').append(h1);
+          setTimeout(function(){
+            
+            var html_option = '';
+            var option_show_box = '';
+            $.each(list_variant, function(ii, vv){
+              //
+              option_show_box += '<div class="row_p row_option text-center"  data-title="'+vv+'">'+vv+'</div>';
+            });
+
+            var max_option = $('.compare_variants_table .variant_option').length;
+
+            $.each(product.variants, function(v_k, v_v){
+
+                  if(v_v.id == item['variant']){
+
+                    var this_variant = v_v;
+
+                    if(this_variant.featured_image != null){
+                      var img_show = this_variant.featured_image.src;
+                    }else{
+                      var img_show = product.featured_image;
+                    }
+                   // img_show = img_show.replace('.jpeg', '_medium.jpeg');  // Or use "Shopify.resizeImage(img_show,'small');"
+                    img_show = Shopify.resizeImage(img_show,'medium');
+                    var compare_at_price = this_variant.compare_at_price;
+                    if(compare_at_price < this_variant.price || !compare_at_price  ){
+                      compare_at_price = '';
+                    }else{
+                      compare_at_price = Shopify.formatMoney( compare_at_price, moneyFormat) ;
+                    }
+
+                    var option_show = '';
+
+                    var title = [];
+                     for (var x = 1; x <= max_option ; x++) {
+                        var option_show_text = this_variant['option'+x];
+                        if(option_show_text != 'undefined'){
+                          if(!option_show_text || option_show_text == 'Default Title'){
+                            var option_show_text = '';
+                          }else{
+                
+                            title.push(product['options'][x - 1]['name']+'='+option_show_text);
+                          }
+                        }
+                      }
+
+                      title = title.join('-');
+                      option_show = {
+                        'title' : title,
+                        'variant_id': v_v.id,
+                        'option_show_text': option_show_text
+                      }
+
+
+                      option_show = JSON.stringify(option_show);
+                      var html = '<div class="compare_item"  data-variant="'+this_variant.id+'" data-data='+option_show+'>'+
+                                      '<div class="compare_product_top text-center row_p" >'+
+                                        '<div class="text-center">'+
+                                            '<span class="compare_remove_item">{{ "cart.general.remove" | t }} <i class="fa fa-times-circle red"></i></span>'+
+                                        '</div>'+
+                                        
+                                        '<img src="'+img_show+'" >'+
+                                        '<div class="compare_item_title">'+product.title+'</div>'+
+                                        
+                                        '<button class="btn btn-sm btn-success compare_addto_card">{{ "products.product.add_to_cart" | t }}</button>'+
+                                      '</div>'+
+                                      '<div class="row_p row_description text-center">'+product.description+'</div>'+
+                                      '<div class="row_p row_price text-center">'+ 
+                                        '<del class="compareprice">'+ compare_at_price +'</del>'+
+                                        '<span class="sellprice">'+ Shopify.formatMoney(  this_variant.price, moneyFormat) +'</span>'+
+
+                                      '</div>'+
+                                      option_show_box+
+                                    '</div>';
+                      h2 += html;
+
+                    }else{
+                    
+                    }
+                  });
+            $('.compare_products_list_table').html(h2);
+            fix_height_compare_box();
+            convert_data_variants();
+
+          }, 500);
+
+          if(i == (compare_product.length - 1)){
+          }
+        });
+      });
+       
+  }
+
+  function convert_data_variants(){
+    $('.compare_products_list_table .compare_item').each(function(){
+
+      var data = $(this).attr('data-data');
+      var this_item = $(this);
+      data = JSON.parse(data);
+      var title = data['title'].split('-');
+      $.each(title, function(i, v){
+        var title_2 = v.split('=');
+        this_item.find('.row_p[data-title="'+title_2[0]+'"]').html(title_2[1]).addClass('row_ok');
+
+      }); 
+      
+    });
+
+    remove_box_fail();
+  }
+
+  function remove_box_fail(){
+    $('.compare_products_list_table .compare_item .row_p.row_option').each(function(){
+      if($(this).is('.row_ok')){
+
+      }else{
+        $(this).html('<i class="fa fa-times-circle"></i>');
+      }
+    });
+  }
+
+
+  function load_compare_product(compare_product){
+    
+
+    if(compare_product){
+      compare_product = JSON.parse(compare_product);
+      var modal_compare_products = $('#modal_compare_products');
+      var h = '';
+      var item_1 = false;
+      var html_box_1 = '';
+      
+      var box1 = $('.compare_variants_table');
+      var box2 = $('.compare_products_list_table');
+      box1.html('');
+      box2.html('');
+      var count_option = 0;
+      var list_variant = [];
+      var list_products = [];
+
+      add_variant_products(compare_product);
+
+
+
+      setTimeout(function(){
+        loading_hide();
+
+        modal_compare_products.modal('show');
+        fix_height_compare_box();
+      },1500);
+      
+    }
+  }
+
+
+
+
+}); 
+
+$( window ).resize(function() {
+  fix_height_compare_box();
+});
+
+function fix_height_compare_box(){
+  // fix height modal:
+  var height_model = $('#modal_compare_products').height();
+  var height_model_header =  $('#modal_compare_products .modal-header').height();
+
+
+  if(height_model_header < 0) {
+    height_model_header = height_model_header * -1;
+  }
+  height_model_header =  Number(height_model_header);
+  var screen_height = $(window).height();
+
+  var window_width = $(window).width();
+  var compare_variants_box = $('.compare_variants_box').innerWidth();
+
+  var compare_item = $('.compare_item:first').outerWidth();
+  var compare_item_length = $('.compare_item').length;
+
+  $('#modal_compare_products .compare-products-box').width(window_width - 19);
+  $('#modal_compare_products .compare_products_list_table').width(compare_item * compare_item_length);
+  $('#modal_compare_products .compare_products_list').width(window_width - compare_variants_box - 19);
+}
+
+
+
+

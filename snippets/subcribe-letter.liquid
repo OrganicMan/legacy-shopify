@@ -1,0 +1,29 @@
+<!-- Newsletter -->
+<div class="subscribe-me">
+  <a href="#close" class="sb-close-btn">x</a>
+  <div id="popup-newsletter">
+    <div class="block-content">
+      <div class="form-subscribe-header block-title">
+        <label>{{settings.subcribe_letter_header}}</label>
+      </div>
+      <div class="row">
+        <div class="col-lg-12 col-md-12 col-sm-12 col-xsp-12">
+          {{settings.subcribe_letter_content}}
+        </div>
+      </div>
+      <form method="post" action="{{settings.newsletter_form_action}}">
+        <div class="newsletter-new clearfix">
+          <div class="input-box">
+             <input type="email" placeholder="{{ 'layout.subscribe.email_placeholder' | t }}" class="input-text required-entry validate-email" title="{{ 'layout.subscribe.newsletter_caption' | t }}" id="EMAIL" name="EMAIL">
+          </div>
+          <div class="actions">
+            <button class="button" title="{{ 'layout.subscribe.submit' | t }}" type="submit"><span>{{ 'layout.subscribe.submit' | t }}</span></button>
+          </div>
+        </div>
+      </form>
+      <div class="subscribe-bottom">
+        <input id="subcribe_dont_show_again" type="checkbox">{{ 'layout.subscribe.dont_show_again' | t }}
+      </div>
+    </div>
+  </div>
+</div>
