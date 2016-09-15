@@ -79,13 +79,12 @@
               </div>
                     <div class="col-md-2">
                     {% assign is_free_sample = false %}
-                      {% for collection in item.product.collections %}
-                        {% if is_free_sample == false %}
-                          {% if collection.title == "Free Samples" %}
-                            {% assign is_free_sample = true %}
-                          {% endif %}
-                        {% endif %}
-                      {% endfor %}
+                    {% if is_free_sample == false %}
+                      {% if item.product.type == "Free Sample" %}
+                        {% assign is_free_sample = true %}
+                      {% endif %}
+                    {% endif %}
+                      
                       {% unless is_free_sample %}
                       <div class="input-group input-group-sm product-quantity custom-qty">
                         <input class="input-text form-control qty" title="{{'cart.label.quantity' | t }}" value="{{ item.quantity }}" name="updates[]" data-line="{{ forloop.index }}" >

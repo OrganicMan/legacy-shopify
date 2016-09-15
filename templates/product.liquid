@@ -125,23 +125,19 @@
                     <div class="product-options-bottom">
                       {% assign is_free_sample = false %}
                       {% assign is_free_sample_in_cart = false %}
-                      {% for collection in product.collections %}
-                        {% if is_free_sample == false %}
-                          {% if collection.title == "Free Samples" %}
-                            {% assign is_free_sample = true %}
-                            <!-- if it IS a free sample, check to see if there's already one in the cart -->
-                            {% for line_item in cart.items %}
-                              {% for collection in line_item.product.collections %}
-                                {% if is_free_sample_in_cart == false %}
-                                  {% if collection.title == "Free Samples" %}
-                                    {% assign is_free_sample_in_cart = true %}
-                                  {% endif %}
-                                {% endif %}
-                              {% endfor %}
-                            {% endfor %}
-                          {% endif %}
+                      {% if is_free_sample == false %}
+                        {% if product.type == "Free Sample" %}
+                          {% assign is_free_sample = true %}
+                          <!-- if it IS a free sample, check to see if there's already one in the cart -->
+                          {% for line_item in cart.items %}
+                            {% if is_free_sample_in_cart == false %}
+                            {% if line_item.product.type == "Free Sample" %}
+                                {% assign is_free_sample_in_cart = true %}
+                              {% endif %}
+                            {% endif %}
+                          {% endfor %}
                         {% endif %}
-                      {% endfor %}
+                      {% endif %}
                       {% if is_free_sample_in_cart %} 
                       <div class="alert alert-info" role="alert">
                       <small><strong><i class="fa fa-info fa-fw"></i></strong>
@@ -161,12 +157,12 @@
                         </div>
                         <div class="{% unless is_free_sample %} col-sm-8 {% else %} col-sm-12 {% endunless %}">
                           {% unless is_free_sample_in_cart %}
-                          <button  type="submit" name="add" id="AddToCart" title="{{ 'products.product.add_to_cart' | t }}" class="btn btn-block btn-success">
+                          <button type="submit" name="add" id="AddToCart" title="{{ 'products.product.add_to_cart' | t }}" class="btn btn-block btn-danger">
                             <i class="fa fa-fw fa-shopping-cart"></i>
                             <span id="AddToCartText" class="view-cart">{{ 'products.product.add_to_cart' | t }}</span>
                           </button>
                           {% else %}
-                          <a href="/cart" title="View Cart" class="btn btn-block btn-success">
+                          <a href="/cart" title="View Cart" class="btn btn-block btn-danger">
                             <i class="fa fa-fw fa-shopping-cart"></i>
                             <span class="view-cart">View Cart</span>
                           </a>
