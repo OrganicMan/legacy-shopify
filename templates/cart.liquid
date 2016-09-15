@@ -78,17 +78,29 @@
                 <h5 class="text-muted">X</h5>
               </div>
                     <div class="col-md-2">
-                <div class="input-group input-group-sm product-quantity custom-qty">
-                  <input class="input-text form-control qty" title="{{'cart.label.quantity' | t }}" value="{{ item.quantity }}" name="updates[]" data-line="{{ forloop.index }}" >
-                  <div class="input-group-btn">
-                    <button class="btn btn-default btn-sm alo_qty alo_qty_dec">
-                      <i class="fa fa-sm fa-minus"></i>
-                    </button>
-                    <button class="btn btn-default btn-sm alo_qty alo_qty_inc">
-                      <i class="fa fa-sm fa-plus"></i>
-                    </button>
-                  </div>
-                </div>
+                    {% assign is_free_sample = false %}
+                      {% for collection in item.product.collections %}
+                        {% if is_free_sample == false %}
+                          {% if collection.title == "Free Samples" %}
+                            {% assign is_free_sample = true %}
+                          {% endif %}
+                        {% endif %}
+                      {% endfor %}
+                      {% unless is_free_sample %}
+                      <div class="input-group input-group-sm product-quantity custom-qty">
+                        <input class="input-text form-control qty" title="{{'cart.label.quantity' | t }}" value="{{ item.quantity }}" name="updates[]" data-line="{{ forloop.index }}" >
+                        <div class="input-group-btn">
+                          <button class="btn btn-default btn-sm alo_qty alo_qty_dec">
+                            <i class="fa fa-sm fa-minus"></i>
+                          </button>
+                          <button class="btn btn-default btn-sm alo_qty alo_qty_inc">
+                            <i class="fa fa-sm fa-plus"></i>
+                          </button>
+                        </div>
+                      </div>
+                      {% else %}
+                        <h5>{{ item.quantity }}</h5>
+                      {% endunless %}
               </div>
                   </div>
                 </div>
