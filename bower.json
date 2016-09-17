@@ -1,0 +1,34 @@
+{
+  "name": "obs-shopify-theme",
+  "version": "0.0.1",
+  "keywords": [
+    "shopify",
+    "theme",
+    "organic",
+    "beard",
+    "supply",
+    "css",
+    "js",
+    "sass",
+    "mobile-first",
+    "responsive",
+    "front-end"
+  ],
+  "main": [
+    "assets/*",
+    "config/*",
+    "layout/*",
+    "snippets/*",
+    "templates/*",
+    "locales/*"
+  ],
+  "ignore": [
+    ".*"
+  ],
+  "homepage": "https://www.organicbeardsupply.com",
+  "authors": [
+    "Organic Beard Supply <team@organicbeardsupply.com>"
+  ],
+  "description": "A sustainable, bearded Shopify Theme",
+  "license": "MIT"
+}

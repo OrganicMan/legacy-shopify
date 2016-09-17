@@ -1,0 +1,13 @@
+dependencies:
+  pre:
+    curl https://raw.githubusercontent.com/Shopify/themekit/installers/install | python
+    echo "export PATH=$PATH:~/Applications/bin" >> ~/.bash_profile
+
+deployment:
+  master:
+    # branch: master
+    #   commands:
+    #     theme replace
+    branch: development
+      commands:
+        theme replace

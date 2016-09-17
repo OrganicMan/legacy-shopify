@@ -11,3 +11,11 @@ production:
   store: organic-beard-supply.myshopify.com
   bucket_size: 40
   refill_rate: 2
+
+whitelist_files:
+- layout/
+- assets/
+- config/
+- snippets/
+- templates/
+- locales/
