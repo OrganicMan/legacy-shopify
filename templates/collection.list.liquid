@@ -138,10 +138,32 @@
                     </div>
                     <p>
                       <a href="{{product.url}}" title="{{product.title}}" class="btn btn-lg btn-default">Shop Now</a>
+                      {% assign is_free_sample = false %}
+                      {% assign is_free_sample_in_cart = false %}
+                      {% if is_free_sample == false %}
+                        {% if product.type == "Free Sample" %}
+                          {% assign is_free_sample = true %}
+                          <!-- if it IS a free sample, check to see if there's already one in the cart -->
+                          {% for line_item in cart.items %}
+                            {% if is_free_sample_in_cart == false %}
+                            {% if line_item.product.type == "Free Sample" %}
+                                {% assign is_free_sample_in_cart = true %}
+                              {% endif %}
+                            {% endif %}
+                          {% endfor %}
+                        {% endif %}
+                      {% endif %}
+                      {% if is_free_sample and is_free_sample_in_cart %}
+                      <a href="/cart" title="View Cart" class="btn btn-lg btn-primary">
+                        <i class="fa fa-fw fa-shopping-cart"></i>
+                        <span class="view-cart">View Cart</span>
+                        </a>
+                      {% else %}
                       <button type="submit" name="add" class="btn-quick-add-to-cart btn btn-lg btn-primary" title="{{'products.product.add_to_cart' | t }}" type="button">
                         <i class="fa fa-fw fa-shopping-cart"></i>
                         <span>{{'products.product.add_to_cart' | t }}</span>
                       </button>
+                      {% endif %}
                     </p>
                   </div>
                 </div>

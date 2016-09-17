@@ -123,7 +123,7 @@
   <script type="text/javscript" async>moneyFormat = {{ shop.money_format | json }};new WOW().init();</script>
   {% include 'subscription-theme-footer' %}
   <!-- BEEKETINGSCRIPT CODE START -->
-  {% include 'bk-tracking' %}
+  {% comment %} {% include 'bk-tracking' %} {% endcomment %}
   <!-- BEEKETINGSCRIPT CODE END -->
 </body>
 </html>
