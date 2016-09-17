@@ -3,6 +3,11 @@ dependencies:
     curl https://raw.githubusercontent.com/Shopify/themekit/installers/install | python
     echo "export PATH=$PATH:~/Applications/bin" >> ~/.bash_profile
 
+test:
+  override:
+    - RAILS_ENV=test bundle exec rspec -r rspec_junit_formatter --format RspecJunitFormatter -o $CIRCLE_TEST_REPORTS/rspec/junit.xml
+
+
 deployment:
   master:
     # branch: master
