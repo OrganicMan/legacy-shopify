@@ -1,4 +1,4 @@
-OBS Shopify Theme [![Deployment status from DeployBot](https://organic-beard-supply.deploybot.com/badge/02267418033900/84957.svg)](http://deploybot.com)
+OBS Shopify Theme [![Circle CI](https://circleci.com/gh/Organic-Beard-Supply/obs-shopify-theme.svg?style=svg)](https://circleci.com/gh/Organic-Beard-Supply/obs-shopify-theme)
 =====================
 
 Ways to Get Started
