@@ -1,0 +1,30 @@
+{
+  "name": "organic-beard-supply",
+  "version": "1.0.1",
+  "description": "A bearded Shopify theme",
+  "dependencies": {
+    "gulp": "3.9.1"
+  },
+  "devDependencies": {
+    "gulp": "3.9.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Organic-Beard-Supply/obs-shopify-theme.git"
+  },
+  "keywords": [
+    "shopify",
+    "liquid",
+    "css",
+    "html",
+    "gulp",
+    "beard",
+    "organic"
+  ],
+  "author": "Organic Beard Supply",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Organic-Beard-Supply/obs-shopify-theme/issues"
+  },
+  "homepage": "https://www.organicbeardsupply.com"
+}
