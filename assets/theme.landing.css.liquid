@@ -10,7 +10,7 @@
   }
   
 .top-line {
-  background-color: #809EAE;
+  background-color: #222222;
   color: white;
 }
 
@@ -31,7 +31,10 @@ body.landing .jumbotron {
 }
 
 body.landing .jumbotron {
-  padding:0
+  padding: 0;
+  background-image: url({{ 'movember.jpg' | asset_img }});
+  background-repeat: no-repeat;
+  background-position: 50% 39%;
 }
 
 body.landing .jumbotron .wrapper {
@@ -42,7 +45,7 @@ body.landing .jumbotron .wrapper {
   max-width: 1000px;
   padding: 0 20px;
   text-align:center;
-  padding: 132px 40px 125px 40px;
+  padding: 90px 40px 50px 40px;
 }
 body.landing .jumbotron .wrapper h1 {
   line-height: 1.1em;
@@ -56,17 +59,14 @@ body.landing .jumbotron .wrapper small {
   font-size: 70%;
   opacity: .45;
 }
-@media (min--moz-device-pixel-ratio:2),(-o-min-device-pixel-ratio:2/1),(-webkit-min-device-pixel-ratio:2),(min-device-pixel-ratio:2),(min-resolution:2dppx){
-  body.landing .jumbotron .wrapper{
-    
+
+@media (min-width: 980px) {
+  body.landing .jumbotron {
+    background-size: cover;
+    background-position: center 40%;  
   }
 }
 
-@media (min-width:600px) and (min--moz-device-pixel-ratio:2),(min-width:600px) and (-o-min-device-pixel-ratio:2/1),(min-width:600px) and (-webkit-min-device-pixel-ratio:2),(min-width:600px) and (min-device-pixel-ratio:2),(min-width:600px) and (min-resolution:2dppx){
-  body.landing .jumbotron .wrapper{
-    
-  }
-}
 @media (min-width:600px){
   body.landing .jumbotron .wrapper {
     text-align:left;
