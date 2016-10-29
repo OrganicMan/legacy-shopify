@@ -1,0 +1,145 @@
+.top-line {
+    position: fixed;
+    width: 100%;
+    z-index: 10000;
+    height: 32px;
+  }
+  
+  body.landing #header2, #header2 .header-content {
+    padding-top: 32px;
+  }
+  
+.top-line {
+  background-color: #222222;
+  color: white;
+}
+
+.top-line .welcome-msg, .top-line .welcome-msg a {
+  font-size: 12px;
+  color: white;
+  text-transform: initial;
+}
+
+.top-line .welcome-msg a:hover {
+  text-decoration: underline;
+}
+
+body.landing .jumbotron {
+  position: relative;
+  background: #080e0b;
+  color: #fff;
+}
+
+body.landing .jumbotron {
+  padding: 0;
+  background-image: url({{ 'movember.jpg' | asset_img }});
+  background-repeat: no-repeat;
+  background-position: 50% 39%;
+}
+
+body.landing .jumbotron .wrapper {
+  max-width: 1040px;
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px;
+  padding: 0 20px;
+  text-align:center;
+  padding: 90px 40px 50px 40px;
+}
+body.landing .jumbotron .wrapper h1 {
+  line-height: 1.1em;
+}
+
+body.landing .jumbotron .wrapper p {
+  margin-bottom: 24px;
+}
+
+body.landing .jumbotron .wrapper small {
+  font-size: 70%;
+  opacity: .45;
+}
+
+@media (min-width: 980px) {
+  body.landing .jumbotron {
+    background-size: cover;
+    background-position: center 40%;  
+  }
+}
+
+@media (min-width:600px){
+  body.landing .jumbotron .wrapper {
+    text-align:left;
+  }
+  
+  body.landing .jumbotron .wrapper h1 {
+    margin-bottom:10px;
+    width:550px;
+    font-size: 2em;
+  }
+  body.landing .jumbotron .wrapper p {
+    font-size:1.1em;
+    line-height:1.2em;
+    margin-bottom:24px;
+    max-width:450px;
+  }
+  body.landing .jumbotron .wrapper small {
+  	font-size: 50%;
+  }
+}
+
+body.landing #header2 {
+  min-height: inherit;
+  color: #ffffff;
+}
+
+body.landing #header2 .is-sticky .header-sticky {
+  background: rgba(8,14,11, .90) none repeat scroll 0 0;
+}
+
+body.landing #header2 .is-sticky .sf-menu.nav > li > a, body.landing #header2 .is-sticky .cartSummary span, body.landing #header2 .is-sticky .cartSummary .mt-cart-title {
+	color: #ffffff;
+}
+
+body.landing #header2 .header-user a, body.landing #header2 .sf-menu > li > a, body.landing #header2 .cartSummary span, body.landing #header2 .cartSummary .mt-cart-title {
+	color: #ffffff;
+}
+
+body.landing #header2 .sf-menu > li > a:hover {
+	color: #74b293;
+}
+
+/* Hide desktop by default */
+#header2 .logo img.desktop, body.landing #header2 .logo img.desktop.alternative {
+	display: none;
+}
+
+/* Hide alternative on homepage and default on sub pages */
+body.landing #header2 .logo img.mobile.alternative, #header2 .logo img.mobile {
+	display: none;
+}
+
+/* Show alternative on subpages and default on home page */
+
+body.landing #header2 .logo img.mobile, #header2 .logo img.mobile.alternative {
+	display: block;
+  height: 54px;
+}
+
+@media (min-width: 767px) {
+  /* hide mobile logos */
+  body.landing #header2 .logo img.mobile, #header2 .logo img.mobile.alternative {
+    display: none;
+  }  
+
+  /* show default on homepage and alternative on sub pages   */
+  body.landing #header2 .logo img.desktop, #header2 .logo img.desktop.alternative {
+  	display: block;
+    height: 74px;
+  }
+  
+  /* hide default on subpages and alternative on home page  */
+  body.landing #header2 .logo img.desktop.alternative, #header2 .logo img.desktop {
+  	display: none;
+  }
+}
