@@ -2355,16 +2355,70 @@ body#index .jumbotron .wrapper small {
 
 
 /* Blog single */
+.post-body p {
+  font-size: 1.2em;
+  font-weight: 400;
+  line-height: 1.4em;
+}
+
+.post-body h1,
+.post-body h2,
+.post-body h3,
+.post-body h4,
+.post-body h5,
+.post-body h6 {
+  margin-top: 0;
+  margin-bottom: 0;
+}
+
+.post-body h1+p,
+.post-body h2+p,
+.post-body h3+p,
+.post-body h4+p,
+.post-body h5+p,
+.post-body h6+p {
+  margin-top: 7px;
+}
+
 .about-the-author .media > img, .comment-avatar img {
     border: 1px solid #aaa;
     padding: 2px;
 }
-.media .media-body .comment-meta {    float: left;    font-family: montserrat;    font-size: 15px;    margin-bottom: 0;    padding-bottom: 5px;    text-transform: uppercase;} 
-.media .media-body .comment-reply {    color: #666;    float: right;    font-family: montserrat;    font-weight: 100;    margin-bottom: 0;    padding-bottom: 5px;}
+.media .media-body .comment-meta {    
+  float: left;
+  font-family: montserrat;
+  font-size: 15px;
+  margin-bottom: 0;
+  padding-bottom: 5px;
+  text-transform: uppercase;
+} 
+.media .media-body .comment-reply {
+  color: #666;
+  float: right;
+  font-family: montserrat;
+  font-weight: 100;
+  margin-bottom: 0;
+  padding-bottom: 5px;
+}
 .comments .block-title .count {
     color: {% if settings.use_custom_color_enable %}{{settings.color_a_hover}}{% else %}#ff5555{% endif %};
     margin-left: 5px;
-}.about-the-author .media-heading {    display: block;    padding-top: 10px;}.author-work .media-object {    border: 1px solid #ddd;    display: inline-block;    padding: 2px;}.share_this .list-inline > li {    padding: 0;}.work {    color: {% if settings.use_custom_color_enable %}{{settings.color_a_hover}}{% else %}#ff5555{% endif %};}
+}
+.about-the-author .media-heading {    
+  display: block;
+  padding-top: 10px;
+}
+.author-work .media-object {
+  border: 1px solid #ddd;
+  display: inline-block;
+  padding: 2px;
+}
+.share_this .list-inline > li {
+  padding: 0;
+}
+.work {
+  color: {% if settings.use_custom_color_enable %}{{settings.color_a_hover}}{% else %}#ff5555{% endif %};
+}
 .comments.block .block-title {
     margin: 40px 0 30px 0 ;
 } 
