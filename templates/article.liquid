@@ -19,192 +19,177 @@
 <!-- /BREADCRUMBS -->
 <!-- PAGE SECTION WITH SIDEBAR -->
 <section class="page-section no-padding-top with-sidebar">
-    <h2 class="hidden">sidebar</h2>
-    <div class="container">
-        <div class="row">
-            {% unless view_type == 'none' %}
-            <!-- sidebar -->
-          {% comment %}  
-          {% include 'sidebar-blog' %}
-          {% endcomment %}
-            <!-- /sidebar -->
-            {% endunless %}
-            <!-- content -->
-            <section id="content" class="content col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
-                <h2 class="hidden">content</h2>
-                <article itemscope itemtype="http://schema.org/Article" class="post-wrap">
-                  {%comment %}  
-                  <div class="post-media embed-responsive embed-responsive-16by9">
-                        {% if article.image %}
-                            <img class="img-responsive" src="{{ article.image | img_url: 'grande' }}" alt="{{article.title}}"/>
-                        {% endif %}
-                    </div>
-                  {% endcomment %}
-                    <div class="post-header">                                       
-                      <h1>{{ article.title}}</h1>
-                      <p>Written by {{ article.author}} on {{ article.published_at | date: "%B %d, %y"}}</p>
-                    </div>
-                    <div itemprop="articleBody" class="post-body">
-                        {{ article.excerpt_or_content }}
-                    </div>
-                    <div class="post-footer">
-                        {% if article.tags.size > 0 %}
-                            <span class="post-tags">
-                              {% for tag in article.tags %}
-                              <span class="label label-default">{{tag}}</span>&nbsp;
-                              {% endfor %}
-                            </span>
-                        {% endif %}
-                        {% if settings.social_sharing_blog %}
-                        <div class="share_this">
-                          <p>Share:</p>
-                          {% include 'social-connect' %}
-                      </div>
-                        {% endif %}
-                    </div>
-                </article>
-                <!-- Comments -->
-                {% if blog.comments_enabled? %}
-
-                <div class="comments block">
-                    <div class ="block-title">
-                        <h3>
-                            <span>{{'blogs.article.comments' | t }}<span class ="count">({{ number_of_comments }})</span></span>
-                        </h3>
-                    </div>
-                    {% paginate article.comments by 10 %}
-                        {% if comment and comment.created_at %}
-                            <div class="col-md-12">
-                                <p class="note form-success">
-                                  {% if blog.moderated? %}
-                                    {{ 'blogs.comments.success_moderated' | t }}
+  <h2 class="hidden">sidebar</h2>
+  <div class="container">
+    <div class="row">
+      {% unless view_type == 'none' %}
+        {% comment %} {% include 'sidebar-blog' %} {% endcomment %}
+      {% endunless %}
+      <section id="content" class="content col-sm-10 col-sm-offset-1 col-md-8 col-md-offset-2">
+        <h2 class="hidden">content</h2>
+        <article itemscope itemtype="http://schema.org/Article" class="post-wrap">
+          <div class="post-header">                                       
+            <h1>{{ article.title}}</h1>
+            <p>Written by {{ article.author }} on {{ article.published_at | date: "%B %d, %y"}}</p>
+          </div>
+          <div itemprop="articleBody" class="post-body">
+            {{ article.excerpt_or_content }}
+          </div>
+          <div class="post-footer">
+            {% if article.tags.size > 0 %}
+              <span class="post-tags">
+                {% for tag in article.tags %}
+                  <span class="label label-default">{{tag}}</span>&nbsp;
+                {% endfor %}
+              </span>
+            {% endif %}
+            {% if settings.social_sharing_blog %}
+              <div class="share_this">
+                <p>Share:</p>
+                {% include 'social-connect' %}
+              </div>
+            {% endif %}
+          </div>
+        </article>
+              <!-- Comments -->
+              {% if blog.comments_enabled? %}
+              <div class="comments block">
+                  <div class ="block-title">
+                      <h3>
+                          <span>{{'blogs.article.comments' | t }}<span class ="count">({{ number_of_comments }})</span></span>
+                      </h3>
+                  </div>
+                  {% paginate article.comments by 10 %}
+                      {% if comment and comment.created_at %}
+                          <div class="col-md-12">
+                              <p class="note form-success">
+                                {% if blog.moderated? %}
+                                  {{ 'blogs.comments.success_moderated' | t }}
+                                {% else %}
+                                  {{ 'blogs.comments.success' | t }}
+                                {% endif %}
+                              </p>
+                          </div>
+                      {% endif %}
+                      {% for comment in article.comments %}
+                          <div class="media comment">
+                              <a href="#" class="pull-left comment-avatar">
+                                  <img alt="images" src="{{ 'default-avatar.png' | asset_url }}" class="media-object" />
+                              </a>
+                              <div class="media-body">
+                                 <p class="comment-meta"><span class="comment-author"><a href="#">{{comment.author}}</a>  </span></p>
+                                 <p class="comment-reply">
+                                  {% assign minute_ago = comment.created_at | date: "%M" %}
+                                  {% assign hour_ago = comment.created_at | date: "%H" %}
+                                  {% assign day_ago = comment.created_at | date: "%j" %}
+                                  {% assign today_minute = "now" | date: "%M" %}
+                                  {% assign today_hour = "now" | date: "%H" %}
+                                  {% assign today_day = "now" | date: "%j" %}
+                                  {% if today_day == day_ago %}
+                                      {% if today_hour == hour_ago %}
+                                          {% if today_minute == minute_ago %}
+                                              {% assign append_tag = 'blogs.comments.time_now' | t %}
+                                              {% assign time_diff = append_tag %}
+                                              }
+                                          {% else %}
+                                              {% assign time_diff = today_minute | minus: minute_ago %}
+                                              {% if time_diff > 1 %}
+                                                  {% assign append_tag = 'blogs.comments.time_minutes' | t %}
+                                                  {% assign time_diff =  time_diff | append: " " | append: append_tag %}
+                                              {% else %}
+                                                  {% assign append_tag = 'blogs.comments.time_minute' | t %}
+                                                  {% assign time_diff =  time_diff | append: " " | append: append_tag %}
+                                              {% endif %}
+                                          {% endif %}
+                                      {% else %}
+                                          {% assign time_diff = today_hour | minus: hour_ago %}
+                                          {% if time_diff > 1 %}
+                                              {% assign append_tag = 'blogs.comments.time_hours' | t %}
+                                              {% assign time_diff =  time_diff | append: " " | append: append_tag %}
+                                          {% else %}
+                                              {% assign append_tag = 'blogs.comments.time_hour' | t %}
+                                              {% assign time_diff =  time_diff | append: " " | append: append_tag %}
+                                          {% endif %}
+                                      {% endif %}
                                   {% else %}
-                                    {{ 'blogs.comments.success' | t }}
+                                      {% assign time_diff = today_day | minus: day_ago %}
+                                      {% if time_diff < 0 %}
+                                          {% assign append_tag = 'blogs.comments.time_days' | t %}
+                                          {% assign time_diff = time_diff | plus: 365 %}
+                                      {% endif %}
+                                      {% if time_diff > 1 %}
+                                          {% assign append_tag = 'blogs.comments.time_days' | t %}
+                                          {% assign time_diff =  time_diff | append: " "| append: append_tag %}
+                                      {% endif %}
+                                      {% if time_diff == 1 %}
+                                          {% assign append_tag = 'blogs.comments.time_day' | t %}
+                                          {% assign time_diff = append_tag %}
+                                      {% endif %}
                                   {% endif %}
-                                </p>
-                            </div>
-                        {% endif %}
-                        {% for comment in article.comments %}
-                            <div class="media comment">
-                                <a href="#" class="pull-left comment-avatar">
-                                    <img alt="images" src="{{ 'default-avatar.png' | asset_url }}" class="media-object" />
-                                </a>
-                                <div class="media-body">
-                                   <p class="comment-meta"><span class="comment-author"><a href="#">{{comment.author}}</a>  </span></p>
-                                   <p class="comment-reply">
-                                    {% assign minute_ago = comment.created_at | date: "%M" %}
-                                    {% assign hour_ago = comment.created_at | date: "%H" %}
-                                    {% assign day_ago = comment.created_at | date: "%j" %}
-                                    {% assign today_minute = "now" | date: "%M" %}
-                                    {% assign today_hour = "now" | date: "%H" %}
-                                    {% assign today_day = "now" | date: "%j" %}
-                                    {% if today_day == day_ago %}
-                                        {% if today_hour == hour_ago %}
-                                            {% if today_minute == minute_ago %}
-                                                {% assign append_tag = 'blogs.comments.time_now' | t %}
-                                                {% assign time_diff = append_tag %}
-                                                }
-                                            {% else %}
-                                                {% assign time_diff = today_minute | minus: minute_ago %}
-                                                {% if time_diff > 1 %}
-                                                    {% assign append_tag = 'blogs.comments.time_minutes' | t %}
-                                                    {% assign time_diff =  time_diff | append: " " | append: append_tag %}
-                                                {% else %}
-                                                    {% assign append_tag = 'blogs.comments.time_minute' | t %}
-                                                    {% assign time_diff =  time_diff | append: " " | append: append_tag %}
-                                                {% endif %}
-                                            {% endif %}
-                                        {% else %}
-                                            {% assign time_diff = today_hour | minus: hour_ago %}
-                                            {% if time_diff > 1 %}
-                                                {% assign append_tag = 'blogs.comments.time_hours' | t %}
-                                                {% assign time_diff =  time_diff | append: " " | append: append_tag %}
-                                            {% else %}
-                                                {% assign append_tag = 'blogs.comments.time_hour' | t %}
-                                                {% assign time_diff =  time_diff | append: " " | append: append_tag %}
-                                            {% endif %}
-                                        {% endif %}
-                                    {% else %}
-                                        {% assign time_diff = today_day | minus: day_ago %}
-                                        {% if time_diff < 0 %}
-                                            {% assign append_tag = 'blogs.comments.time_days' | t %}
-                                            {% assign time_diff = time_diff | plus: 365 %}
-                                        {% endif %}
-                                        {% if time_diff > 1 %}
-                                            {% assign append_tag = 'blogs.comments.time_days' | t %}
-                                            {% assign time_diff =  time_diff | append: " "| append: append_tag %}
-                                        {% endif %}
-                                        {% if time_diff == 1 %}
-                                            {% assign append_tag = 'blogs.comments.time_day' | t %}
-                                            {% assign time_diff = append_tag %}
-                                        {% endif %}
-                                    {% endif %}
-                                    <span >{{time_diff}}</span>
-                                    <p class="comment-text">{{comment.content}}</p>
-                                </div>
-                            </div>
-                        {% endfor %}
-                        <!-- Pagination -->
-                        {% include 'pagination' %}
-                        <!-- /Pagination -->
-                    {% endpaginate %}
-                </div>
-                <!-- /Comments -->
-
-                <!-- Leave a Comment -->
-                <div class="comments-form">
-                    <h4 class="block-title">{{'blogs.comments.title' | t }}</h4>
-                    {% form 'new_comment', article %}
-                        {% if form.errors %}
-                              {{ form.errors | default_errors }}
-                        {% endif %}
-                        <div class="col-md-4 no-padding-left text-left">
-                            <div class="af-outer af-required">
-                                <div class="form-group af-inner">
-                                    <input
-                                        type="text" name="comment[author]" id="CommentAuthor" placeholder="{{'blogs.comments.name' | t }}" value="{{ form.author }}" size="30"
-                                        data-toggle="tooltip" title="Name is required"
-                                        class="form-control placeholder"/>
-                                </div>
-
-                            </div>
-                            <div class="af-outer af-required">
-                                <div class="form-group af-inner">
-                                    <input
-                                        type="text" name="comment[email]" id="CommentEmail" placeholder="{{'blogs.comments.email' | t }}" value="{{ form.email }}" size="50"
-                                        data-toggle="tooltip" title="Email is required"
-                                        class="form-control placeholder"/>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-md-8 text-left">
-                            <div class="form-group af-inner">
-                                <textarea
-                                    name="comment[body]" id="CommentBody" placeholder="{{'blogs.comments.message' | t }}" rows="4" cols="50"
-                                    data-toggle="tooltip" title="Message is required"
-                                    class="form-control placeholder">{% if form.body %}{{ form.body }}{% endif %}</textarea>
-                            </div>
-                        </div>  
-                        {% if blog.moderated? %}
-                        <div class="col-md-12 no-padding-left text-left">  
-                          <p class="text-light"><em>{{ 'blogs.comments.moderated' | t }}</em></p>
-                        </div>
-                        {% endif %}
-                
-                        <div class="col-md-12 no-padding-left text-left">
-                            <div class="af-outer af-required">
-                                <div class="form-group af-inner">
-                                    <input type="submit" name="submit" class="form-button form-button-submit btn btn-theme" id="submit_btn" value="{{'blogs.comments.post' | t }}" />
-                                </div>
-                            </div>
-                        </div>
-                    {% endform %}
-                </div>
-                <!-- /Leave a Comment -->
-                {% endif %}
-                <!-- /Comments -->
-            </section>
-            <!-- /content -->
+                                  <span >{{time_diff}}</span>
+                                  <p class="comment-text">{{comment.content}}</p>
+                              </div>
+                          </div>
+                      {% endfor %}
+                      <!-- Pagination -->
+                      {% include 'pagination' %}
+                      <!-- /Pagination -->
+                  {% endpaginate %}
+              </div>
+              <!-- /Comments -->
+              <!-- Leave a Comment -->
+              <div class="comments-form">
+                  <h4 class="block-title">{{'blogs.comments.title' | t }}</h4>
+                  {% form 'new_comment', article %}
+                      {% if form.errors %}
+                            {{ form.errors | default_errors }}
+                      {% endif %}
+                      <div class="col-md-4 no-padding-left text-left">
+                          <div class="af-outer af-required">
+                              <div class="form-group af-inner">
+                                  <input
+                                      type="text" name="comment[author]" id="CommentAuthor" placeholder="{{'blogs.comments.name' | t }}" value="{{ form.author }}" size="30"
+                                      data-toggle="tooltip" title="Name is required"
+                                      class="form-control placeholder"/>
+                              </div>
+                          </div>
+                          <div class="af-outer af-required">
+                              <div class="form-group af-inner">
+                                  <input
+                                      type="text" name="comment[email]" id="CommentEmail" placeholder="{{'blogs.comments.email' | t }}" value="{{ form.email }}" size="50"
+                                      data-toggle="tooltip" title="Email is required"
+                                      class="form-control placeholder"/>
+                              </div>
+                          </div>
+                      </div>
+                      <div class="col-md-8 text-left">
+                          <div class="form-group af-inner">
+                              <textarea
+                                  name="comment[body]" id="CommentBody" placeholder="{{'blogs.comments.message' | t }}" rows="4" cols="50"
+                                  data-toggle="tooltip" title="Message is required"
+                                  class="form-control placeholder">{% if form.body %}{{ form.body }}{% endif %}</textarea>
+                          </div>
+                      </div>  
+                      {% if blog.moderated? %}
+                      <div class="col-md-12 no-padding-left text-left">  
+                        <p class="text-light"><em>{{ 'blogs.comments.moderated' | t }}</em></p>
+                      </div>
+                      {% endif %}
+              
+                      <div class="col-md-12 no-padding-left text-left">
+                          <div class="af-outer af-required">
+                              <div class="form-group af-inner">
+                                  <input type="submit" name="submit" class="form-button form-button-submit btn btn-theme" id="submit_btn" value="{{'blogs.comments.post' | t }}" />
+                              </div>
+                          </div>
+                      </div>
+                  {% endform %}
+              </div>
+              <!-- /Leave a Comment -->
+              {% endif %}
+              <!-- /Comments -->
+          </section>
+          <!-- /content -->
         </div>
     </div>
 </section>
