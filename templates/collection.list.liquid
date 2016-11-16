@@ -58,10 +58,7 @@
         </div>
         {%endcomment%}
         <hr />
-        <div class=" thumbnails products-list">
-          <!-- Popup product quick view -->
-          {% include 'product-quickview'%}
-          <!-- Popup product quick view -->
+        <div class="thumbnails products-list">
           <ul class="list-unstyled" style="padding-top:20px;">
             {% for product in collection.products %}
               {% assign is_sale = false %}
