@@ -45,7 +45,7 @@
                         {% endfor %}
                     </p>
                 {% else %}
-                	<p class="text-muted">1 fl oz</p>
+                	{% if item.product.type == "Beard Oil" %}<p class="text-muted">1 fl oz</p>{% endif %}
                 {% endif %}
                 {% assign recurringchecked = "false" %} 
                 {% for p in item.properties  %}   
@@ -80,7 +80,7 @@
                     <div class="col-md-2">
                     {% assign is_free_sample = false %}
                     {% if is_free_sample == false %}
-                      {% if item.product.type == "Free Sample" %}
+                      {% if item.product.type == "Free Sample" or item.product.type == "Sample Pack" %}
                         {% assign is_free_sample = true %}
                       {% endif %}
                     {% endif %}
