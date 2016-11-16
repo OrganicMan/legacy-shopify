@@ -73,7 +73,10 @@
                                 <img class="owl-lazy img-rounded img-responsive" data-src="{{ img.src | img_url: '539x539'}}" alt="{{ image.alt | escape }}" title="{{product.title}}" />
                               </div>
                               {%endfor%}
-                            </div>                           
+                            </div>
+                            {% if product.type == "Beard Oil" %}
+                            <p><small><small><em>*Cap style may vary by batch.</em></small></small></p>
+                            {% endif %}
                           </div>
                         </div>
                       </div>
