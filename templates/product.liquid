@@ -107,7 +107,7 @@
                     </div>
                     <div class="short-description">
                       {{ product.content | truncatewords: 40 | strip_html }}
-                      <a data-scroll data-scroll-to="description" href="javascript:;" class="text-muted">read more</a>
+                      <a href="#" data-scroll data-scroll-to="description" href="javascript:;" class="text-muted">read more</a>
                     </div>
                     <div class="product-options-wrapper">
                       {% if product.available %}
@@ -129,12 +129,12 @@
                       {% assign is_free_sample = false %}
                       {% assign is_free_sample_in_cart = false %}
                       {% if is_free_sample == false %}
-                        {% if product.type == "Free Sample" %}
+                        {% if product.type == "Free Sample" or product.type == "Sample Pack" %}
                           {% assign is_free_sample = true %}
                           <!-- if it IS a free sample, check to see if there's already one in the cart -->
                           {% for line_item in cart.items %}
                             {% if is_free_sample_in_cart == false %}
-                            {% if line_item.product.type == "Free Sample" %}
+                            {% if line_item.product.type == "Free Sample" or product.type == "Sample Pack" %}
                                 {% assign is_free_sample_in_cart = true %}
                               {% endif %}
                             {% endif %}
@@ -477,15 +477,25 @@
 	                      	{{ variant.price | money }}
                           </span>
                       </span>
+                      {% unless is_free_sample %}
                       <div class="input-group-btn">
                         <button type="button" class="btn btn-default" onclick="lessQuantity();"><i class="fa fa-sm fa-minus"></i></button>
                         <button type="button" class="btn btn-default" onclick="moreQuantity();"><i class="fa fa-plus"></i></button>
                       </div>
+                      {% endunless %}
                     </div>
+                    {% unless is_free_sample_in_cart %}
                     <button type="submit" name="add" id="AddToCart" title="{{ 'products.product.add_to_cart' | t }}" class="btn btn-block btn-success">
-                            <i class="fa fa-fw fa-shopping-cart"></i>
-                            <span id="AddToCartText" class="view-cart">{{ 'products.product.add_to_cart' | t }}</span>
-                          </button>
+                      <i class="fa fa-fw fa-shopping-cart"></i>
+                      <span id="AddToCartText" class="view-cart">{{ 'products.product.add_to_cart' | t }}</span>
+                    </button>
+                    {% else %}
+                    <a href="/cart" title="View Cart" class="btn btn-block btn-danger">
+                      <i class="fa fa-fw fa-shopping-cart"></i>
+                      <span class="view-cart">View Cart</span>
+                    </a>
+                    {% endunless %}
+                    
                   </div>
                 </div>
               </div>
