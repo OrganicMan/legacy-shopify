@@ -1,13 +1,12 @@
 {% layout 'theme.landing' %}
-{% include 'top.line.movember' %}
-{% include 'header.movember' %}
-<div class="jumbotron">
+<!--{% include 'top.line.holiday' %}-->
+{% include 'header.holiday' %}
+
+<div class="jumbotron" id="holiday">
   <div class="wrapper">
-    <h1>Grow it with comfort, <br class="hidden-xs" />grow it with <span style="text-decoration: underline;">purpose</span>.</h1>
-    <p>Help improve mental health and reduce suicides rates amongst men.</p>
-    <a href="#" class="btn btn-lg btn-primary">Learn More</a>
-    <a href="/products" class="btn btn-lg btn-success">Shop With Purpose</a>
-    <p><small>We will donate 10% of revenue from the month of November.</small></p>
+    <h1>5 reasons beard oil is a great stocking stuffer.</h1>
+    <p>Hint... he'll love it.</p>
+    <button data-sumome-listbuilder-id="3313b923-7fea-45e7-9f2c-b3f3099e8122" href="#" class="btn btn-lg btn-success">Shop Stocking Stuffers Now</button>
   </div>
 </div>
 <section class="page-section our-story">
@@ -15,11 +14,49 @@
     <div class="row">
       <div class="col-md-10 col-md-offset-1">
         <div class="col-sm-12 story-content">
-          <h2>10% of your purchase will be donated.</h2>
-          <hr />
-          <p class="lead">During the month of November for every bottle of our organic based beard oil purchased, OBS will donate 10% of the revenue to Movember Foundation's <a href="https://us.movember.com/programs/mental-health" target="_blank" title="Movember Foundation - Mental Health and Suicide Prevention">mental health and suicide prevention</a>            cause.</p>
-          <p class="lead">That means every bottle of beard oil purchased will help improve mental health and reduce the rate of male suicide.</p>
-          <a href="#" class="btn btn-primary btn-lg">Learn More</a> <a href="/products" class="btn btn-success btn-lg">Shop With Purpose</a></div>
+          <h2>1. Fits in any stocking.</h2>
+          <p class="lead">Organic Beard Supply beard oil is the perfect size for any stocking. OBS bottles are the perfect size for him to carry with him after Christmas morning.</p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="col-sm-12 story-content">
+        <h2>2. Help prevent winter itch.</h2>
+        <p class="lead">During the winter months skin underneath the beard can become more dry than in warmer months causing more itch. Help stop the itch with organic based beard oil.</p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="col-sm-12 story-content">
+        <h2>3. Practical for months to come.</h2>
+        <p class="lead">Give him relief and help him prevent itchy skin for months. He'll remember your awesome gift every time he applies his beard oil.</p>
+        <br />
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="col-sm-12 story-content well text-center">
+        <button data-sumome-listbuilder-id="3313b923-7fea-45e7-9f2c-b3f3099e8122" class="btn btn-block btn-lg btn-success" data-sumome-trigger="true" href="#">Shop Stocking Stuffers Now</button>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="col-sm-12 story-content">
+        <br />
+        <h2>4. A scent for any season.</h2>
+        <p class="lead">With holiday scents like Spice and Peppermint and summer scents like Citrus and Camper you can get him a different scent for every season.</p>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="col-md-10 col-md-offset-1">
+      <div class="col-sm-12 story-content">
+        <h2>5. Soften and strengthen his beard.</h2>
+        <p class="lead">Beard oil is a great way to soften and strengthen beard hair. A softer beard isn't only good for him, it's good for those that get close to his beard as well.</p>
       </div>
     </div>
   </div>
@@ -31,7 +68,7 @@
       <div class="col-sm-10 col-sm-offset-1">
         <div class="col-xs-12 text-center headline">
           <h2 class="text-center">Browse Beard Oil</h2>
-          <p>Sooth dry, itchy skin and strengthen moustache and beard hair.</p>
+          <p>Prevent dry, itchy skin and strengthening beard hair.</p>
         </div>
         {% for i in (1..4) %}
         {% capture this_collection %}home_featured_products_{{i}}{% endcapture %}
@@ -143,75 +180,8 @@
         {% endif %}
         {% endfor %}
         <div class="col-sm-6 col-sm-offset-3 text-center cta">
-          <p>We are passionate about the quality of our products.</p>
-          <a href="/products" class="btn btn-success btn-lg btn-block">Shop With Purpose</a>
+          <button data-sumome-listbuilder-id="3313b923-7fea-45e7-9f2c-b3f3099e8122" class="btn btn-success btn-lg btn-block">Shop Stocking Stuffers Now</button>
         </div>
-      </div>
-    </div>
-  </div>
-</section>
-<section class="page-section benefits">
-  <div class="container">
-    <div class="row visible-xs visible-sm">
-      <div class="col-sm-6 col-sm-offset-3 text-center">
-        <h2 class="h1">Beard Oil Benefits</h2>
-        <br/>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6 col-md-4">
-        <div class="media">
-		  <div class="media-left pull-left">
-            <i class="fa fa-fw fa-5x fa-smile-o text-warning"></i>
-		  </div>
-		  <div class="media-body">
-		    <h4 class="media-heading">Soothe Dry, Ithcy Skin</h4>
-            Prevent dry, itchy skin with carrier oils that mimick what your face naturally produces.
-		  </div>
-		</div>
-        <div class="media">
-		  <div class="media-left pull-left">
-            <i class="fa fa-fw fa-5x fa-hand-rock-o text-success"></i>
-		  </div>
-		  <div class="media-body">
-		    <h4 class="media-heading">Strengthen &amp; Soften Hair</h4>
-		    Strengthen and soften your beard with a healthy blend of Organic Grapeseed, Argan, and Jojoba oils.
-		  </div>
-		</div>
-      </div>
-      <div class="col-sm-6 col-md-4 col-md-push-4">
-        <div class="media">
-		  <div class="media-left pull-left">
-            <i class="fa fa-fw fa-5x fa-hand-peace-o text-info"></i>
-		  </div>
-		  <div class="media-body">
-		    <h4 class="media-heading">Handmade With Love</h4>
-		    Every batch is hand mixed, bottled, and numbered with love from Saint Petersburg, Florida.
-		  </div>
-		</div>
-        <div class="media">
-		  <div class="media-left pull-left">
-            <i class="fa fa-fw fa-5x fa-heart-o text-danger"></i>
-		  </div>
-		  <div class="media-body">
-		    <h4 class="media-heading">Smell Awesome</h4>
-            Choose your favorite or try them all. All scents are made with food grade essential oils.
-		  </div>
-		</div>
-      </div>
-      <div class="col-sm-6 col-sm-pull-3 col-md-4 col-md-pull-4 product-image hidden-xs">
-        <a href="/citrus">
-          <img src="{{ 'citrus_transparent.png' | asset_img_url: '374x582' }}" class="img-responsive" alt="Citrus Organic Beard Oil" />
-        </a>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-sm-6 col-sm-offset-3 text-center">
-        <h2 class="h1">Behind every great moustache, there's a great beard.</h2>
-        <p class="lead">Behind every great brand, there's a purpose.</p>
-        <p style="margin-top: 10px;">
-          <a href="/products" class="btn btn-lg btn-success btn-block">Shop With Purpose</a>
-        </p>
       </div>
     </div>
   </div>
