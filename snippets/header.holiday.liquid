@@ -1,0 +1,24 @@
+<header class="header holiday" id="header2">
+  <div class="header-content header-sticky">
+    <div class="container">
+      <div class="row">
+        <div class="content-logo logo-left col-lg-1 col-md-2 col-sm-2 col-xs-12">
+          <div class="header-logo">
+            <span class="logo">
+              {% if settings.logo_1_enable %}
+                <a href="/">
+                  <img src="{{ 'logo-black.svg' | asset_url}}" alt="{{shop.name}}" class="img-responsive desktop alternative" />
+                  <img src="{{ 'logo-white.svg' | asset_url}}" alt="{{shop.name}}" class="img-responsive desktop" />
+                  <img src="{{ 'logo-white-mobile.svg' | asset_url}}" alt="{{shop.name}}" class="img-responsive mobile" />
+				          <img src="{{ 'logo-black-mobile.svg' | asset_url}}" alt="{{shop.name}}" class="img-responsive mobile alternative" />
+              </a>
+              {% else %}
+                <a href="/">{{shop.name | upcase }}</a>
+              {% endif %}
+            </span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
