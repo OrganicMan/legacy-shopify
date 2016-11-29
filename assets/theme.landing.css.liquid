@@ -5,7 +5,7 @@
     height: 32px;
   }
   
-  body.landing #header2, #header2 .header-content {
+  body.landing #header2:not(.holiday), #header2:not(.holiday) .header-content {
     padding-top: 32px;
   }
   
@@ -141,5 +141,96 @@ body.landing #header2 .logo img.mobile, #header2 .logo img.mobile.alternative {
   /* hide default on subpages and alternative on home page  */
   body.landing #header2 .logo img.desktop.alternative, #header2 .logo img.desktop {
   	display: none;
+  }
+}
+
+
+/* --------------
+    Holiday
+--------------- */
+
+#holiday {
+	background: #222;
+	background-image: url({{ 'flake_1.png' | asset_img }}), url({{ 'flake_2.png' | asset_img }}), url({{ 'flake_3.png' | asset_img }});
+	-webkit-animation: snow 10s linear infinite;
+	-moz-animation: snow 10s linear infinite;
+	-ms-animation: snow 10s linear infinite;
+	animation: snow 10s linear infinite;
+}
+@keyframes snow {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  100% {background-position: 500px 1000px, 800px 400px, -300px 300px;}
+}
+@-moz-keyframes snow {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  100% {background-position: 500px 1000px, 800px 400px, -300px 300px;}
+}
+@-webkit-keyframes snow {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  100% {background-position: 500px 1000px, 800px 400px, -300px 300px;}
+}
+@-ms-keyframes snow {
+  0% {background-position: 0px 0px, 0px 0px, 0px 0px;}
+  100% {background-position: 500px 1000px, 800px 400px, -300px 300px;}
+}	
+
+.jumbotron#holiday .wrapper{
+  max-width: 1040px;
+  position: relative;
+  margin: 0 auto;
+  width: 100%;
+  max-width: 1000px;
+  padding: 0 20px;
+  text-align:center;
+  padding: 100px 40px 125px 40px;
+  background-repeat:no-repeat;
+  background-size:auto 90px;
+  background-position:center bottom;
+  background-image:url({{ 'main-image-mobile_2x.png' | asset_img_url: 'x90', scale: 2 }});
+  background-repeat: no-repeat;
+}
+
+.jumbotron#holiday .wrapper p {
+  margin-bottom:24px;
+}
+
+.jumbotron#holiday .wrapper small {
+  font-size: 70%;
+  opacity: .45;
+}
+@media (min--moz-device-pixel-ratio:2),(-o-min-device-pixel-ratio:2/1),(-webkit-min-device-pixel-ratio:2),(min-device-pixel-ratio:2),(min-resolution:2dppx){
+  .jumbotron#holiday .wrapper{
+    background-image:url({{ 'main-image-mobile.png' | asset_img_url: 'x90' }});
+  }
+}
+
+@media (min-width:600px) and (min--moz-device-pixel-ratio:2),(min-width:600px) and (-o-min-device-pixel-ratio:2/1),(min-width:600px) and (-webkit-min-device-pixel-ratio:2),(min-width:600px) and (min-device-pixel-ratio:2),(min-width:600px) and (min-resolution:2dppx){
+  .jumbotron#holiday .wrapper{
+    background-image:url({{ 'main-image.png' | asset_img_url: '700x' }});
+  }
+}
+@media (min-width:600px){
+    .jumbotron#holiday .wrapper {
+    text-align:left;
+    padding-bottom:80px;
+    background-size:auto 250px;
+    background-position:400px 60px;
+    background-image:url({{ 'main-image_2x.png' | asset_img_url : '700x', scale: 2 }});
+    background-size: 700px auto;
+  }
+  
+  .jumbotron#holiday .wrapper h1 {
+    margin-bottom:10px;
+    width:450px;
+    font-size: 2em;
+  }
+  .jumbotron#holiday .wrapper p {
+    font-size:1.1em;
+    line-height:1.2em;
+    margin-bottom:24px;
+    max-width:360px;
+  }
+  .jumbotron#holiday .wrapper small {
+  	font-size: 50%;
   }
 }
