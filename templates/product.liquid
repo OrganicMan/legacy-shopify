@@ -9,9 +9,9 @@
     <h2 class="hidden">page</h2>
     <!-- Popup product quick view -->
     {% include 'product-quickview' %}
-    <!-- Popup product quick view --> 
+    <!-- Popup product quick view -->
     <div class="row">
-      <div class="container"> 
+      <div class="container">
         <form action="/cart/add" method="post" enctype="multipart/form-data" class="product-form" data-handle="{{product.handle}}" id="AddToCartForm" data-productid="{{product.id}}">
         	<div class="product-view">
           	 <div id="product-essential" class="product-essential">
@@ -36,15 +36,15 @@
                   		</div>
                   	</div>
                   	<div class="col-md-10">
-                      
+
                       {% for variant in product.variants %}
-                      	{% if variant.price < variant.compare_at_price %} 
+                      	{% if variant.price < variant.compare_at_price %}
                       		{% assign is_sale = true %}
                       	{% else %}
                       		{% assign is_sale = false %}
                       	{% endif %}
                       {% endfor %}
-                      
+
                       {% assign product_check = product.handle %}
                       <div class="product-img-content">
                         <div class="product-image product-image-zoom">
@@ -60,13 +60,13 @@
                             		{% break %}
                             	{% endif %}
                             {% endfor %}
-                            
-                            {% if is_sale == true %} 
+
+                            {% if is_sale == true %}
                             	<span class="sticker top-right"><span class="labelsale">{{ 'products.product.is_sale' | t }}</span></span>
                             {% endif %}
-                            
+
                             {% assign featured_image = product.selected_or_first_available_variant.featured_image | default: product.featured_image %}
-                            <img id ="image-main" data-zoom-image ="{{ featured_image | img_url:'539x539'}}" class="gallery-image img-rounded img-responsive hidden-sm hidden-xs" src="{{ featured_image.src | img_url:'539x539'}}" alt="{{ featured_image.alt | escape }}" title="{{product.title}}"  /> 
+                            <img id ="image-main" data-zoom-image ="{{ featured_image | img_url:'539x539'}}" class="gallery-image img-rounded img-responsive hidden-sm hidden-xs" src="{{ featured_image.src | img_url:'539x539'}}" alt="{{ featured_image.alt | escape }}" title="{{product.title}}"  />
                             <div id="product-main" class="owl-carousel owl-theme visible-xs visible-sm">
                               {% for img in product.images %}
                               <div class="item">
@@ -86,15 +86,15 @@
                 <div class="product-shop col-md-5 col-md-push-7">
                   <div class="product-shop-content">
                     <div class="product-type-data">
-                      <div class="price-box"> 
+                      <div class="price-box">
                         <span class="regular-price">
                           {% assign variant = product.selected_or_first_available_variant %}
-                          {% if is_sale == true %} 
+                          {% if is_sale == true %}
                           <span id="ComparePrice" class="price compare-price">
                             <del>{{ variant.compare_at_price | money }}</del>
                           </span>
                           {% endif %}
-                          <span class="price {{product.id}}" id="price-preview">
+                          <span class="price {{product.id}}" id="ProductPrice">
 	                      	{{ variant.price | money }}
                           </span>
                         </span>
@@ -141,7 +141,7 @@
                           {% endfor %}
                         {% endif %}
                       {% endif %}
-                      {% if is_free_sample_in_cart %} 
+                      {% if is_free_sample_in_cart %}
                       <div class="alert alert-info" role="alert">
                       <small><strong><i class="fa fa-info fa-fw"></i></strong>
                         Due to high demand, we must limit 1 Sample Pack per order.</small>
@@ -151,7 +151,7 @@
                       <div class="row">
                         <div class="{% unless is_free_sample %} col-sm-4 {% else %} hidden {% endunless %}">
                           <div class="input-group product-quantity">
-                            <input type="number" id="Quantity" name="quantity" value="1" title="Quantity" class="Quantity form-control" /> 
+                            <input type="number" id="Quantity" name="quantity" value="1" title="Quantity" class="Quantity form-control" />
                             <div class="input-group-btn">
                               <button type="button" class="btn btn-default" onclick="lessQuantity();"><i class="fa fa-sm fa-minus"></i></button>
                               <button type="button" class="btn btn-default" onclick="moreQuantity();"><i class="fa fa-plus"></i></button>
@@ -278,9 +278,9 @@
                     {% assign current_product_found = true %}
                   {% else %}
                     {% unless current_product_found == false and forloop.last %}
-                      
+
                       {% for variant in product_related.variants %}
-                        {% if variant.price < variant.compare_at_price %} 
+                        {% if variant.price < variant.compare_at_price %}
                           {% assign is_sale = true %}
                         {% else %}
                           {% assign is_sale = false %}
@@ -298,7 +298,7 @@
                                   {% break %}
                                 {% endif %}
                               {% endfor %}
-                              {% if is_sale == true %} 
+                              {% if is_sale == true %}
                                 <span class="sticker top-right"><span class="labelsale">{{ 'products.product.is_sale' | t }}</span></span>
                               {% endif %}
                               <a href="#" class="overlay"></a>
@@ -315,7 +315,7 @@
                                   <span><i class="icon_cart_alt"></i><span>{{ 'products.product.add_to_cart' | t }}</span></span>
                                 </button>
                                 <ul class="add-to-links list-unstyled pull-left-none">
-                                  <li class="link-view pull-left-none"> 
+                                  <li class="link-view pull-left-none">
                                     <a class="btn-quickview" title="{{ 'products.general.quick_view' | t }}" data-target="#popup-product-view" data-toggle="modal" href="#"><i class="fa fa-search"></i>{{ 'products.general.quick_view' | t }}</a>
                                   </li>
                                 </ul>
@@ -328,7 +328,7 @@
                             </h2>
                             <div class="price-box">
                               <span class="regular-price">
-                                <span class="price">{{product.price | money }}</span>                                   
+                                <span class="price">{{product.price | money }}</span>
                               </span>
                             </div>
                           </div>
@@ -343,7 +343,7 @@
           </div>
         {% endif %}
               {%endcomment%}
-              
+
               {% for i in (1..4) %}
         {% capture this_collection %}home_featured_products_{{i}}{% endcapture %}
         {% capture this_limit %}home_featured_products_limit_{{i}}{% endcapture %}
@@ -364,7 +364,7 @@
           <div id="crs_{{collection.handle}}" class="owl-carousel owl-theme">
             {% for fproduct in collection.products limit: limit %}
             {% for variant in fproduct.variants %}
-            {% if variant.price < variant.compare_at_price %} 
+            {% if variant.price < variant.compare_at_price %}
             	{% assign is_sale = true %}
             	{% break %}
             {% else %}
@@ -384,7 +384,7 @@
                       {% break %}
                       {% endif %}
                       {% endfor %}
-                      {% if is_sale == true %} 
+                      {% if is_sale == true %}
                       <span class="sticker top-right"><span class="labelsale">{{'products.product.is_sale' | t }}</span></span>
                       {% endif %}
                       <a title="{{fproduct.title}}" href="{{fproduct.url}}" class="overlay"></a>
@@ -399,7 +399,7 @@
                           <span><i class="icon_cart_alt"></i><span>{{'products.product.add_to_cart' | t }}</span></span>
                         </button>
                         <ul class="add-to-links pull-left-none list-unstyled">
-                          <li class="link-view pull-left-none"> 
+                          <li class="link-view pull-left-none">
                             <a title="{{fproduct.title}}" href="{{fproduct.url}}"><i title="{{ 'products.general.quick_view' | t }}" class="fa fa-search"></i>{{ 'products.general.quick_view' | t }}</a>
                           </li>
                           {% if settings.wishlist_compare_enable %}
@@ -419,10 +419,10 @@
                     </h2>
                     <div class="price-box">
                       <span class="regular-price">
-                        {% if is_sale == true %} 
+                        {% if is_sale == true %}
                         <span class="price compare-price">{{ fproduct.compare_at_price | money }}</span>&nbsp;&nbsp;&nbsp;
                         {% endif %}
-                        <span class="price">{{fproduct.price | money }}</span>                                   
+                        <span class="price">{{fproduct.price | money }}</span>
                       </span>
                     </div>
                   </div>
@@ -449,7 +449,7 @@
         </script>
         {% endif %}
         {% endfor %}
-              
+
             </div>
             <div class="col-md-4 hidden-sm">
               <div id="product-affix" class="product-affix affix-top">
@@ -463,18 +463,18 @@
                     </small>
                     </p>
                     <div class="input-group product-quantity" style="margin-bottom: 10px;">
-                      
-                      <input type="number" id="Quantity" name="quantity" value="1" title="Quantity" class="Quantity form-control" /> 
+
+                      <input type="number" id="Quantity" name="quantity" value="1" title="Quantity" class="Quantity form-control" />
                       <span class="input-group-addon">
                         x&nbsp;
                         {% assign variant = product.selected_or_first_available_variant %}
-                          {% if is_sale == true %} 
+                          {% if is_sale == true %}
                           <span id="ComparePrice" class="price compare-price">
                             <del>{{ variant.compare_at_price | money }}</del>
                           </span>
                           {% endif %}
-                          <span class="price {{product.id}}" id="price-preview">
-	                      	{{ variant.price | money }}
+                          <span id="ProductPrice" class="price {{product.id}}">
+	                      		{{ variant.price | money }}
                           </span>
                       </span>
                       {% unless is_free_sample %}
@@ -495,7 +495,7 @@
                       <span class="view-cart">View Cart</span>
                     </a>
                     {% endunless %}
-                    
+
                   </div>
                 </div>
               </div>
@@ -550,7 +550,7 @@
 
       // Hide selectors if we only have 1 variant and its title contains 'Default'.
       {% if product.variants.size == 1 and product.variants.first.title contains 'Default' %}
-                                             
+
       $('.selector-wrapper').hide(); {% else %}
       $('.selector-wrapper').show();
       {% endif %}

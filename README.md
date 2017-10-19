@@ -9,7 +9,7 @@ Ways to Get Started
 
 Stores
 ---------------------
-- [Production Store](https://organic-beard-supply.myshopify.com/): Buy actual products from Organic Beard Supply
+- [Production Store](https://organic-beard-supply.myshopify.com/): Buy actual products from OBS
 - [Development Store](https://organic-beard-supply-dev.myshopify.com/): See what we're working on next. This is where we play :)
 
 Basic structure
