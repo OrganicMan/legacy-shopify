@@ -1,14 +1,10 @@
 development:
-  password: c5a2a2add973626553881e1027bdc571
   theme_id: "151913095"
-  store: organic-beard-supply-dev.myshopify.com
   bucket_size: 40
   refill_rate: 2
 
 production:
-  password: 785b2c04347fc204694eda8d49b9265e
   theme_id: "93393668"
-  store: organic-beard-supply.myshopify.com
   bucket_size: 40
   refill_rate: 2
 
